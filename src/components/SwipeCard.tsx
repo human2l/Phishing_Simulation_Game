@@ -12,12 +12,13 @@ export interface CardData {
   subject: string;
   content: string;
   isPhishing: boolean;
+  clues: string[];  // phishing email clues for ResultModal
   time: string;
 }
 
 interface SwipeCardProps {
   card: CardData;
-  onSwipe: (direction: 'left' | 'right', isPhishing: boolean) => void;
+  onSwipe: (direction: 'left' | 'right', isPhishing: boolean, clues: string[]) => void;
   active: boolean; // Is it the top card?
 }
 
@@ -36,13 +37,11 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ card, onSwipe, active }) => {
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const swipeThreshold = 100;
     if (info.offset.x > swipeThreshold) {
-      // Swiped right
       setExitX(300);
-      onSwipe('right', card.isPhishing);
+      onSwipe('right', card.isPhishing, card.clues);
     } else if (info.offset.x < -swipeThreshold) {
-      // Swiped left
       setExitX(-300);
-      onSwipe('left', card.isPhishing);
+      onSwipe('left', card.isPhishing, card.clues);
     }
   };
 

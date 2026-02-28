@@ -1,13 +1,19 @@
 'use client';
 
 import { EmailContent } from '@/components/EmailContent';
+import { FinalScoreScreen } from '@/components/FinalScoreScreen';
 import { getHighlightsFromClues, HighlightedText } from '@/components/HighlightText';
 import ResultModal from '@/components/ResultModal';
+import { ScoreBoard } from '@/components/ScoreBoard';
 import { GeneratedEmail } from '@/lib/ai';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertOctagon, ArrowRight, CheckCircle2, CornerUpLeft, FileText, Inbox, Loader2, Mail, MoreHorizontal, Send, ShieldCheck, Siren, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+const MAX_PRELOAD = 5;
+const MAX_QUESTIONS = 10;
+const POINTS_PER_QUESTION = 10;
 
 export interface CardData extends GeneratedEmail {
   id: string;
@@ -27,7 +33,7 @@ async function fetchEmail(): Promise<GeneratedEmail> {
   return res.json();
 }
 
-const MAX_PRELOAD = 5;
+
 
 export default function MailClient() {
   const [cards, setCards] = useState<CardData[]>([]);
@@ -41,9 +47,13 @@ export default function MailClient() {
     isPhishing: false,
     clues: [],
   });
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const autoCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const totalFetched = useRef(0);
   const cardCounter = useRef(0);
+
+  const totalScore = (score.tp + score.tn) * POINTS_PER_QUESTION;
 
   // Auto-select first email when available if none selected
   useEffect(() => {
@@ -55,10 +65,13 @@ export default function MailClient() {
   }, [cards, selectedId]);
 
   const addCard = useCallback(async () => {
+    if (totalFetched.current >= MAX_QUESTIONS) return;
+    
     setIsFetching(true);
     try {
       const email = await fetchEmail();
       const id = `mail-${++cardCounter.current}`;
+      totalFetched.current += 1;
       setCards((prev) => {
         if (prev.length >= MAX_PRELOAD) return prev;
         return [...prev, { ...email, id }];
@@ -74,11 +87,14 @@ export default function MailClient() {
     const boot = async () => {
       setIsLoading(true);
       try {
-        const results = await Promise.allSettled([fetchEmail(), fetchEmail(), fetchEmail(), fetchEmail()]);
+        const results = await Promise.allSettled([
+          fetchEmail(), fetchEmail(), fetchEmail(), fetchEmail()
+        ]);
         const initial: CardData[] = [];
         results.forEach((r) => {
-          if (r.status === 'fulfilled') {
+          if (r.status === 'fulfilled' && totalFetched.current < MAX_QUESTIONS) {
             initial.push({ ...r.value, id: `mail-${++cardCounter.current}` });
+            totalFetched.current += 1;
           }
         });
         setCards(initial);
@@ -134,12 +150,42 @@ export default function MailClient() {
 
   const handleNext = useCallback(
     (cardId: string) => {
-      setCards((prev) => prev.filter(c => c.id !== cardId));
+      setCards((prev) => {
+        const newCards = prev.filter(c => c.id !== cardId);
+        // If no more cards are left and we've fetched the max amount, End Game!
+        if (newCards.length === 0 && totalFetched.current >= MAX_QUESTIONS) {
+           setIsGameOver(true);
+        }
+        return newCards;
+      });
       addCard();
       closeModal();
     },
     [addCard, closeModal]
   );
+  
+  const handleRestart = () => {
+    setIsGameOver(false);
+    setScore({ tp: 0, tn: 0, fp: 0, fn: 0, total: 0 });
+    setCards([]);
+    setSelectedId(null);
+    cardCounter.current = 0;
+    totalFetched.current = 0;
+    
+    // Boot up again
+    setIsLoading(true);
+    Promise.allSettled([fetchEmail(), fetchEmail(), fetchEmail(), fetchEmail()]).then(results => {
+      const initial: CardData[] = [];
+      results.forEach((r) => {
+        if (r.status === 'fulfilled' && totalFetched.current < MAX_QUESTIONS) {
+          initial.push({ ...r.value, id: `mail-${++cardCounter.current}` });
+          totalFetched.current += 1;
+        }
+      });
+      setCards(initial);
+      setIsLoading(false);
+    });
+  };
 
   const selectedMail = cards.find((c) => c.id === selectedId);
 
@@ -192,28 +238,17 @@ export default function MailClient() {
         {/* Scoring / Lab Branding at bottom */}
         <div className="p-4 border-t border-[#374151]">
           <div className="bg-[#1F2937] p-4 rounded-xl">
-            <div className="text-xs font-bold text-[#9CA3AF] uppercase mb-3">Security Scorecard</div>
-            <div className="grid grid-cols-2 gap-2 text-xs text-center font-bold">
-              <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">Intercepted (TP)</span> 
-                <span className="text-base">{score.tp}</span>
-              </div>
-              <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">Cleared (TN)</span> 
-                <span className="text-base">{score.tn}</span>
-              </div>
-              <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">False Alert (FP)</span> 
-                <span className="text-base">{score.fp}</span>
-              </div>
-              <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">Missed (FN)</span> 
-                <span className="text-base">{score.fn}</span>
-              </div>
+            <div className="mt-4 pt-4 border-t border-[#374151]">
+              <ScoreBoard 
+                score={totalScore} 
+                totalAnswered={score.total} 
+                maxQuestions={MAX_QUESTIONS} 
+              />
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-center gap-2 opacity-40">
-             <span className="text-[10px] tracking-widest uppercase font-bold">Bubu & Dudu Security Lab</span>
+          <div className="mt-4 flex flex-col items-center justify-center gap-1 opacity-40">
+             <span className="text-[10px] tracking-widest uppercase font-bold text-white">Bubu & Dudu</span>
+             <span className="text-[10px] tracking-widest uppercase font-bold text-[#6B7280]">Security Lab</span>
           </div>
         </div>
       </aside>
@@ -381,6 +416,15 @@ export default function MailClient() {
         clues={modal.clues}
         onClose={closeModal}
       />
+
+      {/* ── Final Score Screen ── */}
+      {isGameOver && (
+        <FinalScoreScreen
+          score={totalScore}
+          maxScore={MAX_QUESTIONS * POINTS_PER_QUESTION}
+          onRestart={handleRestart}
+        />
+      )}
     </div>
   );
 }

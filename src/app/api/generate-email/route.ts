@@ -1,16 +1,54 @@
-import { generatePhishingEmail } from "@/lib/ai";
+import emailPool from "@/data/email-pool.json";
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic"; // 每次请求都重新生成，禁止缓存
+export const dynamic = "force-dynamic";
+
+// 已使用邮件的索引追踪（进程级内存，dev server 重启后重置）
+const usedIndices = new Set<number>();
 
 export async function GET() {
   try {
-    const email = await generatePhishingEmail();
+    const pool = emailPool as Array<Record<string, unknown>>;
+
+    if (pool.length === 0) {
+      throw new Error("Email pool is empty");
+    }
+
+    // 如果所有邮件都已用过，重置池
+    if (usedIndices.size >= pool.length) {
+      usedIndices.clear();
+    }
+
+    // 从未使用过的邮件中随机抽取
+    const availableIndices = pool
+      .map((_, i) => i)
+      .filter((i) => !usedIndices.has(i));
+
+    const randomIdx =
+      availableIndices[Math.floor(Math.random() * availableIndices.length)];
+
+    usedIndices.add(randomIdx);
+
+    const email = { ...pool[randomIdx] };
+
+    // 动态生成时间戳，让每次返回的邮件看起来都是"刚到的"
+    const hours = [
+      "08:15", "08:47", "09:03", "09:21", "09:45",
+      "10:12", "10:38", "11:05", "11:29", "13:10",
+      "13:42", "14:08", "14:33", "15:01", "15:28",
+      "16:05", "16:42", "17:11",
+    ];
+    const prefixes = ["上午", "上午", "上午", "上午", "上午",
+                      "上午", "上午", "上午", "上午", "下午",
+                      "下午", "下午", "下午", "下午", "下午",
+                      "下午", "下午", "下午"];
+    const timeIdx = Math.floor(Math.random() * hours.length);
+    email.time = `${prefixes[timeIdx]} ${hours[timeIdx]}`;
+
     return NextResponse.json(email);
   } catch (error) {
-    console.error("[/api/generate-email] Unexpected error:", error);
+    console.error("[/api/generate-email] Error:", error);
 
-    // 最终兜底：即使 ai.ts 内部 fallback 失败，API 层也保持可用
     return NextResponse.json(
       {
         sender: "系统通知",

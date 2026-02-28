@@ -1,13 +1,15 @@
 'use client';
 
 import ResultModal from '@/components/ResultModal';
-import SwipeCard, { CardData } from '@/components/SwipeCard';
 import { GeneratedEmail } from '@/lib/ai';
+import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Inbox, Loader2, RefreshCcw } from 'lucide-react';
+import { AlertOctagon, CheckCircle2, CornerUpLeft, FileText, Inbox, Loader2, Mail, MoreHorizontal, Send, ShieldCheck, Siren, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-// ─── Types ──────────────────────────────────────────────────────────────────
+export interface CardData extends GeneratedEmail {
+  id: string;
+}
 
 interface ModalState {
   isVisible: boolean;
@@ -16,56 +18,19 @@ interface ModalState {
   clues: string[];
 }
 
-// ─── Helpers ────────────────────────────────────────────────────────────────
-
-function emailToCard(email: GeneratedEmail, id: string): CardData {
-  return { ...email, id };
-}
-
 async function fetchEmail(): Promise<GeneratedEmail> {
   const res = await fetch('/api/generate-email');
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
-// ─── Skeleton Card ──────────────────────────────────────────────────────────
+const MAX_PRELOAD = 5;
 
-function SkeletonCard() {
-  return (
-    <div className="absolute inset-0 w-full h-[500px] bg-[#FFFDF7] rounded-3xl border-2 border-[#EAE2D6] shadow-[0_8px_30px_rgb(0,0,0,0.08)] overflow-hidden flex flex-col animate-pulse">
-      {/* Header */}
-      <div className="bg-[#fcf8f2] px-6 py-5 border-b-2 border-[#EAE2D6] flex items-center gap-3">
-        <div className="w-12 h-12 bg-[#EAE2D6] rounded-2xl" />
-        <div className="flex-1 space-y-2">
-          <div className="h-4 bg-[#EAE2D6] rounded-full w-2/5" />
-          <div className="h-3 bg-[#EAE2D6] rounded-full w-3/5" />
-        </div>
-      </div>
-      {/* Body */}
-      <div className="p-6 flex-1 space-y-3">
-        <div className="h-5 bg-[#EAE2D6] rounded-full w-4/5" />
-        <div className="h-4 bg-[#EAE2D6] rounded-full" />
-        <div className="h-4 bg-[#EAE2D6] rounded-full w-3/4" />
-        <div className="h-4 bg-[#EAE2D6] rounded-full w-5/6" />
-        <div className="h-4 bg-[#EAE2D6] rounded-full w-2/3" />
-      </div>
-      {/* Footer */}
-      <div className="bg-[#F4EFE6] px-6 py-4 border-t-2 border-[#EAE2D6] flex items-center justify-between">
-        <div className="h-4 w-20 bg-[#EAE2D6] rounded-full" />
-        <div className="h-4 w-20 bg-[#EAE2D6] rounded-full" />
-      </div>
-    </div>
-  );
-}
-
-// ─── Main Component ─────────────────────────────────────────────────────────
-
-const MAX_PRELOAD = 3; // how many cards to keep in the deck at most
-
-export default function Home() {
+export default function MailClient() {
   const [cards, setCards] = useState<CardData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);   // initial load
-  const [isFetching, setIsFetching] = useState(false); // background fetch
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
   const [score, setScore] = useState({ tp: 0, tn: 0, fp: 0, fn: 0, total: 0 });
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
@@ -73,20 +38,27 @@ export default function Home() {
     isPhishing: false,
     clues: [],
   });
-  const [gameOver, setGameOver] = useState(false);
 
   const autoCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const cardCounter = useRef(0); // stable unique id generator
+  const cardCounter = useRef(0);
 
-  // ── Fetch + append a new card to the deck ──
+  // Auto-select first email when available if none selected
+  useEffect(() => {
+    if (cards.length > 0 && (!selectedId || !cards.find(c => c.id === selectedId))) {
+      setSelectedId(cards[0].id);
+    } else if (cards.length === 0) {
+      setSelectedId(null);
+    }
+  }, [cards, selectedId]);
+
   const addCard = useCallback(async () => {
     setIsFetching(true);
     try {
       const email = await fetchEmail();
-      const id = `card-${++cardCounter.current}`;
+      const id = `mail-${++cardCounter.current}`;
       setCards((prev) => {
-        if (prev.length >= MAX_PRELOAD) return prev; // safety cap
-        return [...prev, emailToCard(email, id)];
+        if (prev.length >= MAX_PRELOAD) return prev;
+        return [...prev, { ...email, id }];
       });
     } catch (err) {
       console.error('[page.tsx] Failed to fetch email:', err);
@@ -95,16 +67,15 @@ export default function Home() {
     }
   }, []);
 
-  // ── Initial boot: load 3 cards in parallel ──
   useEffect(() => {
     const boot = async () => {
       setIsLoading(true);
       try {
-        const results = await Promise.allSettled([fetchEmail(), fetchEmail(), fetchEmail()]);
+        const results = await Promise.allSettled([fetchEmail(), fetchEmail(), fetchEmail(), fetchEmail()]);
         const initial: CardData[] = [];
         results.forEach((r) => {
           if (r.status === 'fulfilled') {
-            initial.push(emailToCard(r.value, `card-${++cardCounter.current}`));
+            initial.push({ ...r.value, id: `mail-${++cardCounter.current}` });
           }
         });
         setCards(initial);
@@ -115,186 +86,255 @@ export default function Home() {
     boot();
   }, []);
 
-  // ── Close modal ──
   const closeModal = useCallback(() => {
     setModal((prev) => ({ ...prev, isVisible: false }));
     if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
   }, []);
 
-  // ── Auto-close modal after 2.5s ──
   useEffect(() => {
     if (modal.isVisible) {
-      autoCloseTimer.current = setTimeout(closeModal, 2500);
+      autoCloseTimer.current = setTimeout(closeModal, 3000);
     }
     return () => {
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
     };
   }, [modal.isVisible, closeModal]);
 
-  // ── Handle swipe ──
-  const handleSwipe = useCallback(
-    (direction: 'left' | 'right', isPhishing: boolean, clues: string[]) => {
-      const isCorrect =
-        (direction === 'right' && isPhishing) || (direction === 'left' && !isPhishing);
+  const handleAction = useCallback(
+    (action: 'safe' | 'phish', cardId: string) => {
+      const card = cards.find(c => c.id === cardId);
+      if (!card) return;
+
+      const isPhishing = card.isPhishing;
+      const clues = card.clues;
+      const isCorrect = 
+        (action === 'phish' && isPhishing) || (action === 'safe' && !isPhishing);
 
       setScore((s) => {
         let tp = s.tp, tn = s.tn, fp = s.fp, fn = s.fn;
-        if (direction === 'right' && isPhishing) tp++; // 捕捉恶意
-        if (direction === 'left' && !isPhishing) tn++; // 放过正常
-        if (direction === 'right' && !isPhishing) fp++; // 误判正常
-        if (direction === 'left' && isPhishing) fn++; // 漏掉恶意
-
+        if (action === 'phish' && isPhishing) tp++; // True Positive
+        if (action === 'safe' && !isPhishing) tn++; // True Negative
+        if (action === 'phish' && !isPhishing) fp++; // False Positive
+        if (action === 'safe' && isPhishing) fn++; // False Negative
         return { tp, tn, fp, fn, total: s.total + 1 };
       });
 
-      // Show result modal 300ms after swipe starts
-      setTimeout(() => {
-        setModal({ isVisible: true, isCorrect, isPhishing, clues });
-      }, 300);
+      // Show Result Modal
+      setModal({ isVisible: true, isCorrect, isPhishing, clues });
 
-      // Remove the top card
-      setTimeout(() => {
-        setCards((prev) => {
-          const next = prev.slice(1);
-          return next;
-        });
-      }, 200);
+      // Remove current email
+      setCards((prev) => prev.filter(c => c.id !== cardId));
 
-      // Pre-fetch the next card to keep deck topped-up
-      setTimeout(() => {
-        addCard();
-      }, 600);
+      // Replenish
+      addCard();
     },
-    [addCard],
+    [cards, addCard]
   );
 
-  // ── Reset ──
-  const resetGame = () => {
-    setCards([]);
-    setScore({ tp: 0, tn: 0, fp: 0, fn: 0, total: 0 });
-    setGameOver(false);
-    closeModal();
-    cardCounter.current = 0;
-
-    // Re-boot
-    setIsLoading(true);
-    Promise.allSettled([fetchEmail(), fetchEmail(), fetchEmail()]).then((results) => {
-      const initial: CardData[] = [];
-      results.forEach((r) => {
-        if (r.status === 'fulfilled') {
-          initial.push(emailToCard(r.value, `card-${++cardCounter.current}`));
-        }
-      });
-      setCards(initial);
-      setIsLoading(false);
-    });
-  };
-
-  // ─── Render ────────────────────────────────────────────────────────────────
+  const selectedMail = cards.find((c) => c.id === selectedId);
 
   return (
-    <main className="min-h-screen bg-[#FDF9F1] flex flex-col items-center py-10 px-4 font-sans">
-
-      {/* ── Header scoreboard ── */}
-      <header className="w-full max-w-md bg-white rounded-2xl shadow-sm border-2 border-[#EAE2D6] p-3 mb-10 relative">
-        <div className="grid grid-cols-2 gap-3 text-xs font-bold text-[#4A3D34]">
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between items-center bg-[#EDFAF4] px-2.5 py-1.5 rounded-lg border border-[#A8DFCA]">
-              <span className="text-[#2E7D6A]">🎯 捕捉恶意</span>
-              <span className="text-sm text-[#2E7D6A]">{score.tp}</span>
+    <div className="flex h-screen w-full bg-[#F3F4F6] text-[#1F2937] font-sans overflow-hidden">
+      
+      {/* ─── LEFT SIDEBAR (Navigation) ─── */}
+      <aside className="w-64 bg-[#111827] text-[#D1D5DB] flex flex-col flex-shrink-0 relative">
+        <div className="h-16 flex items-center px-6 border-b border-[#374151]">
+          <ShieldCheck className="text-[#3B82F6] mr-3" size={24} />
+          <h1 className="text-white font-bold text-lg tracking-wide">SecurMail Pro</h1>
+        </div>
+        
+        <nav className="flex-1 py-6 px-3 space-y-1">
+          <div className="px-3 py-2 text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Folders</div>
+          
+          <button className="w-full flex items-center justify-between px-3 py-2.5 bg-[#1F2937] text-white rounded-lg">
+            <div className="flex items-center gap-3">
+              <Inbox size={18} className="text-[#3B82F6]" />
+              <span className="font-medium text-sm">Inbox</span>
             </div>
-            <div className="flex justify-between items-center bg-[#EDFAF4] px-2.5 py-1.5 rounded-lg border border-[#A8DFCA]">
-              <span className="text-[#2E7D6A]">✅ 放过正常</span>
-              <span className="text-sm text-[#2E7D6A]">{score.tn}</span>
+            <span className="bg-[#3B82F6] text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              {cards.length}
+            </span>
+          </button>
+          
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#1F2937] rounded-lg transition-colors group">
+            <Send size={18} className="text-[#9CA3AF] group-hover:text-white" />
+            <span className="font-medium text-sm group-hover:text-white">Sent Items</span>
+          </button>
+          
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#1F2937] rounded-lg transition-colors group">
+            <FileText size={18} className="text-[#9CA3AF] group-hover:text-white" />
+            <span className="font-medium text-sm group-hover:text-white">Drafts</span>
+          </button>
+
+          <button className="w-full flex items-center gap-3 px-3 py-2.5 hover:bg-[#1F2937] rounded-lg transition-colors group">
+            <AlertOctagon size={18} className="text-[#9CA3AF] group-hover:text-white" />
+            <span className="font-medium text-sm group-hover:text-white">Junk Email</span>
+          </button>
+        </nav>
+
+        {/* Scoring / Lab Branding at bottom */}
+        <div className="p-4 border-t border-[#374151]">
+          <div className="bg-[#1F2937] p-4 rounded-xl">
+            <div className="text-xs font-bold text-[#9CA3AF] uppercase mb-3">Security Scorecard</div>
+            <div className="grid grid-cols-2 gap-2 text-xs text-center font-bold">
+              <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">拦截 (TP)</span> 
+                <span className="text-base">{score.tp}</span>
+              </div>
+              <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">放行 (TN)</span> 
+                <span className="text-base">{score.tn}</span>
+              </div>
+              <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">误报 (FP)</span> 
+                <span className="text-base">{score.fp}</span>
+              </div>
+              <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">漏报 (FN)</span> 
+                <span className="text-base">{score.fn}</span>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between items-center bg-[#FFF4EE] px-2.5 py-1.5 rounded-lg border border-[#F5C4A8]">
-              <span className="text-[#A0402A]">❌ 误判正常</span>
-              <span className="text-sm text-[#A0402A]">{score.fp}</span>
-            </div>
-            <div className="flex justify-between items-center bg-[#FFF4EE] px-2.5 py-1.5 rounded-lg border border-[#F5C4A8]">
-              <span className="text-[#A0402A]">⚠️ 漏掉恶意</span>
-              <span className="text-sm text-[#A0402A]">{score.fn}</span>
-            </div>
+          <div className="mt-4 flex items-center justify-center gap-2 opacity-40">
+             <span className="text-[10px] tracking-widest uppercase font-bold">Bubu & Dudu Security Lab</span>
           </div>
         </div>
+      </aside>
 
-        {/* Loading indicator */}
-        <AnimatePresence>
-          {isFetching && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="absolute -bottom-7 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-[#B3A69A] text-xs font-bold bg-white px-3 py-1 rounded-full shadow-sm border border-[#EAE2D6]"
-            >
-              <Loader2 size={12} className="animate-spin" />
-              通讯中...
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
-
-      {/* ── Card area ── */}
-      <div className="relative w-full max-w-md h-[500px] flex justify-center items-center">
-
-        {/* Initial loading state */}
-        {isLoading && <SkeletonCard />}
-
-        {/* Cards */}
-        {!isLoading && cards.length > 0 && (
-          <AnimatePresence>
-            {cards.map((card, index) => {
-              if (index > 1) return null;
-              return (
-                <div
-                  key={card.id}
-                  className="absolute inset-0"
-                  style={{ zIndex: cards.length - index }}
-                >
-                  {/* Second card: slightly offset behind the top card */}
-                  {index === 1 && (
-                    <div className="absolute inset-0 bg-[#FFFDF7] rounded-3xl border-2 border-[#EAE2D6] scale-95 translate-y-3 shadow-sm" />
-                  )}
-                  {index === 0 && (
-                    <SwipeCard card={card} onSwipe={handleSwipe} active={true} />
-                  )}
+      {/* ─── MIDDLE COLUMN (Mail List) ─── */}
+      <div className="w-80 bg-white border-r border-[#E5E7EB] flex flex-col flex-shrink-0 z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-[#E5E7EB] bg-[#F9FAFB]">
+          <h2 className="font-bold text-lg text-[#111827]">Inbox</h2>
+          {isFetching && <Loader2 size={16} className="text-[#6B7280] animate-spin" />}
+        </div>
+        
+        <div className="flex-1 overflow-y-auto">
+          {isLoading ? (
+            <div className="flex flex-col gap-0 w-full overflow-hidden">
+              {[1,2,3,4].map(i => (
+                <div key={i} className="p-4 border-b border-[#F3F4F6] animate-pulse">
+                  <div className="flex justify-between mb-2">
+                    <div className="h-4 bg-[#E5E7EB] rounded w-24"></div>
+                    <div className="h-3 bg-[#E5E7EB] rounded w-12"></div>
+                  </div>
+                  <div className="h-4 bg-[#E5E7EB] rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-[#E5E7EB] rounded w-full"></div>
                 </div>
-              );
-            })}
-          </AnimatePresence>
-        )}
-
-        {/* Empty state — deck exhausted (only if not loading) */}
-        {!isLoading && cards.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center justify-center bg-white p-8 rounded-3xl border-2 border-[#EAE2D6] w-full h-full shadow-sm text-center"
-          >
-            <div className="w-20 h-20 bg-[#FFDCA8] rounded-3xl flex items-center justify-center text-[#995C1F] mb-6 rotate-12">
-              <Inbox size={40} strokeWidth={2.5} />
+              ))}
             </div>
-            <h2 className="text-2xl font-bold text-[#4A3D34] mb-2">收件箱已清空！</h2>
-            <p className="text-[#8B7C71] font-semibold mb-1">
-              共处理 {score.total} 封 · 防御 {score.tp + score.tn} 封 · 中招 {score.fp + score.fn} 封
+          ) : cards.length > 0 ? (
+            <div className="flex flex-col w-full overflow-x-hidden">
+              <AnimatePresence initial={false}>
+                {cards.map(card => (
+                  <motion.button
+                    key={card.id}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, x: -80, transition: { duration: 0.2 } }}
+                    onClick={() => setSelectedId(card.id)}
+                    className={cn(
+                      "text-left p-4 border-b border-[#F3F4F6] transition-colors focus:outline-none relative w-full overflow-hidden",
+                      selectedId === card.id ? "bg-[#EFF6FF] border-l-4 border-l-[#3B82F6]" : "hover:bg-[#F9FAFB] border-l-4 border-l-transparent"
+                    )}
+                  >
+                    <div className="flex justify-between items-baseline mb-1 w-full overflow-hidden">
+                      <span className={cn("font-bold text-sm truncate pr-2 max-w-[70%]", selectedId === card.id ? "text-[#1E40AF]" : "text-[#1F2937]")}>{card.sender}</span>
+                      <span className="text-xs text-[#6B7280] flex-shrink-0">{card.time}</span>
+                    </div>
+                    <div className="font-semibold text-[13px] text-[#374151] mb-1 truncate w-full">{card.subject}</div>
+                    <div className="text-xs text-[#6B7280] line-clamp-2 leading-relaxed w-full">{card.content}</div>
+                  </motion.button>
+                ))}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <div className="h-full flex flex-col items-center justify-center text-[#9CA3AF] p-6 text-center">
+              <Inbox size={48} strokeWidth={1} className="mb-4 opacity-50" />
+              <p className="font-medium text-sm text-[#4B5563]">Inbox is empty</p>
+              <p className="text-xs mt-1">Waiting for new messages...</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ─── RIGHT COLUMN (Mail Detail) ─── */}
+      <div className="flex-1 flex flex-col bg-white overflow-hidden relative min-w-[500px]">
+        {selectedMail ? (
+          <>
+            {/* Toolbar */}
+            <div className="h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB] bg-white flex-shrink-0">
+              <div className="flex gap-2">
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="Reply">
+                    <CornerUpLeft size={18} />
+                 </button>
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="Delete">
+                    <Trash2 size={18} />
+                 </button>
+                 <div className="w-px h-6 bg-[#E5E7EB] my-auto mx-1"></div>
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="More actions">
+                    <MoreHorizontal size={18} />
+                 </button>
+              </div>
+
+              {/* ⭐ Action Buttons - Core Interactivity ⭐ */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => handleAction('safe', selectedMail.id)}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#F0FDF4] hover:bg-[#DCFCE7] text-[#166534] text-sm font-semibold rounded-lg border border-[#BBF7D0] transition-colors shadow-sm focus:ring-2 focus:ring-[#86EFAC] focus:outline-none focus:ring-offset-1"
+                >
+                  <CheckCircle2 size={16} />
+                  标记为安全
+                </button>
+                <div className="w-px h-6 bg-[#E5E7EB]"></div>
+                <button
+                  onClick={() => handleAction('phish', selectedMail.id)}
+                  className="flex items-center gap-2 px-4 py-2 bg-[#FEF2F2] hover:bg-[#FEE2E2] text-[#991B1B] text-sm font-semibold rounded-lg border border-[#FECACA] transition-colors shadow-sm focus:ring-2 focus:ring-[#FCA5A5] focus:outline-none focus:ring-offset-1"
+                >
+                  <Siren size={16} />
+                  报告钓鱼邮件
+                </button>
+              </div>
+            </div>
+
+            {/* Email Header */}
+            <div className="px-10 py-8 border-b border-[#F3F4F6] flex-shrink-0">
+               <h2 className="text-2xl font-bold text-[#111827] mb-6 tracking-tight leading-tight">{selectedMail.subject}</h2>
+               <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
+                     <div className="w-12 h-12 bg-[#E0E7FF] text-[#4F46E5] rounded-full flex items-center justify-center text-xl font-bold border border-[#C7D2FE]">
+                       {selectedMail.sender.charAt(0).toUpperCase()}
+                     </div>
+                     <div>
+                       <div className="font-bold text-[#111827] text-[15px] flex items-center gap-2">
+                         {selectedMail.sender}
+                         <span className="text-[#6B7280] font-normal text-sm">&lt;{selectedMail.senderEmail}&gt;</span>
+                       </div>
+                       <div className="text-sm text-[#6B7280] mt-0.5 font-medium">
+                         To: employee@company.com
+                       </div>
+                     </div>
+                  </div>
+                  <div className="text-sm font-medium text-[#6B7280]">{selectedMail.time}</div>
+               </div>
+            </div>
+
+            {/* Email Body */}
+            <div className="p-10 flex-1 overflow-y-auto bg-white">
+               <div className="max-w-3xl prose prose-slate">
+                 <div className="text-[15px] leading-relaxed text-[#374151] whitespace-pre-wrap font-medium">
+                   {selectedMail.content}
+                 </div>
+               </div>
+            </div>
+          </>
+        ) : (
+          <div className="flex-1 flex flex-col items-center justify-center text-[#9CA3AF] bg-[#F8FAFC]">
+            <Mail size={80} strokeWidth={1} className="mb-6 text-[#E5E7EB]" />
+            <h3 className="text-xl font-semibold text-[#4B5563]">Select an item to read</h3>
+            <p className="mt-2 text-sm text-[#6B7280] text-center max-w-sm">
+              Click on an email from the inbox list on the left to view its contents and perform security actions.
             </p>
-            <p className="text-[#B3A69A] text-sm mb-8">
-              {score.fp + score.fn === 0
-                ? '🏆 完美防御！Bubu 向你竖起大拇指！'
-                : score.fp + score.fn <= 1
-                ? '💪 干得不错！Bubu 说："再练练，你就是职场防线战神！"'
-                : '📬 Bubu 说："网络安全靠大家，再来一次！"'}
-            </p>
-            <button
-              onClick={resetGame}
-              className="flex items-center gap-2 bg-[#4A3D34] hover:bg-[#3A2D24] text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-[0_4px_0_rgba(0,0,0,0.2)] active:translate-y-1 active:shadow-none"
-            >
-              <RefreshCcw size={18} strokeWidth={2.5} />
-              重新开始训练
-            </button>
-          </motion.div>
+          </div>
         )}
       </div>
 
@@ -306,6 +346,6 @@ export default function Home() {
         clues={modal.clues}
         onClose={closeModal}
       />
-    </main>
+    </div>
   );
 }

@@ -53,6 +53,7 @@ export default function MailClient() {
   const totalFetched = useRef(0);
   const cardCounter = useRef(0);
   const emailQueue = useRef<GeneratedEmail[]>([]);
+  const hasBooted = useRef(false);
 
   const totalScore = (score.tp + score.tn) * POINTS_PER_QUESTION;
 
@@ -76,10 +77,15 @@ export default function MailClient() {
   }, []);
 
   useEffect(() => {
+    if (hasBooted.current) return;
+    hasBooted.current = true;
+    
+    let active = true;
     const boot = async () => {
       setIsLoading(true);
       try {
         const emails = await fetchEmailPool();
+        if (!active) return;
         emailQueue.current = [...emails];
         const initial: CardData[] = [];
         
@@ -92,10 +98,13 @@ export default function MailClient() {
       } catch (err) {
         console.error('[page.tsx] Failed to boot emails:', err);
       } finally {
-        setIsLoading(false);
+        if (active) setIsLoading(false);
       }
     };
     boot();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const closeModal = useCallback(() => {

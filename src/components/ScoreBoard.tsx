@@ -8,20 +8,19 @@ interface ScoreBoardProps {
 }
 
 export function ScoreBoard({ score, totalAnswered, maxQuestions }: ScoreBoardProps) {
-  const percentage = Math.max(0, Math.min(100, (score / maxQuestions) * 100));
+  const maxScore = maxQuestions * 10;
+  const scorePercentage = Math.max(0, Math.min(100, (score / maxScore) * 100));
+  const progressPercentage = Math.max(0, Math.min(100, (totalAnswered / maxQuestions) * 100));
   
   // Color based on score percentage
   const getScoreColor = () => {
-    if (percentage >= 80) return 'text-green-500';
-    if (percentage >= 60) return 'text-yellow-500';
+    if (totalAnswered === 0) return 'text-[#9CA3AF]'; // Neutral at start
+    if (scorePercentage >= 80) return 'text-green-500';
+    if (scorePercentage >= 60) return 'text-yellow-500';
     return 'text-red-500';
   };
 
-  const getBgColor = () => {
-    if (percentage >= 80) return 'bg-green-500';
-    if (percentage >= 60) return 'bg-yellow-500';
-    return 'bg-red-500';
-  };
+
 
   return (
     <div className="bg-[#1F2937] p-5 rounded-xl border border-[#374151] shadow-lg relative overflow-hidden">
@@ -54,9 +53,9 @@ export function ScoreBoard({ score, totalAnswered, maxQuestions }: ScoreBoardPro
         {/* Progress Bar */}
         <div className="h-2 w-full bg-[#374151] rounded-full overflow-hidden">
           <motion.div
-            className={`h-full ${getBgColor()}`}
+            className="h-full bg-blue-500"
             initial={{ width: 0 }}
-            animate={{ width: `${percentage}%` }}
+            animate={{ width: `${progressPercentage}%` }}
             transition={{ type: "spring", stiffness: 50, damping: 15 }}
           />
         </div>

@@ -67,7 +67,9 @@ const SYSTEM_PROMPT_ZH = `你是一个高度专业且富有创意的企业级网
 3. 关键要素：
    - 专业称呼（"各位同仁"、"Dear Team"、"XX部门全体同事"等，每次要有变化）
    - 详实且看似合理的背景说明与多段落论述
-   - 若是钓鱼邮件，必须嵌入带有 Call-To-Action 的可疑 URL（域名须伪造但看似合理）
+   - 【核心要求突破规律】：无论正常邮件还是钓鱼邮件，都必须极其自然地包含邮件地址和链接！
+     - 若是正常邮件 (isPhishing=false)：必须包含合法的办公系统链接（如内网wiki、HR系统）或合法的联系邮箱地址（如IT支持邮箱、企业服务台邮箱）。
+     - 若是钓鱼邮件 (isPhishing=true)：必须包含伪造的邮箱地址和钓鱼链接，诱导用户点击（Call-To-Action）。伪装手段必须狡猾多样，不要每次都套用生硬相同的模板。
    - 专业的邮件落款（真实感的姓名、职务、部门、分机号码）
    - 英文企业合规免责声明（Confidentiality Footer）
 4. 每封邮件的发件人名称、邮箱域名、主题措辞、落款人姓名和职务必须完全不同。
@@ -77,7 +79,7 @@ const SYSTEM_PROMPT_ZH = `你是一个高度专业且富有创意的企业级网
   "sender": "显示名",
   "senderEmail": "邮箱地址",
   "subject": "邮件主题",
-  "content": "邮件正文(含\\n换行)",
+  "content": "邮件正文(含\\n換行)",
   "isPhishing": true/false,
   "time": "如 上午 09:12",
   "clues": ["线索1", "线索2"] // isPhishing=false时返回空数组
@@ -92,7 +94,9 @@ Your task is to generate an extremely realistic workplace email based on the spe
 3. Key elements:
    - Professional greeting (e.g., "Dear Team", "Hi everyone", "To all staff", vary it each time).
    - Detailed and plausible background explanation with multi-paragraph discussion.
-   - If it's a phishing email, it MUST embed a suspicious URL with a Call-To-Action (domain must be spoofed but look plausible).
+   - [CORE REQUIREMENT TO BREAK PATTERNS]: Both normal and phishing emails MUST naturally include email addresses and URLs!
+     - If Normal (isPhishing=false): It MUST naturally include legitimate office links (e.g., intranet portal, HR system) or legitimate contact email addresses (e.g., IT support email, system notification replies).
+     - If Phishing (isPhishing=true): It MUST include forged email addresses and a phishing URL with a Call-To-Action. The disguise and prompt must be varied and cunning; do NOT use the same rigid template every time.
    - Professional email signature (realistic name, title, department, extension number).
    - English corporate compliance disclaimer (Confidentiality Footer).
 4. For each email, the sender name, email domain, subject phrasing, sign-off name, and title must be completely different.

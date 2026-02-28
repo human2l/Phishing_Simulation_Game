@@ -7,17 +7,19 @@
  * 用法：node scripts/generate-emails.js [数量，默认10]
  */
 
-const OpenAI = require("openai");
 const fs = require("fs");
 const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, "../.env.local") });
+// require("dotenv").config({ path: path.resolve(__dirname, "../.env.local") });
 
 const TOTAL = parseInt(process.argv[2] || "10", 10);
-const OUTPUT_PATH = path.resolve(__dirname, "../src/data/email-pool.json");
+const LANG_INDEX = process.argv.indexOf("--lang");
+const LANG = LANG_INDEX > -1 && process.argv[LANG_INDEX + 1] ? process.argv[LANG_INDEX + 1].toLowerCase() : "zh";
+
+const OUTPUT_PATH = path.resolve(__dirname, `../src/data/email-pool${LANG === "en" ? "-en" : ""}.json`);
 
 // ─── 场景微切入点列表（强制多样性） ──────────────────────────────────────────
 
-const SCENARIO_SEEDS = [
+const SCENARIO_SEEDS_ZH = [
   { id: 1, type: "phishing", hint: "冒充IT运维：员工账号在境外异常登录，被安全策略拦截，要求在限期内通过链接重新验证身份" },
   { id: 2, type: "phishing", hint: "冒充IT运维：企业云盘(如OneDrive/飞书云空间)存储配额即将到期，需点击链接扩容或迁移数据" },
   { id: 3, type: "phishing", hint: "伪造CFO办公室：紧急要求完成一笔跨境美元电汇（声称涉及保密并购项目代号'Phoenix'）" },
@@ -35,9 +37,26 @@ const SCENARIO_SEEDS = [
   { id: 15, type: "phishing", hint: "伪造IT安全团队：检测到员工笔记本安装了未授权软件，要求在48小时内登录资产管理平台进行自查申报" },
 ];
 
+const SCENARIO_SEEDS_EN = [
+  { id: 1, type: "phishing", hint: "Impersonate ATO (Australian Taxation Office): Urgent verification of tax return details via a suspicious link." },
+  { id: 2, type: "phishing", hint: "Fake Woolworths/Coles vendor portal: Notification of an invoice discrepancy requiring immediate login to resolve." },
+  { id: 3, type: "phishing", hint: "Impersonate ANZ/Commonwealth Bank: Security alert regarding abnormal account activity, asking the user to freeze their account via a link." },
+  { id: 4, type: "phishing", hint: "Fake Australia Post: Failed parcel delivery notification for a corporate package, click to reschedule." },
+  { id: 5, type: "phishing", hint: "Impersonate IT Helpdesk: Urgent Microsoft 365 password expiry notification requiring immediate reset." },
+  { id: 6, type: "phishing", hint: "Fake HR Department: Discrepancy in superannuation (Super) fund contributions, click to review and update details." },
+  { id: 7, type: "phishing", hint: "Impersonate Medicare Australia: Update required for digital health records linked to corporate benefits." },
+  { id: 8, type: "phishing", hint: "Fake CEO/CFO urgent request: Requesting an expedited wire transfer to an offshore supplier before end of business day." },
+  { id: 9, type: "normal", hint: "Normal Office Admin: Notice about upcoming office relocation and packing instructions for the Sydney branch." },
+  { id: 10, type: "normal", hint: "Normal HR: Invitation to the quarterly town hall meeting, including agenda and Zoom link." },
+  { id: 11, type: "normal", hint: "Normal Finance: End of financial year (EOFY) expense claim submission deadline." },
+  { id: 12, type: "normal", hint: "Normal IT: Scheduled maintenance for the corporate VPN network this Sunday morning." }
+];
+
+const SCENARIO_SEEDS = LANG === "en" ? SCENARIO_SEEDS_EN : SCENARIO_SEEDS_ZH;
+
 // ─── System Prompt ──────────────────────────────────────────────────────────
 
-const SYSTEM_PROMPT = `你是一个高度专业且富有创意的企业级网络安全攻防训练引擎。
+const SYSTEM_PROMPT_ZH = `你是一个高度专业且富有创意的企业级网络安全攻防训练引擎。
 你的任务是根据我给出的具体场景，生成一封极度拟真的职场邮件。
 
 【生成规范】
@@ -62,6 +81,33 @@ const SYSTEM_PROMPT = `你是一个高度专业且富有创意的企业级网络
   "clues": ["线索1", "线索2"] // isPhishing=false时返回空数组
 }`;
 
+const SYSTEM_PROMPT_EN = `You are a highly professional and creative enterprise-level cybersecurity attack and defense training engine.
+Your task is to generate an extremely realistic workplace email based on the specific scenario provided.
+
+【Generation Specifications】
+1. The email body must be between 150 and 300 words.
+2. Language style: Standard Australian business English (Australian English spelling and tone), industry jargon, highly professional and incredibly realistic.
+3. Key Elements:
+   - Professional salutation ("Dear Team", "Hi everyone", "To all staff", etc., varied each time)
+   - Detailed and plausible background context with multi-paragraph discourse
+   - If it is a phishing email, it MUST embed a suspicious URL with a Call-To-Action (domain must be forged but plausible)
+   - Professional email signature (realistic name, job title, department, direct line/extension)
+   - Corporate Confidentiality Footer
+4. The sender's name, email domain, subject line wording, sign-off name, and job title MUST be completely different for every email.
+
+【JSON Schema】Strictly output the following JSON object, and absolutely nothing else:
+{
+  "sender": "Display Name",
+  "senderEmail": "Email Address",
+  "subject": "Email Subject",
+  "content": "Email body (including \\n for line breaks)",
+  "isPhishing": true/false,
+  "time": "e.g. 09:12 AM",
+  "clues": ["Clue 1", "Clue 2"] // Return an empty array if isPhishing is false
+}`;
+
+const SYSTEM_PROMPT = LANG === "en" ? SYSTEM_PROMPT_EN : SYSTEM_PROMPT_ZH;
+
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -71,10 +117,7 @@ async function main() {
     process.exit(1);
   }
 
-  const openai = new OpenAI({
-    baseURL: "https://api.deepseek.com",
-    apiKey,
-  });
+  // Removed open ai instance
 
   // 从场景池中选取，循环使用确保覆盖
   const selectedScenarios = [];
@@ -91,23 +134,34 @@ async function main() {
     console.log(`\n[${i + 1}/${TOTAL}] ${label} | 场景: ${scenario.hint.substring(0, 40)}...`);
 
     try {
-      const response = await openai.chat.completions.create({
-        model: "deepseek-chat",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          {
-            role: "user",
-            content: `请基于以下场景生成一封邮件，严格按 JSON 格式输出。
+      const response = await fetch("https://api.deepseek.com/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            {
+              role: "user",
+              content: LANG === "en" ? `Please generate an email based on the following scenario, strictly outputting in JSON format.
+Scenario: ${scenario.hint}
+Email Type: ${scenario.type === "phishing" ? "Phishing Email (isPhishing=true)" : "Normal Email (isPhishing=false)"}
+Random Seed: ${Date.now()}_${Math.random()}` : `请基于以下场景生成一封邮件，严格按 JSON 格式输出。
 场景：${scenario.hint}
 邮件类型：${scenario.type === "phishing" ? "钓鱼邮件 (isPhishing=true)" : "正常邮件 (isPhishing=false)"}
 随机种子：${Date.now()}_${Math.random()}`
-          },
-        ],
-        temperature: 1.0,
-        response_format: { type: "json_object" },
+            }
+          ],
+          temperature: 1.0,
+          response_format: { type: "json_object" }
+        })
       });
 
-      const rawText = response.choices[0]?.message?.content?.trim() || "{}";
+      const responseData = await response.json();
+      const rawText = responseData.choices[0]?.message?.content?.trim() || "{}";
       const parsed = JSON.parse(rawText);
 
       // Schema validation

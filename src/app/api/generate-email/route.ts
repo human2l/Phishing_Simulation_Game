@@ -1,33 +1,42 @@
-import emailPool from "@/data/email-pool.json";
+import emailPoolEN from "@/data/email-pool-en.json";
+import emailPoolZH from "@/data/email-pool.json";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-// 已使用邮件的索引追踪（进程级内存，dev server 重启后重置）
-const usedIndices = new Set<number>();
+// 已使用邮件的索引追踪（进程级内存，按语言区分）
+const usedIndices = {
+  zh: new Set<number>(),
+  en: new Set<number>(),
+};
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const pool = emailPool as Array<Record<string, unknown>>;
+    const { searchParams } = new URL(request.url);
+    const locale = searchParams.get("locale") === "en" ? "en" : "zh";
+    const rawPool = locale === "en" ? emailPoolEN : emailPoolZH;
+    const pool = rawPool as Array<Record<string, unknown>>;
 
     if (pool.length === 0) {
-      throw new Error("Email pool is empty");
+      throw new Error(`Email pool for ${locale} is empty`);
     }
 
+    const currentUsedIndices = usedIndices[locale];
+
     // 如果所有邮件都已用过，重置池
-    if (usedIndices.size >= pool.length) {
-      usedIndices.clear();
+    if (currentUsedIndices.size >= pool.length) {
+      currentUsedIndices.clear();
     }
 
     // 从未使用过的邮件中随机抽取
     const availableIndices = pool
       .map((_, i) => i)
-      .filter((i) => !usedIndices.has(i));
+      .filter((i) => !currentUsedIndices.has(i));
 
     const randomIdx =
       availableIndices[Math.floor(Math.random() * availableIndices.length)];
 
-    usedIndices.add(randomIdx);
+    currentUsedIndices.add(randomIdx);
 
     const email = { ...pool[randomIdx] };
 
@@ -38,12 +47,22 @@ export async function GET() {
       "13:42", "14:08", "14:33", "15:01", "15:28",
       "16:05", "16:42", "17:11",
     ];
-    const prefixes = ["上午", "上午", "上午", "上午", "上午",
-                      "上午", "上午", "上午", "上午", "下午",
-                      "下午", "下午", "下午", "下午", "下午",
-                      "下午", "下午", "下午"];
     const timeIdx = Math.floor(Math.random() * hours.length);
-    email.time = `${prefixes[timeIdx]} ${hours[timeIdx]}`;
+
+    if (locale === "en") {
+      const isAm = hours[timeIdx] < "12:00";
+      const timePrefix = isAm ? "AM" : "PM";
+      const hourSplit = hours[timeIdx].split(":");
+      let hourNum = parseInt(hourSplit[0], 10);
+      if (hourNum > 12) hourNum -= 12;
+      email.time = `${hourNum.toString().padStart(2, '0')}:${hourSplit[1]} ${timePrefix}`;
+    } else {
+      const prefixes = ["上午", "上午", "上午", "上午", "上午",
+                        "上午", "上午", "上午", "上午", "下午",
+                        "下午", "下午", "下午", "下午", "下午",
+                        "下午", "下午", "下午"];
+      email.time = `${prefixes[timeIdx]} ${hours[timeIdx]}`;
+    }
 
     return NextResponse.json(email);
   } catch (error) {
@@ -53,10 +72,10 @@ export async function GET() {
       {
         sender: "系统通知",
         senderEmail: "noreply@company.com",
-        subject: "加载失败，请稍候重试",
-        content: "邮件内容生成失败，请刷新后重试。",
+        subject: "加载失败，请稍候重试 (Load Failed)",
+        content: "邮件内容生成失败，请刷新后重试。Failed to load email, please try again.",
         isPhishing: false,
-        time: "刚刚",
+        time: "刚刚 (Just now)",
         clues: [],
       },
       { status: 200 }

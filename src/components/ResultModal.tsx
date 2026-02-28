@@ -28,19 +28,19 @@ const ResultModal: React.FC<ResultModalProps> = ({
   if (isCorrect && isPhishing) {
     // True Positive
     imageSrc = '/images/bubu-happy.png';
-    imageAlt = 'Bubu 点赞';
+    imageAlt = 'Bubu thumbs up';
   } else if (isCorrect && !isPhishing) {
     // True Negative
     imageSrc = '/images/bubu-steady.png';
-    imageAlt = 'Bubu 稳健工作';
+    imageAlt = 'Bubu working steadily';
   } else if (!isCorrect && isPhishing) {
     // False Negative
     imageSrc = '/images/dudu-crying.png';
-    imageAlt = 'Dudu 大哭不妙';
+    imageAlt = 'Dudu crying in alarm';
   } else {
     // False Positive
     imageSrc = '/images/dudu-confused.png';
-    imageAlt = 'Dudu 挠头困惑';
+    imageAlt = 'Dudu scratching head confused';
   }
 
   const config = isCorrect
@@ -49,12 +49,12 @@ const ResultModal: React.FC<ResultModalProps> = ({
         border: 'border-[#A8DFCA]',
         iconBg: 'bg-[#4FA888]',
         icon: <ShieldCheck size={32} className="text-white" strokeWidth={2.5} />,
-        title: '🛡️ 防御成功！',
+        title: '🛡️ Defence Successful!',
         titleColor: 'text-[#2E7D6A]',
         message:
           isPhishing
-            ? 'Bubu说："太棒了打工人！成功拦截一次钓鱼攻击！"'
-            : 'Bubu说："工作邮件已确认，这是正常信件。放过正常也是防御！"',
+            ? 'Great catch! You\'ve identified a phishing attempt.'
+            : 'Correct! This is a legitimate email.',
         messageColor: 'text-[#3E8C72]',
       }
     : {
@@ -62,11 +62,11 @@ const ResultModal: React.FC<ResultModalProps> = ({
         border: 'border-[#F5C4A8]',
         iconBg: 'bg-[#D97757]',
         icon: <Siren size={32} className="text-white" strokeWidth={2.5} />,
-        title: '🪤 中招了！',
+        title: '🪤 You Got Caught!',
         titleColor: 'text-[#A0402A]',
         message: isPhishing
-          ? 'Bubu说："Dudu 漏掉了一封高危钓鱼邮件！来看看它的破绽："'
-          : 'Bubu说："Dudu 误判了一封正常邮件，这样会耽误进度哦！"',
+          ? 'Oops! You missed a phishing email. Review the clues below:'
+          : 'False alarm! This was a legitimate email.',
         messageColor: 'text-[#A05030]',
       };
 
@@ -97,7 +97,7 @@ const ResultModal: React.FC<ResultModalProps> = ({
             <button
               onClick={onClose}
               className="absolute top-4 right-4 text-[#B3A69A] hover:text-[#4A3D34] transition-colors z-10"
-              aria-label="关闭"
+              aria-label="Close"
             >
               <XCircle size={26} strokeWidth={2.5} className="drop-shadow-sm" />
             </button>

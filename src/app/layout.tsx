@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Bubu与Dudu的职场防线 | 防钓鱼模拟",
-  description: "沉浸式职场防钓鱼模拟体验，类似Tinder卡片滑动玩法，划掉钓鱼邮件，守护公司的数据安全。",
+  title: "SecurMail Pro | Anti-Phishing Simulation Training",
+  description: "Enterprise-grade anti-phishing awareness training. Identify phishing emails, protect your organisation's data security, and sharpen your cyber resilience.",
 };
 
 export const viewport: Viewport = {
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en-AU">
       <body className={`${inter.className} antialiased selection:bg-[#FFDCA8]`}>
         {children}
       </body>

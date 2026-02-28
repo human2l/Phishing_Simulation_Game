@@ -94,10 +94,10 @@ export default function MailClient() {
   useEffect(() => {
     if (modal.isVisible) {
       if (modal.isCorrect) {
-        // 答对时自动关闭
+        // Auto-close on correct answer
         autoCloseTimer.current = setTimeout(closeModal, 2500);
       }
-      // 中招时不再自动关闭，强制用户手动点击关闭按钮以消化破绽
+      // On incorrect answer, do not auto-close — force user to manually close and review clues
     }
     return () => {
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
@@ -182,19 +182,19 @@ export default function MailClient() {
             <div className="text-xs font-bold text-[#9CA3AF] uppercase mb-3">Security Scorecard</div>
             <div className="grid grid-cols-2 gap-2 text-xs text-center font-bold">
               <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">拦截 (TP)</span> 
+                <span className="opacity-70 text-[10px] mb-0.5">Intercepted (TP)</span> 
                 <span className="text-base">{score.tp}</span>
               </div>
               <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">放行 (TN)</span> 
+                <span className="opacity-70 text-[10px] mb-0.5">Cleared (TN)</span> 
                 <span className="text-base">{score.tn}</span>
               </div>
               <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">误报 (FP)</span> 
+                <span className="opacity-70 text-[10px] mb-0.5">False Alert (FP)</span> 
                 <span className="text-base">{score.fp}</span>
               </div>
               <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
-                <span className="opacity-70 text-[10px] mb-0.5">漏报 (FN)</span> 
+                <span className="opacity-70 text-[10px] mb-0.5">Missed (FN)</span> 
                 <span className="text-base">{score.fn}</span>
               </div>
             </div>
@@ -287,7 +287,7 @@ export default function MailClient() {
                   className="flex items-center gap-2 px-4 py-2 bg-[#F0FDF4] hover:bg-[#DCFCE7] text-[#166534] text-sm font-semibold rounded-lg border border-[#BBF7D0] transition-colors shadow-sm focus:ring-2 focus:ring-[#86EFAC] focus:outline-none focus:ring-offset-1"
                 >
                   <CheckCircle2 size={16} />
-                  标记为安全
+                  Mark as Safe
                 </button>
                 <div className="w-px h-6 bg-[#E5E7EB]"></div>
                 <button
@@ -295,7 +295,7 @@ export default function MailClient() {
                   className="flex items-center gap-2 px-4 py-2 bg-[#FEF2F2] hover:bg-[#FEE2E2] text-[#991B1B] text-sm font-semibold rounded-lg border border-[#FECACA] transition-colors shadow-sm focus:ring-2 focus:ring-[#FCA5A5] focus:outline-none focus:ring-offset-1"
                 >
                   <Siren size={16} />
-                  报告钓鱼邮件
+                  Report Phishing
                 </button>
               </div>
             </div>

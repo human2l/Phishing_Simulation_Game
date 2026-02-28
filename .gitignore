@@ -42,3 +42,5 @@ next-env.d.ts
 
 plan.md
 status.json
+
+reports/*

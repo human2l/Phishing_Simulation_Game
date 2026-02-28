@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { LogIn, PartyPopper, RefreshCw, ShieldAlert } from 'lucide-react';
+import { PartyPopper, RefreshCw, ShieldAlert } from 'lucide-react';
 
 interface FinalScoreScreenProps {
   score: number;
@@ -92,13 +92,6 @@ export function FinalScoreScreen({ score, maxScore, onRestart }: FinalScoreScree
             >
               <RefreshCw size={20} />
               Play Again
-            </button>
-            <button
-              onClick={() => window.location.reload()}
-              className="w-full flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-700 border-2 border-gray-200 font-bold text-[15px] py-3 px-8 rounded-xl transition-all"
-            >
-              <LogIn size={18} />
-              Return to Login
             </button>
           </div>
         </motion.div>

@@ -1,12 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle } from 'lucide-react';
-import { HighlightedText } from './HighlightText';
+import { HighlightedText, HighlightTerm } from './HighlightText';
 
 interface EmailContentProps {
   content: string;
   clues: string[];
   showClues: boolean;
-  highlightTerms: string[];
+  highlightTerms: HighlightTerm[];
 }
 
 export function EmailContent({ content, clues, showClues, highlightTerms }: EmailContentProps) {

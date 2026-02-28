@@ -3,6 +3,7 @@
 import { EmailContent } from '@/components/EmailContent';
 import { FinalScoreScreen } from '@/components/FinalScoreScreen';
 import { getHighlightsFromClues, HighlightedText } from '@/components/HighlightText';
+import { OnboardingJoyride } from '@/components/OnboardingJoyride';
 
 import { ScoreBoard } from '@/components/ScoreBoard';
 import { GeneratedEmail } from '@/lib/ai';
@@ -238,7 +239,7 @@ export default function MailClient() {
         {/* Scoring / Lab Branding at bottom */}
         <div className="p-4 border-t border-[#374151]">
           <div className="bg-[#1F2937] p-4 rounded-xl">
-            <div className="mb-4">
+            <div className="mb-4" data-tour="score-board">
               <ScoreBoard 
                 score={totalScore} 
                 totalAnswered={score.total} 
@@ -248,7 +249,7 @@ export default function MailClient() {
             
             {/* Restored legacy 4-box scorecard stats */}
             <div className="text-xs font-bold text-[#9CA3AF] uppercase mb-3">Detailed Stats</div>
-            <div className="grid grid-cols-2 gap-2 text-xs text-center font-bold">
+            <div className="grid grid-cols-2 gap-2 text-xs text-center font-bold" data-tour="stats-board">
               <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
                 <span className="opacity-70 text-[10px] mb-0.5">Intercepted (TP)</span> 
                 <span className="text-base">{score.tp}</span>
@@ -275,7 +276,7 @@ export default function MailClient() {
       </aside>
 
       {/* ─── MIDDLE COLUMN (Mail List) ─── */}
-      <div className={midColBgClass}>
+      <div className={midColBgClass} data-tour="inbox-list">
         <div className="h-16 flex items-center justify-between px-4 border-b border-[#E5E7EB] bg-transparent">
           <h2 className="font-bold text-lg text-[#111827]">Inbox</h2>
           {isFetching && <Loader2 size={16} className="text-[#6B7280] animate-spin" />}
@@ -350,7 +351,7 @@ export default function MailClient() {
               </div>
 
               {/* ⭐ Action Buttons - Core Interactivity ⭐ */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" data-tour="action-buttons">
                 {selectedMail.evaluated ? (
                   <button
                     onClick={() => handleNext(selectedMail.id)}
@@ -436,6 +437,9 @@ export default function MailClient() {
           onRestart={handleRestart}
         />
       )}
+      
+      {/* ── Onboarding / Tutorial ── */}
+      <OnboardingJoyride />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import ResultModal from '@/components/ResultModal';
 import SwipeCard, { CardData } from '@/components/SwipeCard';
 import { GeneratedEmail } from '@/lib/ai';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertTriangle, Inbox, Loader2, RefreshCcw, Shield } from 'lucide-react';
+import { Inbox, Loader2, RefreshCcw } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ export default function Home() {
   const [cards, setCards] = useState<CardData[]>([]);
   const [isLoading, setIsLoading] = useState(true);   // initial load
   const [isFetching, setIsFetching] = useState(false); // background fetch
-  const [score, setScore] = useState({ correct: 0, wrong: 0, total: 0 });
+  const [score, setScore] = useState({ tp: 0, tn: 0, fp: 0, fn: 0, total: 0 });
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
     isCorrect: false,
@@ -137,11 +137,15 @@ export default function Home() {
       const isCorrect =
         (direction === 'right' && isPhishing) || (direction === 'left' && !isPhishing);
 
-      setScore((s) => ({
-        correct: s.correct + (isCorrect ? 1 : 0),
-        wrong: s.wrong + (isCorrect ? 0 : 1),
-        total: s.total + 1,
-      }));
+      setScore((s) => {
+        let tp = s.tp, tn = s.tn, fp = s.fp, fn = s.fn;
+        if (direction === 'right' && isPhishing) tp++; // 捕捉恶意
+        if (direction === 'left' && !isPhishing) tn++; // 放过正常
+        if (direction === 'right' && !isPhishing) fp++; // 误判正常
+        if (direction === 'left' && isPhishing) fn++; // 漏掉恶意
+
+        return { tp, tn, fp, fn, total: s.total + 1 };
+      });
 
       // Show result modal 300ms after swipe starts
       setTimeout(() => {
@@ -167,7 +171,7 @@ export default function Home() {
   // ── Reset ──
   const resetGame = () => {
     setCards([]);
-    setScore({ correct: 0, wrong: 0, total: 0 });
+    setScore({ tp: 0, tn: 0, fp: 0, fn: 0, total: 0 });
     setGameOver(false);
     closeModal();
     cardCounter.current = 0;
@@ -192,13 +196,27 @@ export default function Home() {
     <main className="min-h-screen bg-[#FDF9F1] flex flex-col items-center py-10 px-4 font-sans">
 
       {/* ── Header scoreboard ── */}
-      <header className="w-full max-w-md bg-white rounded-2xl shadow-sm border-2 border-[#EAE2D6] p-4 flex justify-between items-center mb-10">
-        <div className="flex items-center gap-2">
-          <div className="bg-[#4FA888]/10 p-2 rounded-xl text-[#4FA888]">
-            <Shield size={22} strokeWidth={2.5} />
+      <header className="w-full max-w-md bg-white rounded-2xl shadow-sm border-2 border-[#EAE2D6] p-3 mb-10 relative">
+        <div className="grid grid-cols-2 gap-3 text-xs font-bold text-[#4A3D34]">
+          <div className="flex flex-col gap-1.5">
+            <div className="flex justify-between items-center bg-[#EDFAF4] px-2.5 py-1.5 rounded-lg border border-[#A8DFCA]">
+              <span className="text-[#2E7D6A]">🎯 捕捉恶意</span>
+              <span className="text-sm text-[#2E7D6A]">{score.tp}</span>
+            </div>
+            <div className="flex justify-between items-center bg-[#EDFAF4] px-2.5 py-1.5 rounded-lg border border-[#A8DFCA]">
+              <span className="text-[#2E7D6A]">✅ 放过正常</span>
+              <span className="text-sm text-[#2E7D6A]">{score.tn}</span>
+            </div>
           </div>
-          <div className="font-bold text-[#4A3D34]">
-            防御：<span className="text-[#4FA888]">{score.correct}</span>
+          <div className="flex flex-col gap-1.5">
+            <div className="flex justify-between items-center bg-[#FFF4EE] px-2.5 py-1.5 rounded-lg border border-[#F5C4A8]">
+              <span className="text-[#A0402A]">❌ 误判正常</span>
+              <span className="text-sm text-[#A0402A]">{score.fp}</span>
+            </div>
+            <div className="flex justify-between items-center bg-[#FFF4EE] px-2.5 py-1.5 rounded-lg border border-[#F5C4A8]">
+              <span className="text-[#A0402A]">⚠️ 漏掉恶意</span>
+              <span className="text-sm text-[#A0402A]">{score.fn}</span>
+            </div>
           </div>
         </div>
 
@@ -206,25 +224,16 @@ export default function Home() {
         <AnimatePresence>
           {isFetching && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              className="flex items-center gap-1 text-[#B3A69A] text-xs font-medium"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute -bottom-7 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-[#B3A69A] text-xs font-bold bg-white px-3 py-1 rounded-full shadow-sm border border-[#EAE2D6]"
             >
-              <Loader2 size={14} className="animate-spin" />
-              加载中
+              <Loader2 size={12} className="animate-spin" />
+              通讯中...
             </motion.div>
           )}
         </AnimatePresence>
-
-        <div className="flex items-center gap-2">
-          <div className="bg-[#D97757]/10 p-2 rounded-xl text-[#D97757]">
-            <AlertTriangle size={22} strokeWidth={2.5} />
-          </div>
-          <div className="font-bold text-[#4A3D34]">
-            中招：<span className="text-[#D97757]">{score.wrong}</span>
-          </div>
-        </div>
       </header>
 
       {/* ── Card area ── */}
@@ -269,14 +278,14 @@ export default function Home() {
             </div>
             <h2 className="text-2xl font-bold text-[#4A3D34] mb-2">收件箱已清空！</h2>
             <p className="text-[#8B7C71] font-semibold mb-1">
-              共处理 {score.total} 封 · 防御 {score.correct} 封 · 中招 {score.wrong} 封
+              共处理 {score.total} 封 · 防御 {score.tp + score.tn} 封 · 中招 {score.fp + score.fn} 封
             </p>
             <p className="text-[#B3A69A] text-sm mb-8">
-              {score.wrong === 0
-                ? '🏆 满分！Bubu 向你竖起大拇指！'
-                : score.wrong <= 1
-                ? '💪 干得不错！Bubu 说："再练练，你就是职场防钓鱼冠军！"'
-                : '📬 Bubu 说："别气馁，钓鱼邮件越来越狡猾了——再来一次！"'}
+              {score.fp + score.fn === 0
+                ? '🏆 完美防御！Bubu 向你竖起大拇指！'
+                : score.fp + score.fn <= 1
+                ? '💪 干得不错！Bubu 说："再练练，你就是职场防线战神！"'
+                : '📬 Bubu 说："网络安全靠大家，再来一次！"'}
             </p>
             <button
               onClick={resetGame}

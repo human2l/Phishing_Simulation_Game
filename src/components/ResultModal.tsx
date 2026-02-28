@@ -31,8 +31,8 @@ const ResultModal: React.FC<ResultModalProps> = ({
         titleColor: 'text-[#2E7D6A]',
         message:
           isPhishing
-            ? 'Bubu说："太棒了打工人！这封邮件有问题！眼放亮！"'
-            : 'Bubu说："工作邮件已确认，这是正常信件。保持警惕！"',
+            ? 'Bubu说："太棒了打工人！成功拦截一次钓鱼攻击！"'
+            : 'Bubu说："工作邮件已确认，这是正常信件。放过正常也是防御！"',
         messageColor: 'text-[#3E8C72]',
       }
     : {
@@ -43,8 +43,8 @@ const ResultModal: React.FC<ResultModalProps> = ({
         title: '🪤 中招了！',
         titleColor: 'text-[#A0402A]',
         message: isPhishing
-          ? 'Bubu说："Dudu 上当了... 来看看这封邮件的破绽："'
-          : 'Bubu说："Dudu 误报了一封正常邮件，要相信自己的同事！"',
+          ? 'Bubu说："Dudu 漏掉了一封高危钓鱼邮件！来看看它的破绽："'
+          : 'Bubu说："Dudu 误判了一封正常邮件，这样会耽误进度哦！"',
         messageColor: 'text-[#A05030]',
       };
 

@@ -299,15 +299,14 @@ export default function MailClient() {
             <div className="flex flex-col w-full overflow-x-hidden">
               <AnimatePresence initial={false}>
                 {cards.map(card => (
-                  <motion.button
+                  <motion.div
                     key={card.id}
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, x: -80, transition: { duration: 0.2 } }}
-                    onClick={() => setSelectedId(card.id)}
                     className={cn(
-                      "text-left p-4 border-b border-[#F3F4F6] transition-colors focus:outline-none relative w-full overflow-hidden",
-                      selectedId === card.id ? "bg-[#EFF6FF] border-l-4 border-l-[#3B82F6]" : "hover:bg-[#F9FAFB] border-l-4 border-l-transparent",
+                      "text-left p-4 border-b border-[#F3F4F6] transition-colors relative w-full overflow-hidden cursor-default",
+                      selectedId === card.id ? "bg-[#EFF6FF] border-l-4 border-l-[#3B82F6]" : "bg-white border-l-4 border-l-transparent",
                       card.evaluated && "opacity-60"
                     )}
                   >
@@ -317,7 +316,7 @@ export default function MailClient() {
                     </div>
                     <div className="font-semibold text-[13px] text-[#374151] mb-1 truncate w-full">{card.subject || 'No Subject'}</div>
                     <div className="text-xs text-[#6B7280] line-clamp-2 leading-relaxed w-full">{card.content || ''}</div>
-                  </motion.button>
+                  </motion.div>
                 ))}
               </AnimatePresence>
             </div>

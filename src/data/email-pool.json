@@ -181,5 +181,560 @@
       "紧急语气和纪律处分威胁可能诱导用户匆忙点击链接"
     ],
     "id": "email_1772248950409_14"
+  },
+  {
+    "sender": "IT Security Operations",
+    "senderEmail": "security-alerts@cybersecure-global.com",
+    "subject": "Urgent: Account Security Verification Required Due to Unauthorized Access Attempt",
+    "content": "Dear Colleagues,\n\nOur automated security monitoring systems have detected an anomalous login attempt to your corporate account from an IP address located in a high-risk geographic region (specifically, Southeast Asia). This activity has triggered our advanced threat detection protocols, resulting in a temporary suspension of your account access as per our Zero Trust security framework.\n\nTo restore full functionality and comply with our enterprise security policies, you must complete a mandatory identity verification process within the next 24 hours. Failure to do so will lead to permanent account deactivation and potential escalation to our incident response team for further investigation.\n\nPlease click the following secure link to initiate the verification: https://verify-identity.cybersecure-global-auth.com/validate\n\nThis link will direct you to our official authentication portal where you'll need to enter your current credentials and answer security questions. Ensure you complete this process promptly to avoid any disruption to your workflow.\n\nBest regards,\nMichael Chen\nSenior Security Analyst\nGlobal IT Security Department\nExtension: 5432\n\n---\nCONFIDENTIALITY NOTICE: This message and any attachments are intended solely for the addressees and may contain confidential or privileged information. If you are not the intended recipient, you are hereby notified that any use, dissemination, distribution, or copying of this communication is strictly prohibited. If you have received this communication in error, please notify the sender immediately and delete this message from your system.",
+    "isPhishing": true,
+    "time": "下午 02:35",
+    "clues": [
+      "可疑URL: 域名'cybersecure-global-auth.com'是伪造的，看似合理但并非公司官方域名",
+      "紧迫性语言: 使用'Urgent'和24小时限期制造压力，诱使员工快速点击链接"
+    ],
+    "id": "email_1772249396901_0"
+  },
+  {
+    "sender": "IT Support Team",
+    "senderEmail": "support@corp-itadmin.net",
+    "subject": "Urgent: Cloud Storage Quota Expiry Notice for OneDrive/Feishu Space",
+    "content": "Dear Colleagues,\n\nThis is an important notification regarding your corporate cloud storage allocation. Our monitoring systems indicate that your OneDrive/Feishu Space storage quota is nearing its expiration date, scheduled for the end of this week. Failure to address this promptly may result in data access restrictions or potential loss of critical business files.\n\nTo ensure uninterrupted access and maintain operational continuity, we require immediate action. Please click the link below to review your current usage and proceed with the necessary quota expansion or data migration steps: https://secure-onedrive-update.com/quota-renewal\n\nThis process is mandatory for all users to comply with our updated data retention policies. If you encounter any issues, contact our helpdesk at extension 5432. Thank you for your prompt attention to this matter.\n\nBest regards,\nMichael Chen\nIT Operations Manager\nInfrastructure Department\nDirect Line: +1-555-123-4567\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "下午 02:45",
+    "clues": [
+      "可疑URL域名 'secure-onedrive-update.com' 非官方，可能为钓鱼链接",
+      "邮件要求立即点击链接处理存储配额，但正规IT通知通常提供内部工具或详细指引"
+    ],
+    "id": "email_1772249412516_1"
+  },
+  {
+    "sender": "CFO Office",
+    "senderEmail": "cfo-office@globalfinance-corp.com",
+    "subject": "Urgent: Cross-Border USD Wire Transfer for Project 'Phoenix'",
+    "content": "Dear Finance Team,\n\nThis email serves as an immediate directive from the CFO Office regarding a time-sensitive cross-border USD wire transfer. The transaction is linked to the confidential M&A initiative, codenamed 'Phoenix,' which is currently in its final negotiation phase. Due to the highly sensitive nature of this project, all details must be handled with utmost discretion and expedited processing to meet the closing deadline.\n\nTo ensure compliance with internal protocols and facilitate the swift execution of this wire transfer, please access the secure portal via the following link: https://secure-wire.globalfinance-corp-secure.com/transfer. You will be required to input the transaction details, including the beneficiary account information and the amount of $2.5 million, as per the attached instructions (note: attachment is embedded in the portal for security reasons). Failure to complete this by EOD today may jeopardize the entire deal.\n\nShould you encounter any issues, contact the CFO Office directly at ext. 5555. Thank you for your prompt attention to this critical matter.\n\nBest regards,\n\nMichael Chen\nChief Financial Officer\nGlobal Finance Corp.\nDirect Line: +1-555-123-4567\nExtension: 5555\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "可疑 URL 域名包含 'globalfinance-corp-secure.com'，与发件人邮箱域名 'globalfinance-corp.com' 不一致，可能为伪造。",
+      "邮件要求通过链接输入敏感交易信息，而非使用标准内部审批流程，存在钓鱼风险。"
+    ],
+    "id": "email_1772249430959_2"
+  },
+  {
+    "sender": "法务合规部",
+    "senderEmail": "compliance@globalcorp-aml.com",
+    "subject": "紧急通知：配合反洗钱(AML)专项审查的个人交易流水提交要求",
+    "content": "尊敬的全体同事：\n\n为响应近期监管机构加强的反洗钱(AML)合规审查，我司正积极配合一项专项审计。根据《金融机构反洗钱和反恐怖融资管理办法》及相关法规要求，所有在职员工需在2024年7月31日前提交个人近六个月的交易流水，以确保公司合规运营。\n\n请务必通过以下安全链接登录内部系统完成提交：https://submit-aml.globalcorp-secure.com/login。逾期未提交者将可能面临合规风险，并影响个人绩效考核。如有疑问，请勿回复此邮件，直接联系法务合规部。\n\n感谢您的配合与支持。\n\n此致\n敬礼\n\n张伟\n法务合规部总监\n分机号：+86-10-1234-5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "域名 'globalcorp-aml.com' 和 'globalcorp-secure.com' 看似合理但非公司官方域名，可能为伪造",
+      "邮件要求通过外部链接提交敏感个人交易流水，而非通过已验证的内部系统或直接联系部门"
+    ],
+    "id": "email_1772249446364_3"
+  },
+  {
+    "sender": "供应链管理部 - 张伟",
+    "senderEmail": "supplychain@logi-global.com",
+    "subject": "紧急通知：海运提单HS编码错误导致海关扣押，需立即签署更正文件",
+    "content": "Dear 供应链团队同仁，\n\n我们刚刚收到海关紧急通知，涉及批号#BL-2024-08-15的海运提单因HS编码分类错误，已被临时扣押在目的港。此问题可能导致货物清关延迟，并产生额外滞港费用，预计每日损失约5,000美元。\n\n为加速处理，请立即下载并签署附带的更正文件，以提交海关审核。文件已上传至内部安全门户，您可通过以下链接访问：https://logi-global-secure.com/update-bl-form。请务必在今日下班前完成签署，以避免进一步延误。\n\n如有疑问，请直接联系我或海关协调小组。感谢您的紧急配合。\n\n此致，\n张伟\n供应链管理部经理\n分机：2345\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it.",
+    "isPhishing": true,
+    "time": "下午 14:30",
+    "clues": [
+      "可疑URL：域名'logi-global-secure.com'是伪造的，看似合理但非公司官方域名，可能用于钓鱼攻击。",
+      "紧急Call-To-Action：邮件强调'立即下载并签署'，并设置紧迫截止时间，以诱导用户点击链接，而无需验证来源。"
+    ],
+    "id": "email_1772249462117_4"
+  },
+  {
+    "sender": "AWS Security Operations",
+    "senderEmail": "security-alerts@aws-notifications.com",
+    "subject": "紧急：您的AWS账户检测到异常API调用和高额费用告警",
+    "content": "尊敬的AWS客户，\n\n我们的监控系统在您的AWS账户（账户ID：ACCT-1772249463）中检测到一系列异常API调用，这些活动已导致过去24小时内产生约$8,742.50的意外费用。初步分析表明，这可能涉及未经授权的资源访问或潜在的配置错误。\n\n为确保账户安全并防止进一步损失，我们强烈建议您立即登录AWS管理控制台进行核实。请点击以下链接访问安全验证页面：https://aws-verify-security.com/login\n\n在该页面，您需要验证账户详情并选择是否临时冻结可疑资源（如EC2实例、S3存储桶等）。我们的支持团队已准备就绪，如需协助，请通过控制台内的支持渠道联系我们。\n\n请注意，延迟处理可能导致费用持续累积或安全风险升级。感谢您的及时关注与配合。\n\n此致，\n\nAlex Johnson\n云安全工程师\nAWS安全运营部\n分机：+1-555-789-0123\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "下午 14:37",
+    "clues": [
+      "可疑URL：aws-verify-security.com（非官方AWS域名）",
+      "紧急语气和直接行动要求可能诱导用户点击钓鱼链接"
+    ],
+    "id": "email_1772249478050_5"
+  },
+  {
+    "sender": "人力资源部",
+    "senderEmail": "hr-notifications@healthcareportal-corp.com",
+    "subject": "紧急通知：年度体检报告异常指标复查安排",
+    "content": "尊敬的各位同事：\n\n根据年度健康体检计划，我们的合作医疗机构已完成了所有员工的体检报告分析。在最近的数据审核中，系统检测到部分员工的报告出现了异常指标，这可能涉及潜在的健康风险，需要及时进行复查确认。\n\n为确保员工的健康安全，人力资源部已协调健康管理平台开放紧急复查预约通道。请所有收到此通知的员工，务必在48小时内登录健康管理平台，查看个人报告详情并完成复查预约。逾期未处理可能导致健康保险覆盖调整或影响年度绩效考核。\n\n请立即点击以下链接访问平台：https://healthportal-review.secure-hrportal.com/login\n\n如有任何技术问题，请联系IT支持部门（分机：1234）。感谢您的配合与关注。\n\n此致\n敬礼\n\n张明\n人力资源部高级经理\n员工健康与福利组\n分机：5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete it and notify the sender immediately.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "域名 'secure-hrportal.com' 是伪造的，看似合理但非公司官方域名",
+      "邮件要求紧急行动（48小时内），利用健康焦虑制造压力",
+      "链接可能指向恶意网站，用于窃取登录凭据"
+    ],
+    "id": "email_1772249493349_6"
+  },
+  {
+    "sender": "薪酬委员会秘书处",
+    "senderEmail": "esop-confirmation@hr-compensation-committee.com",
+    "subject": "股权激励计划（ESOP）授予份额确认 - 截止日期临近",
+    "content": "各位同事，\n\n根据公司董事会决议，2024年度股权激励计划（ESOP）的授予份额已正式核定。为确保员工权益，薪酬委员会要求所有符合资格的同事在2024年6月30日17:00前登录专属平台完成份额确认。\n\n请访问以下链接进入ESOP确认门户：https://esop-portal.confirm-grant.com/verify。登录后，您将看到个人授予详情，需核对并点击“确认接受”按钮。逾期未确认者，视为自动放弃本次授予资格。\n\n如有技术问题，请联系IT支持分机1234。感谢您的配合。\n\n此致\n敬礼\n\n薪酬委员会秘书处\n李明\n高级薪酬分析师\n人力资源部\n分机：5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete it and notify the sender immediately.",
+    "isPhishing": true,
+    "time": "下午 14:45",
+    "clues": [
+      "可疑URL域名 'confirm-grant.com' 非公司官方域名，可能为伪造",
+      "邮件催促在紧迫截止日期前行动，利用时间压力诱导点击"
+    ],
+    "id": "email_1772249507451_7"
+  },
+  {
+    "sender": "Global Procurement Alliance",
+    "senderEmail": "procurement@gpalliance-consulting.com",
+    "subject": "Urgent: Revised RFP Document for Q3 2024 Strategic Bidding",
+    "content": "Dear Valued Partners,\n\nThis email is to notify you of a critical update regarding the Request for Proposal (RFP) for our upcoming Q3 2024 strategic procurement initiative. Following internal review and stakeholder feedback, we have made substantial revisions to the technical specifications and evaluation criteria sections, which may impact your bid submission.\n\nTo ensure compliance and timely response, please download the updated RFP document via the secure link below. Note that the deadline for submissions remains unchanged at 5:00 PM EST on June 30, 2024. Failure to review these amendments could result in disqualification from the bidding process.\n\nAccess the revised document here: https://secure-docs.gpalliance-downloads.net/rfp/Q3-2024-update.zip\n\nShould you have any questions, do not hesitate to reach out to our procurement team. We appreciate your prompt attention to this matter.\n\nBest regards,\n\nAlexandra Chen\nSenior Procurement Manager\nGlobal Procurement Alliance\nDirect: +1-555-123-4567\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "可疑域名 'gpalliance-downloads.net' 非官方企业域名，可能为伪造",
+      "邮件声称紧急修订但未提供具体修订细节，诱导点击链接"
+    ],
+    "id": "email_1772249523778_8"
+  },
+  {
+    "sender": "行政部 - 设施管理",
+    "senderEmail": "facilities@corp-access.com",
+    "subject": "紧急通知：办公楼门禁系统升级及人脸照片重新注册流程",
+    "content": "各位同事：\n\n为确保办公环境的安全与效率，行政部已启动办公楼门禁系统的全面升级项目。本次升级将引入更先进的人脸识别技术，以提升出入管理的精准性和响应速度。\n\n根据升级计划，所有员工需在2023年10月31日前重新上传人脸照片至新平台完成注册。未按时完成注册的员工将可能面临门禁权限临时受限，影响正常出入。\n\n请立即访问以下链接，使用您的公司邮箱登录并上传符合要求的照片：https://secure-access-portal.corp-access-update.com/register。如有技术问题，请参考附件中的操作指南或联系IT支持分机1234。\n\n感谢您的配合，共同维护安全的工作环境。\n\n此致\n敬礼\n\n李明\n行政部经理\n分机：5678\n\n---\nConfidentiality Notice: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "可疑URL：域名'corp-access-update.com'看似合理但非公司官方域名，可能为伪造以窃取个人信息",
+      "紧急语气：要求'立即访问'链接，可能利用紧迫感诱导点击，而实际门禁升级通常有更正式的通知渠道"
+    ],
+    "id": "email_1772249538543_9"
+  },
+  {
+    "sender": "IT Operations",
+    "senderEmail": "itops@corp-enterprise.com",
+    "subject": "Scheduled ERP System Maintenance Notification for This Saturday",
+    "content": "Dear Colleagues,\n\nThis is to inform you that a routine maintenance window has been scheduled for our ERP system to ensure optimal performance and security. The maintenance will take place this Saturday, starting at 02:00 AM and is expected to conclude by 04:00 AM.\n\nDuring this period, the ERP system will be temporarily unavailable. We recommend planning your work accordingly to avoid any disruptions. All data will be backed up prior to the maintenance, and we will send a follow-up notification once the system is fully restored.\n\nThank you for your cooperation and understanding. If you have any urgent concerns, please contact the IT Help Desk at extension 5555.\n\nBest regards,\nAlex Johnson\nIT Operations Manager\nExtension: 5555\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772249550784_10"
+  },
+  {
+    "sender": "行政与设施管理部",
+    "senderEmail": "admin.facilities@corpenterprisesolutions.com",
+    "subject": "关于下月全员消防演习的正式通知",
+    "content": "各位同事：\n\n根据年度安全计划及企业合规要求，行政与设施管理部现正式通知，下月将组织全员消防演习，以确保在紧急情况下能够迅速、有序地疏散，保障人员安全与资产保护。\n\n演习时间定于下月15日（周三）上午10:00至11:30，请全体同仁务必准时参与，不得缺席。集合地点为总部大楼前广场，届时将有安全专员进行现场指挥与签到。\n\n注意事项包括：请提前熟悉所在楼层的疏散路线图，演习期间关闭个人电子设备以避免干扰，穿着舒适便于行动的服装和鞋子。如有特殊需求或无法参加，请提前向直属主管报备并抄送本部门。\n\n感谢大家的配合与支持，共同维护我们的安全环境。\n\n此致\n敬礼\n\n行政与设施管理部\n李华\n设施管理经理\n分机：4567",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772249563071_11"
+  },
+  {
+    "sender": "人力资源部",
+    "senderEmail": "hr-notifications@corp-enterprise.com",
+    "subject": "公司年会报名截止提醒及节目征集通知",
+    "content": "尊敬的各位同事：\n\n随着年终临近，公司年度庆典活动筹备工作已进入关键阶段。为确保活动顺利进行，现就年会报名及节目征集相关事宜进行正式通知。\n\n报名截止日期为本周五下午5点，请尚未提交报名信息的同事尽快通过内部系统完成登记，以便我们准确统计人数并安排座位。同时，为丰富年会内容，我们诚挚邀请各部门及个人踊跃提交创意节目提案，包括但不限于歌舞、小品、魔术等形式，以展现团队风采。\n\n节目提案提交截止日期同为本周五下午5点，请将详细方案发送至年会筹备组邮箱。如有任何疑问，欢迎随时联系人力资源部。期待大家的积极参与，共同打造一场难忘的年度盛会！\n\n此致\n敬礼\n\n人力资源部\n年会筹备组\n联系人：张明\n职务：人力资源经理\n分机号码：8888\n\n---\nConfidentiality Notice: This email and any attachments are intended solely for the use of the individual or entity to whom they are addressed and may contain confidential or privileged information. If you are not the intended recipient, please notify the sender immediately and delete this email from your system.",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772249576424_12"
+  },
+  {
+    "sender": "财务运营部",
+    "senderEmail": "finance.operations@corp-global.com",
+    "subject": "Q1差旅报销截止日期提醒及新版报销流程说明",
+    "content": "尊敬的各位同事：\n\n随着第一季度即将结束，财务运营部特此提醒，Q1（1月1日至3月31日）的差旅费用报销申请截止日期为2024年4月15日（星期一）下午5点。为确保及时处理您的报销款项，请务必在此日期前通过公司内部报销系统提交所有相关票据和费用明细。\n\n此外，我们很高兴地宣布，自2024年4月1日起，公司将启用新版报销流程，以提升效率和合规性。主要更新包括：简化在线表单填写、支持移动端上传收据、以及集成自动化审批工作流。详细操作指南和培训材料已发布在内部知识库（路径：公司门户 > 财务资源 > 报销流程）。\n\n如有任何疑问或需要协助，请随时联系财务支持团队（分机：1234）或通过邮件咨询。感谢您的配合与支持，让我们共同确保财务流程的顺畅运行。\n\n此致\n敬礼\n\n财务运营部\n张明\n高级财务经理\n分机：5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772249591034_13"
+  },
+  {
+    "sender": "IT Security Operations",
+    "senderEmail": "security-alerts@corp-itsecure.com",
+    "subject": "紧急通知：检测到未授权软件安装，需立即进行资产管理自查",
+    "content": "Dear Colleagues,\n\n我们的安全监控系统近期检测到多起员工笔记本上安装了未授权的软件实例，这可能违反了公司的IT合规政策，并可能带来潜在的安全风险，如数据泄露或恶意软件感染。根据企业安全协议，所有员工必须在48小时内完成自查申报，以确保资产管理的合规性。\n\n请立即访问资产管理平台进行验证和申报：https://asset-mgmt.corp-itsecure-login.com/verify。登录后，请按照提示检查您的设备软件清单，并提交任何必要的更新或解释。未能按时完成可能导致临时访问限制或进一步的合规审查。\n\n感谢您的及时配合，如有疑问，请联系IT支持团队。\n\nBest regards,\nMichael Chen\nIT Security Manager\nIT Department\nExtension: 4567\n\n---\nConfidentiality Notice: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "下午 14:35",
+    "clues": [
+      "可疑URL：域名'corp-itsecure-login.com'是伪造的，看似模仿真实域名但包含'login'以诱导点击",
+      "紧急语气和48小时时限可能用于制造压力，促使员工快速行动而不验证来源"
+    ],
+    "id": "email_1772249605363_14"
+  },
+  {
+    "sender": "IT Security Operations",
+    "senderEmail": "security-alerts@cybersec-global.com",
+    "subject": "Urgent: Account Security Verification Required Due to Unauthorized Access Attempt",
+    "content": "Dear Colleagues,\n\nOur automated security monitoring system has detected an unusual login attempt to your employee account from an IP address located in a foreign region, which has been flagged as high-risk under our global security protocols. This activity has triggered an immediate account lockout to prevent potential unauthorized access and data breaches.\n\nTo restore access and ensure compliance with our corporate security policies, you are required to complete a mandatory identity verification process within the next 24 hours. Please click on the secure link below to proceed with the verification, which will involve confirming your personal details and resetting your credentials.\n\nVerification Portal: https://verify-account.cybersec-global.net/authenticate\n\nFailure to complete this process within the specified timeframe may result in prolonged account suspension and escalation to the IT compliance team for further review. If you have any questions or did not initiate this login, please contact our support desk immediately.\n\nBest regards,\n\nAlexandra Chen\nSenior IT Security Analyst\nInformation Security Department\nDirect Line: +1 (555) 123-4567\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "下午 14:35",
+    "clues": [
+      "可疑URL使用伪造域名 'cybersec-global.net' 而非公司官方域名",
+      "邮件要求紧急行动（24小时内），可能制造恐慌以诱导点击"
+    ],
+    "id": "email_1772249767827_0"
+  },
+  {
+    "sender": "IT Infrastructure Team",
+    "senderEmail": "it-support@corp-cloudservices.net",
+    "subject": "Urgent: Cloud Storage Quota Nearing Capacity - Action Required by EOD",
+    "content": "Dear Colleagues,\n\nThis is an urgent notification from the IT Infrastructure Team regarding your corporate cloud storage allocation on our OneDrive/Feishu platform. Our monitoring systems indicate that your current storage quota is at 98% capacity and is projected to exceed limits within the next 24 hours, potentially leading to service disruptions and data loss.\n\nTo ensure uninterrupted access and compliance with our data retention policies, you must either expand your storage quota or migrate non-essential files to an archive location. Please click the following link to access the self-service portal for immediate resolution: https://corp-cloudservices.net/expand-quota\n\nFailure to address this issue promptly may result in automatic suspension of write permissions and impact critical business operations. For assistance, contact our helpdesk at extension 5432.\n\nBest regards,\n\nAlexandra Chen\nSenior Systems Administrator\nIT Infrastructure Department\nDirect: (555) 123-4567 ext. 5432\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "下午 03:47",
+    "clues": [
+      "可疑URL域名'corp-cloudservices.net'是伪造的，非企业官方域名",
+      "邮件要求紧急点击链接处理存储问题，但真实IT通知通常通过内部系统或官方渠道"
+    ],
+    "id": "email_1772249783096_1"
+  },
+  {
+    "sender": "CFO Office - Finance Operations",
+    "senderEmail": "cfo.operations@globalfinsecure.com",
+    "subject": "Urgent Action Required: Cross-Border USD Wire Transfer for Project 'Phoenix'",
+    "content": "Dear Finance and Treasury Team,\n\nThis email is to notify you of an immediate requirement for a cross-border USD wire transfer, as part of the confidential M&A initiative codenamed 'Phoenix'. Due to the sensitive nature of this transaction, all details must be handled with utmost discretion and expedited processing to meet the tight deadline set by senior management.\n\nPlease proceed to the secure portal at https://wiretransfer.globalfinsecureportal.com to initiate the transfer. You will need to log in using your corporate credentials and follow the prompts to input the beneficiary details and amount, which have been pre-approved under the project code. Ensure compliance with all anti-money laundering (AML) and know-your-customer (KYC) protocols during this process.\n\nIf you encounter any issues, contact the CFO Office directly at extension 555-1234. Thank you for your prompt attention to this critical matter.\n\nBest regards,\nMichael Chen\nChief Financial Officer\nGlobal Financial Security Inc.\nDirect Line: 555-1234\n\n---\nCONFIDENTIALITY NOTICE: This message and any attachments are intended solely for the addressees and may contain confidential or privileged information. If you are not the intended recipient, you are hereby notified that any use, dissemination, distribution, or copying of this communication is strictly prohibited.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "The URL 'globalfinsecureportal.com' is a suspicious domain that mimics legitimate financial portals but is not associated with the company.",
+      "The email pressures urgency and confidentiality, typical of phishing tactics to bypass scrutiny, and requests login credentials on an external site."
+    ],
+    "id": "email_1772249799652_2"
+  },
+  {
+    "sender": "法务合规部 - AML专项组",
+    "senderEmail": "aml-compliance@globalfintech-corp.com",
+    "subject": "紧急通知：配合监管机构反洗钱(AML)专项审查 - 个人交易流水提交要求",
+    "content": "各位同事：\n\n根据监管机构的最新要求，我司正积极配合开展2024年度反洗钱(AML)专项审查。为确保合规性，现需全体员工在2024年7月15日前，通过公司指定平台提交个人交易流水记录，以供审查。\n\n本次审查涵盖2023年1月1日至2024年6月30日期间的所有个人银行账户、证券账户及数字资产交易记录。请务必登录以下内部系统完成提交：https://secure.globalfintech-amlportal.com/submit-statement\n\n系统将于7月16日自动关闭，逾期未提交者将按公司合规政策处理，可能影响绩效考核。如有疑问，请通过分机号联系法务合规部。\n\n此致\n敬礼\n\n张明远\n法务合规部高级经理\n分机：8521\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete it and notify the sender immediately.",
+    "isPhishing": true,
+    "time": "下午 14:36",
+    "clues": [
+      "可疑URL域名'globalfintech-amlportal.com'非公司官方域名，通常内部系统使用内部网络或已知域名",
+      "要求提交个人交易流水涉及敏感信息，正规流程应有更严格的身份验证和说明"
+    ],
+    "id": "email_1772249815772_3"
+  },
+  {
+    "sender": "供应链管理部",
+    "senderEmail": "supplychain-update@logistics-global.com",
+    "subject": "紧急通知：海运提单HS编码错误导致海关扣押，需立即签署更正文件",
+    "content": "尊敬的供应链团队同仁：\n\n我们刚刚收到海关紧急通知，涉及贵部门负责的批次号为BL-2024-08-177的海运提单（B/L），因HS编码（Harmonized System Code）录入错误，已被海关临时扣押。此问题若不及时处理，将导致清关延迟、滞港费用累积，并可能触发供应链中断风险。\n\n为加速解决流程，请立即下载并签署更正文件。您可通过以下链接访问安全门户：https://logistics-global-secure.com/bl-correction-form。请在今日下午4点前完成签署并上传，以确保文件能及时提交海关审核。\n\n如有任何疑问，请随时联系我或海关协调小组。感谢您的紧急配合。\n\n此致\n敬礼\n\n张伟\n供应链管理部 高级经理\n电话：+86-10-8765-4321 分机：5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "上午 10:35",
+    "clues": [
+      "可疑URL：域名'logistics-global-secure.com'是伪造的，看似合理但非公司官方域名",
+      "紧急行动要求：强调'立即下载签署'并设置截止时间，可能诱导用户点击恶意链接"
+    ],
+    "id": "email_1772249832002_4"
+  },
+  {
+    "sender": "云服务安全监控中心",
+    "senderEmail": "security-alert@aws-cloud-support.cn",
+    "subject": "紧急：AWS账户异常API调用导致高额费用告警",
+    "content": "尊敬的AWS用户：\n\n我们的实时监控系统检测到您的账户（ID: ACCT-2024-17722）在过去24小时内发生了异常API调用活动，已产生约$2,850的未授权费用。初步分析显示，这可能源于恶意脚本或第三方应用漏洞，建议立即采取行动以避免进一步损失。\n\n为保障您的账户安全，请立即登录控制台核实资源使用情况并冻结可疑实例。您可以通过以下链接快速访问安全控制面板：https://aws-secure-login.cn/verify-account?token=7f3a9b1c\n请注意，此链接将在2小时后失效，逾期未处理可能导致账户被临时锁定。\n\n如有疑问，请参考我们的安全指南或联系支持团队。感谢您的配合。\n\n此致\n敬礼\n\n张明\n云安全工程师\nAWS安全运营部\n分机：+86-10-1234-5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email. Unauthorized use, disclosure, or copying is strictly prohibited.",
+    "isPhishing": true,
+    "time": "下午 14:37",
+    "clues": [
+      "可疑URL域名（aws-secure-login.cn）非AWS官方域名（如aws.amazon.com）",
+      "邮件要求紧急行动并设置时间限制，制造恐慌感"
+    ],
+    "id": "email_1772249847970_5"
+  },
+  {
+    "sender": "人力资源部",
+    "senderEmail": "hr-health@corpwellnessportal.com",
+    "subject": "重要通知：年度体检报告异常指标复查预约",
+    "content": "Dear 全体员工，\n\n根据公司年度健康管理计划，2024年度体检报告已初步完成分析。系统检测到部分员工的体检指标出现异常波动，为确保员工健康并及时干预，人力资源部现要求相关员工登录健康管理平台进行复查预约。\n\n请务必在48小时内访问以下链接完成预约流程：https://healthportal-review.corpwellnessportal.com/login。登录后，请按照提示上传个人身份验证信息并选择复查时间。逾期未处理可能导致健康风险加剧，并影响后续保险理赔。\n\n如有任何疑问，请联系人力资源部健康管理专员。感谢您的配合，共同维护职场健康环境。\n\n此致，\n\n张明\n人力资源部健康管理主管\n分机：2345\n\n---\nConfidentiality Notice: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "下午 14:30",
+    "clues": [
+      "可疑URL：域名corpwellnessportal.com看似合理但非公司官方域名，可能为伪造。",
+      "要求上传个人身份验证信息，可能涉及敏感数据泄露风险。",
+      "紧迫性语言（48小时内）可能诱导员工匆忙操作，忽略安全检查。"
+    ],
+    "id": "email_1772249862478_6"
+  },
+  {
+    "sender": "薪酬委员会秘书处",
+    "senderEmail": "esop-confirmation@compensation-committee.com",
+    "subject": "重要通知：股权激励计划（ESOP）授予份额确认截止提醒",
+    "content": "尊敬的各位同事：\n\n根据公司董事会最新决议，2024年度股权激励计划（ESOP）已正式启动。为确保员工权益，薪酬委员会特此通知，所有符合条件的员工必须在2024年10月15日（下周二）下午5点前，登录专属平台完成授予份额的在线确认。逾期未确认者，将视为自动放弃本次授予资格。\n\n请立即访问以下链接进行确认：https://esop-verify.compensation-committee-hr.com/login。该平台采用多重加密技术，保障您的信息安全。如有任何疑问，请参考附件中的操作指南或联系人力资源部。\n\n感谢您的配合与支持。\n\n此致\n敬礼\n\n薪酬委员会秘书处\n李明\n高级薪酬分析师\n人力资源部\n分机：2345\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "下午 03:45",
+    "clues": [
+      "域名 'compensation-committee-hr.com' 看似官方但未在公司内部通讯中使用过，可能为伪造",
+      "邮件要求紧急行动（截止日期下周二），利用紧迫感诱导点击可疑链接"
+    ],
+    "id": "email_1772249876504_7"
+  },
+  {
+    "sender": "GlobalTech Solutions",
+    "senderEmail": "support@globaltech-solutions.biz",
+    "subject": "紧急通知：竞标书(RFP)修订附件 - 需立即下载查看",
+    "content": "尊敬的各位同仁：\n\n我是GlobalTech Solutions的客户关系经理，负责与贵公司就近期发布的竞标书(RFP)进行沟通。由于市场动态和客户反馈，我们对RFP文档进行了紧急修订，以确保所有条款符合最新的行业标准和合规要求。\n\n修订内容包括技术规格、交付时间表和定价结构的关键更新，这些变更可能直接影响贵公司的投标策略。为保障竞标流程的透明性和效率，请务必在今日下午5点前下载并审阅附件文档。\n\n您可以通过以下链接访问修订版RFP：https://globaltech-rfp-update.com/download/revised_rfp_2024.pdf。请注意，此链接为临时访问地址，过期后将无法下载。如有任何疑问，请随时回复此邮件或联系我们的支持团队。\n\n感谢您的及时配合，期待与贵公司继续合作。\n\n此致\n敬礼\n\n张伟\n客户关系经理\nGlobalTech Solutions\n电话：+86-10-1234-5678\n分机：1023\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "下午 03:45",
+    "clues": [
+      "发件人邮箱域名'globaltech-solutions.biz'非标准商业域名，常见于可疑网站",
+      "链接'globaltech-rfp-update.com'为伪造域名，与发件人声称的'GlobalTech Solutions'不符，且使用非标准'.com'后缀而非企业常用'.com'或'.net'",
+      "邮件强调'紧急'和'立即下载'，试图制造紧迫感以诱导点击",
+      "附件链接直接指向PDF下载，而非通过安全的企业门户或共享平台，增加了恶意软件风险"
+    ],
+    "id": "email_1772249895504_8"
+  },
+  {
+    "sender": "行政部-设施管理组",
+    "senderEmail": "facilities@corporate-access-solutions.com",
+    "subject": "紧急通知：办公楼门禁系统升级及人脸识别注册要求",
+    "content": "各位同事：\n\n为提升办公环境的安全性与便捷性，行政部将于本周末对全楼门禁系统进行重大升级，引入新一代人脸识别技术。此次升级旨在优化通行效率，并符合最新的企业安全合规标准（ISO 27001）。\n\n根据升级计划，所有员工必须在2023年10月20日（周五）下午5点前，通过指定平台完成人脸照片上传，以确保系统切换后正常出入。未及时注册者将面临临时门禁权限暂停，影响日常办公。\n\n请立即访问以下链接上传您的照片：https://secure-access-portal.corp-access-update.com/register。该平台采用端到端加密，确保数据安全。如有技术问题，请联系IT支持分机1234。\n\n感谢您的配合，共同维护公司安全环境。\n\n此致\n敬礼\n\n李明\n行政部设施管理主管\n分机：5678",
+    "isPhishing": true,
+    "time": "上午 10:35",
+    "clues": [
+      "可疑URL：域名'corp-access-update.com'看似合理但非公司官方域名，可能为伪造",
+      "紧迫性要求：设定严格截止日期并威胁权限暂停，是常见钓鱼手段"
+    ],
+    "id": "email_1772249909392_9"
+  },
+  {
+    "sender": "IT基础设施部",
+    "senderEmail": "it-infrastructure@corp-globaltech.com",
+    "subject": "ERP系统例行维护通知：本周六凌晨计划停机",
+    "content": "尊敬的各位同事：\n\n根据年度IT维护计划，我们将于本周六（具体日期：2023年10月28日）凌晨02:00至04:00进行ERP系统的例行维护。此次维护旨在优化系统性能并应用关键安全补丁，以确保业务连续性和数据完整性。\n\n在此期间，ERP系统将暂时不可用，包括所有相关模块（如财务、供应链和人力资源）。请提前安排相关工作，避免在维护窗口期进行关键操作。如有紧急业务需求，请联系IT支持热线（分机：8888）获取协助。\n\n维护完成后，系统将自动恢复服务，无需额外操作。感谢您的理解与配合，如有任何疑问，请随时与我们联系。\n\n此致\n敬礼\n\n张明\nIT基础设施部经理\n分机：1234\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": false,
+    "time": "上午 10:05",
+    "clues": [],
+    "id": "email_1772249921890_10"
+  },
+  {
+    "sender": "行政部",
+    "senderEmail": "admin@corp-secure.com",
+    "subject": "关于下月全员消防演习的重要通知",
+    "content": "各位同事，大家好。\n\n为确保公司员工的安全意识与应急响应能力，根据年度安全计划，行政部将于下月组织一次全员消防演习。本次演习旨在模拟真实火灾场景，提升团队在紧急情况下的协同作战能力。\n\n演习时间定于下月15日（周三）上午10:00，集合地点为总部大楼前广场。请所有员工务必准时参加，不得缺席。演习期间，我们将进行疏散演练、灭火器使用培训及安全知识讲解。\n\n注意事项：请穿着舒适衣物和防滑鞋，避免携带贵重物品；演习过程中请听从现场指挥人员安排，保持秩序；如有特殊原因无法参加，请提前向直属主管报备。\n\n感谢大家的配合与支持。如有疑问，请随时联系行政部。\n\n此致\n敬礼\n\n行政部\n李华\n行政经理\n分机：1234\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772249934312_11"
+  },
+  {
+    "sender": "人力资源部",
+    "senderEmail": "hr-notifications@techcorp-global.com",
+    "subject": "关于2024年度公司年会报名截止及节目征集的重要提醒",
+    "content": "尊敬的各位同事：\n\n随着2024年即将进入尾声，我们诚挚邀请全体同仁参与本年度的公司年会活动。为确保活动筹备工作顺利进行，现就年会报名截止及节目征集事宜发布重要通知。\n\n年会定于2024年12月20日（周五）晚18:00在市中心国际会议中心举行，届时将有丰盛晚宴、精彩表演及丰厚抽奖环节。所有在职员工均可通过内部系统免费报名，每位员工可携带一名家属同行。报名截止日期为2024年12月10日（下周一）17:00，逾期系统将自动关闭，无法补报。\n\n同时，我们热烈征集年会表演节目，鼓励各部门、团队或个人踊跃报名。节目形式不限（歌舞、小品、乐器演奏等均可），入选节目将获得专项排练支持及精美纪念品。节目申报需在12月5日前提交初步方案至人力资源部活动策划组。\n\n请各位及时登录员工门户网站完成报名，并积极考虑节目贡献。如有任何疑问，欢迎随时联系人力资源部。期待与大家共度一个难忘的夜晚！\n\n此致\n敬礼\n\n陈明\n人力资源总监\n人力资源部\n分机：8802\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete it and notify the sender immediately.",
+    "isPhishing": false,
+    "time": "下午 14:30",
+    "clues": [],
+    "id": "email_1772249949544_12"
+  },
+  {
+    "sender": "财务运营部",
+    "senderEmail": "finance.ops@acmecorp-global.com",
+    "subject": "Q1差旅报销截止日期提醒及新版报销流程说明",
+    "content": "各位同事：\n\n随着第一季度即将结束，为确保差旅费用及时结算，特此提醒：Q1差旅报销的截止日期为2024年4月15日（星期一）。请务必在此之前提交所有相关票据和申请，以避免延误处理。\n\n同时，我们很高兴地宣布，从本季度起，公司已启用新版在线报销系统。该系统集成了自动化审批流程和实时追踪功能，旨在提升效率并减少人工错误。关键更新包括：简化表单填写、支持移动端提交，以及增强的数据安全措施。\n\n为协助大家顺利过渡，财务部将于下周举办线上培训会议，具体安排将通过日历邀请另行通知。如有任何疑问，请随时联系财务支持团队。\n\n感谢您的配合与支持。\n\n此致\n敬礼\n\n张明\n财务运营经理\n财务部\n分机：1234\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772249962489_13"
+  },
+  {
+    "sender": "信息安全合规部",
+    "senderEmail": "security-compliance@corp-itsecurity.net",
+    "subject": "紧急通知：检测到未授权软件安装，请立即进行资产自查申报",
+    "content": "尊敬的各位同事：\n\n根据我司最新的安全审计日志分析，我们的终端检测与响应（EDR）系统于今日上午检测到多台员工笔记本电脑上存在未授权的第三方软件安装行为。此类行为违反了公司信息安全策略（ISP-2023-07）第4.2条关于软件许可与合规性的规定，可能引发数据泄露、恶意软件感染及合规风险。\n\n为确保企业资产管理的完整性与合规性，所有受影响员工必须在48小时内登录资产管理平台完成自查与申报流程。请立即点击以下链接访问平台：https://assetmgmt.corp-itsecurity-portal.com/login\n登录后，请按照系统指引扫描设备、确认软件清单，并提交合规声明。未按时完成申报者，将依据公司纪律处分程序处理。\n\n如有技术问题，请联系IT服务台分机#4502。感谢您的配合与理解。\n\n此致\n敬礼\n\n张明\n信息安全合规经理\n信息安全合规部\n分机：#3207\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "上午 10:35",
+    "clues": [
+      "可疑URL域名（corp-itsecurity-portal.com）非公司官方域名，可能为伪造",
+      "紧急时间压力（48小时）和纪律威胁是常见钓鱼手法"
+    ],
+    "id": "email_1772249978441_14"
+  },
+  {
+    "sender": "IT Security Operations",
+    "senderEmail": "security-alerts@cyberprotect-global.com",
+    "subject": "紧急通知：您的账户因境外异常登录尝试被临时锁定，需在24小时内重新验证身份",
+    "content": "尊敬的各位同事：\n\n我们的安全监控系统于今日凌晨检测到您的用户账户（关联公司域）在境外IP地址（来源：新加坡，IP: 103.21.244.0）发生多次异常登录尝试，该行为触发了企业级安全策略的自动防护机制。为防范潜在的数据泄露风险，您的账户已被临时锁定，所有访问权限将受限。\n\n根据公司《信息安全事件响应规程》第4.2条，您需要在24小时内通过以下安全验证链接完成身份重新认证，以恢复账户正常使用。逾期未操作将导致账户被永久停用，并可能影响薪资发放等关键业务流程。\n\n请立即点击此处完成验证：https://verify-identity.cyberprotect-global.com/reauth\n（该链接仅限公司内网访问，外部网络请先连接VPN）\n\n如有任何疑问，请勿回复本邮件，直接联系IT服务台分机5200。感谢您的配合与理解。\n\n此致\n敬礼\n\n张明轩\n信息安全高级工程师\nIT运维与安全部\n分机：5218\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be legally privileged. If you are not the intended recipient, please notify the sender immediately and delete this email from your system.",
+    "isPhishing": true,
+    "time": "上午 08:45",
+    "clues": [
+      "域名'cyberprotect-global.com'是伪造的，看似合理但非公司真实域名",
+      "邮件要求通过链接重新验证身份，但正规流程应通过内部系统或直接联系IT部门",
+      "使用紧急语气和威胁性语言（如影响薪资发放）以诱导点击"
+    ],
+    "id": "email_1772250642242_0"
+  },
+  {
+    "sender": "IT Infrastructure Team",
+    "senderEmail": "it-support@clouddrive-update.com",
+    "subject": "Urgent: Enterprise Cloud Storage Quota Expiry Notice for OneDrive/Feishu Space",
+    "content": "Dear Colleagues,\n\nThis is a critical notification from the IT Infrastructure Team regarding your enterprise cloud storage allocations on OneDrive and Feishu Space. Our monitoring systems indicate that multiple departmental quotas are approaching their expiration thresholds, scheduled for renewal within the next 48 hours. Failure to address this promptly may result in service interruptions, including restricted access to critical documents and potential data loss.\n\nTo ensure seamless continuity of operations, we have implemented a streamlined process for quota expansion or data migration. Please review your current usage and take immediate action by clicking the link below to authorize the necessary adjustments. This portal requires authentication via your corporate credentials to verify identity and apply the changes securely.\n\nAction Required: https://clouddrive-update.secureportal.net/quota-management\n\nFor any questions or assistance, contact our help desk at extension 5432. We appreciate your prompt attention to this matter to maintain optimal workflow efficiency.\n\nBest regards,\n\nAlexandra Chen\nSenior IT Operations Manager\nInfrastructure Department\nDirect Line: +1 (555) 123-4567 | Ext: 5432\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "可疑URL域名 'clouddrive-update.secureportal.net' 非公司官方域名，可能为伪造",
+      "邮件要求点击链接进行身份验证，可能旨在窃取企业凭据"
+    ],
+    "id": "email_1772250659089_1"
+  },
+  {
+    "sender": "CFO Office - Financial Operations",
+    "senderEmail": "cfo.operations@globalfinsecure.com",
+    "subject": "Urgent Action Required: Cross-Border USD Wire Transfer for Confidential Project 'Phoenix'",
+    "content": "Dear Finance and Treasury Team,\n\nThis email is to notify you of an immediate requirement for a cross-border USD wire transfer, as part of the highly confidential merger and acquisition project codenamed 'Phoenix'. Due to the sensitive nature of this transaction, all details must be handled with utmost discretion and expedited processing to meet tight deadlines.\n\nPlease proceed to the secure portal at https://wiretransfer.globalfinsecure-portal.com to initiate the transfer. You will need to log in using your corporate credentials and follow the on-screen instructions to input the beneficiary details and amount, which are provided in the attached encrypted document (password: Phoenix2024). Ensure completion within the next 2 hours to avoid any delays in the project timeline.\n\nIf you encounter any issues, contact the CFO office directly at ext. 5555. Thank you for your prompt attention to this critical matter.\n\nBest regards,\n\nAlexandra Chen\nChief Financial Officer\nGlobal Financial Services Inc.\nDirect Line: +1-555-123-4567\nExtension: 5555\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete it and notify the sender immediately.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "可疑URL域名'globalfinsecure-portal.com'可能为伪造，模仿合法域名但添加了'-portal'后缀",
+      "要求使用通用密码'Phoenix2024'访问加密附件，这违背了安全最佳实践，可能为钓鱼诱饵"
+    ],
+    "id": "email_1772250675907_2"
+  },
+  {
+    "sender": "法务合规部",
+    "senderEmail": "compliance@acmecorp-legal.org",
+    "subject": "紧急通知：反洗钱(AML)专项审查个人交易流水提交要求",
+    "content": "各位同事，\n\n根据近期监管机构的要求，公司正积极配合一项反洗钱(AML)专项审查。为确保合规并避免潜在的法律风险，所有员工必须在2023年10月31日前提交个人交易流水记录，以供内部审计和监管验证。\n\n请通过以下安全门户链接登录并上传相关文件：https://acmecorp-compliance-portal.com/aml-submission。请注意，此链接仅限公司内部访问，请勿外泄。逾期未提交者将可能面临纪律处分，并影响个人绩效考核。\n\n如有任何疑问，请联系法务合规部。感谢您的配合。\n\n此致\n敬礼\n\n李华\n法务合规部高级经理\n电话：+86-10-1234-5678\n\n---\nConfidentiality Notice: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "下午 14:30",
+    "clues": [
+      "可疑URL域名'acmecorp-compliance-portal.com'非公司官方域名，可能为伪造",
+      "要求提交个人交易流水，这在真实合规审查中通常由公司直接处理，而非要求员工个人操作"
+    ],
+    "id": "email_1772250690123_3"
+  },
+  {
+    "sender": "供应链管理部",
+    "senderEmail": "supplychain-update@logistics-global.com",
+    "subject": "紧急通知：海运提单HS编码错误导致海关扣押，需立即签署更正文件",
+    "content": "Dear 供应链团队同仁，\n\n我们收到海关紧急通知，涉及批次号为SH-2024-789的海运提单（B/L），由于HS编码分类错误，货物已被临时扣押在目的港。此问题可能导致清关延迟和额外滞港费用，影响整体物流时间线。\n\n为尽快解决此事，请立即访问以下内部链接下载更正文件，签署后通过安全上传通道提交：https://logistics-global-secure.com/update-BL-form。请务必在今日下午5点前完成，以避免进一步合规风险。\n\n如有疑问，请联系我或团队其他成员。感谢您的及时配合。\n\n此致，\n\n张明\n供应链管理部高级经理\n分机：2345\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "上午 10:45",
+    "clues": [
+      "可疑URL域名 'logistics-global-secure.com' 看似合理但非公司官方域名，可能为伪造链接。",
+      "邮件要求紧急下载并签署文件，带有紧迫感，是钓鱼邮件的常见特征。"
+    ],
+    "id": "email_1772250705224_4"
+  },
+  {
+    "sender": "云服务安全中心",
+    "senderEmail": "security-alert@aws-cloudsupport.com",
+    "subject": "紧急：您的AWS账户检测到异常API调用和高额费用告警，需立即处理",
+    "content": "尊敬的AWS账户管理员：\n\n我们监测到您的账户（ID: 123456789012）在过去24小时内发生了异常API调用活动，导致费用激增。初步分析显示，这可能涉及未经授权的资源创建和配置更改，已产生约$2,850的额外费用。\n\n为保护您的账户安全并避免进一步损失，请立即登录AWS管理控制台核实详情并采取行动。您可以通过以下链接快速访问：https://aws-console-verify.com/account-review。登录后，请检查最近的API调用日志，并考虑临时冻结可疑资源。\n\n如果您未授权此活动，这可能表明账户凭据已泄露。建议您同时审查IAM策略和访问密钥。如有疑问，请联系我们的支持团队。\n\n此致，\n\n李明\n云安全工程师\nAWS安全响应团队\n分机：+1-800-123-4567\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "下午 14:37",
+    "clues": [
+      "可疑URL域名'aws-console-verify.com'非AWS官方域名（应为aws.amazon.com）",
+      "发件人邮箱'aws-cloudsupport.com'是伪造域名，AWS官方使用amazon.com或aws.amazon.com"
+    ],
+    "id": "email_1772250720950_5"
+  },
+  {
+    "sender": "人力资源部",
+    "senderEmail": "hr-notifications@healthcareportal-corp.com",
+    "subject": "重要通知：年度体检报告异常指标复查预约",
+    "content": "各位同事：\n\n根据年度健康体检计划的初步数据分析，部分员工的体检报告已检测到异常生理指标，包括但不限于血糖、血脂及肝功能参数超出正常参考范围。为确保员工健康福祉并遵守企业健康安全政策，人力资源部现要求相关员工立即登录健康管理平台进行复查预约。\n\n请点击以下链接访问健康管理平台，使用您的企业邮箱凭据登录后，在“我的体检报告”模块查看详细异常指标，并选择就近合作医疗机构预约复查时间。复查必须在30天内完成，逾期未处理将影响年度健康评估结果。\n\n登录链接：https://healthportal-corp.secure-login.net/employee-review\n\n如有技术问题，请联系IT支持部门（分机：5203）。\n\n此致\n敬礼\n\n张明\n人力资源部健康管理主管\n分机：4102\n\n---\nCONFIDENTIALITY NOTICE: This message and any attachments are intended solely for the addressees and may contain confidential or legally privileged information. If you are not the intended recipient, any disclosure, copying, distribution, or use of the contents is strictly prohibited.",
+    "isPhishing": true,
+    "time": "上午 10:35",
+    "clues": [
+      "域名伪造（healthcareportal-corp.com 非企业官方域名）",
+      "可疑URL（secure-login.net 非企业内网或可信平台）",
+      "要求用企业邮箱凭据登录外部链接"
+    ],
+    "id": "email_1772250737983_6"
+  },
+  {
+    "sender": "薪酬委员会秘书处",
+    "senderEmail": "esop-confirmation@compensation-committee.com",
+    "subject": "紧急通知：关于2024年度股权激励计划（ESOP）授予份额确认的截止期限提醒",
+    "content": "Dear Colleagues,\n\n根据公司董事会及薪酬委员会决议，2024年度股权激励计划（ESOP）的授予工作已进入关键阶段。为确保各位同仁的权益得到及时确认，请务必在2024年5月15日（周三）17:00前，登录专属ESOP管理平台完成授予份额的最终确认。逾期未确认者，将视为自动放弃本次授予资格，相关份额将重新分配至预留池。\n\n本次确认流程涉及个人税务信息核对、行权条件确认及电子签名签署等关键环节，请通过以下安全链接访问平台：https://esop-portal.compensation-committee-hr.com/login。请注意，该链接为一次性验证通道，请勿转发或分享。登录后，请仔细核对授予数量、归属时间表及绩效条件等详细信息，并下载确认回执以备存查。\n\n如有任何技术问题或疑问，请直接联系IT支持团队（分机：2345）。薪酬委员会将不再受理个人延期申请，请务必重视此次确认期限。\n\nBest regards,\n\nAlexandra Chen\n薪酬委员会执行秘书\n人力资源与薪酬部\n分机：5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email. Unauthorized use, disclosure, or copying is strictly prohibited.",
+    "isPhishing": true,
+    "time": "下午 14:30",
+    "clues": [
+      "可疑URL：域名'compensation-committee-hr.com'为伪造，非公司官方域名，通常此类内部平台会使用公司内部域名（如corp.xxx.com）",
+      "紧急语气：强调'紧急通知'和'逾期视为放弃'，可能利用时间压力诱导用户点击链接，而正规流程通常会有更宽松的确认期和多重提醒"
+    ],
+    "id": "email_1772250756805_7"
+  },
+  {
+    "sender": "GlobalTech Solutions",
+    "senderEmail": "support@globaltech-solutions.com",
+    "subject": "紧急通知：关于RFP竞标书的修订附件",
+    "content": "尊敬的各位同仁：\n\n我们作为GlobalTech Solutions的客户服务团队，特此通知，针对贵公司近期提交的RFP竞标书，我方已识别出若干关键条款需紧急修订。为确保竞标流程的顺利进行，我们已准备了一份详细的修订附件，其中包含了更新的技术规格、交付时间表及合规要求。\n\n请务必在今日下班前下载并审阅该附件，以避免任何潜在的延误或误解。附件可通过以下链接访问：https://secure.globaltech-solutions-update.com/rfp-revision-download。请注意，此链接为临时访问通道，建议使用公司网络环境以确保数据安全。\n\n如有任何疑问，请随时联系我们的支持团队。感谢您的合作与理解。\n\n此致\n敬礼\n\n张伟\n客户服务经理\nGlobalTech Solutions\n电话：+86-10-12345678 分机：5678\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please delete it and notify the sender immediately.",
+    "isPhishing": true,
+    "time": "下午 14:30",
+    "clues": [
+      "域名 'globaltech-solutions-update.com' 看似合理但非官方域名，可能为伪造",
+      "邮件要求紧急下载附件，可能利用时间压力诱导点击可疑链接"
+    ],
+    "id": "email_1772250771129_8"
+  },
+  {
+    "sender": "行政部-设施管理组",
+    "senderEmail": "facilities@corp-access-systems.com",
+    "subject": "紧急通知：办公楼门禁系统升级及人脸识别重新注册流程",
+    "content": "各位同事，\n\n为确保办公环境安全并提升通行效率，行政部将于本周五（10月27日）对全楼门禁系统进行重大升级。本次升级将引入新一代人脸识别技术，要求所有员工在10月26日17:00前完成人脸照片的重新上传和注册。\n\n具体操作流程如下：请访问内部注册平台 https://corp-access-register.com/upload 并按照提示上传符合标准的人脸照片（建议使用近期正面免冠照）。系统将自动验证并同步至新门禁数据库。逾期未完成注册的员工，门禁权限将暂时失效，需联系行政部手动处理。\n\n如有技术问题，请参考附件操作指南或致电分机1234。感谢您的配合！\n\n此致，\n\n张明\n行政部设施管理主管\n分机：1234\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "下午 14:35",
+    "clues": [
+      "可疑URL：域名'corp-access-register.com'非公司内部域名，看似伪造以模仿真实平台",
+      "紧急语气：要求限期完成注册，可能诱导用户匆忙点击链接而不加验证"
+    ],
+    "id": "email_1772250786690_9"
+  },
+  {
+    "sender": "IT基础设施部",
+    "senderEmail": "it-infrastructure@globaltech-solutions.com",
+    "subject": "ERP系统例行维护通知：本周六凌晨计划性停机",
+    "content": "各位同事：\n\n根据年度IT维护计划，我们将于本周六（具体日期：2023年10月28日）凌晨02:00至04:00（UTC+8时区）对ERP系统进行例行维护。此次维护旨在优化数据库性能并应用最新的安全补丁，以提升系统整体稳定性和数据完整性。\n\n维护期间，ERP系统将完全不可用，包括所有模块（如财务、供应链、人力资源等）。建议各部门提前规划工作安排，避免在此期间进行关键业务操作。系统恢复后，我们将发送确认邮件通知。\n\n如有紧急业务需求，请联系IT支持热线（分机：8888）或通过ServiceNow提交工单。感谢大家的理解与配合。\n\n此致\n敬礼\n\n张明\nIT基础设施部经理\n分机：1001\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": false,
+    "time": "下午 15:45",
+    "clues": [],
+    "id": "email_1772250800158_10"
+  },
+  {
+    "sender": "行政部",
+    "senderEmail": "admin@corpsecure.com",
+    "subject": "关于下月全员消防演习的正式通知",
+    "content": "各位同事，\n\n为确保公司全体员工的消防安全意识与应急响应能力，根据年度安全计划安排，行政部现正式通知下月全员消防演习的具体安排。演习定于下月15日（星期五）上午10:00准时开始，预计持续约45分钟。\n\n集合地点为公司主楼前广场，请所有员工务必提前5分钟到达指定位置。演习将模拟真实火灾场景，包括疏散演练、灭火器使用演示及急救知识讲解。请穿着舒适服装和防滑鞋，避免携带贵重物品，并遵循现场指挥人员的指示。\n\n如有特殊情况无法参加，请提前向直属主管报备。感谢大家的配合，共同维护一个安全的工作环境。\n\n此致\n敬礼\n\n李华\n行政部经理\n分机：1234",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772250811043_11"
+  },
+  {
+    "sender": "人力资源部",
+    "senderEmail": "hr-notifications@techcorp-global.com",
+    "subject": "重要提醒：年度公司年会报名截止与节目征集最后期限",
+    "content": "尊敬的各位同事：\n\n随着年末临近，我们即将迎来一年一度的公司年会。为确保活动筹备工作顺利进行，现就年会相关事宜发布重要通知。\n\n年会报名截止日期为本周五（12月15日）下午5点。请尚未完成报名的同事务必通过内部员工门户系统提交参与意向，以便我们准确统计人数并安排餐饮、座位等后勤事宜。逾期将无法受理，感谢您的理解与配合。\n\n同时，年会节目征集仍在火热进行中。我们鼓励各部门积极组织团队节目，或个人才艺展示，以丰富活动内容。节目提交截止日期同样为本周五下午5点，请将节目方案发送至年会筹备组邮箱 events@techcorp-global.com。优秀节目将有机会获得特别奖励。\n\n如有任何疑问，请随时联系人力资源部或查阅公司内部公告。期待与大家共度一个难忘的夜晚！\n\n此致\n敬礼\n\n张明\n人力资源总监\n人力资源部\n分机： 8802\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email from your system.",
+    "isPhishing": false,
+    "time": "下午 03:45",
+    "clues": [],
+    "id": "email_1772250825640_12"
+  },
+  {
+    "sender": "财务运营部",
+    "senderEmail": "finance.operations@acmecorp-global.com",
+    "subject": "重要通知：Q1差旅报销截止日期提醒及新版报销流程说明",
+    "content": "各位同事：\n\n随着第一季度接近尾声，财务运营部特此提醒，Q1（1月1日至3月31日）所有差旅相关费用的报销申请，必须在2024年4月15日（周一）下午5点前提交至财务系统。逾期提交将导致处理延迟，并可能影响后续季度预算审批。\n\n此外，自本季度起，公司已启用新版报销流程，以提升效率并符合最新税务法规要求。主要更新包括：\n1. 电子发票必须通过OCR系统自动验证，手动上传将不再被接受。\n2. 差旅审批需在出行前通过Concur系统完成，事后补批将视为违规。\n3. 所有报销单需附上行程摘要及业务目的说明，以强化合规审计。\n\n详细操作指南及常见问题解答，请参阅内部知识库文档（链接：https://intranet.acmecorp-global.com/finance/reimbursement-guide）。如有疑问，请联系财务支持团队或您的部门协调员。\n\n感谢您的配合与支持。\n\n此致\n敬礼\n\n财务运营部\n张伟\n高级财务经理\n分机：8521",
+    "isPhishing": false,
+    "time": "上午 10:30",
+    "clues": [],
+    "id": "email_1772250840696_13"
+  },
+  {
+    "sender": "信息安全与合规部",
+    "senderEmail": "security-compliance@corp-itsec.net",
+    "subject": "紧急通知：关于未授权软件检测及资产管理平台自查申报要求",
+    "content": "各位同事，\n\n信息安全与合规部近期通过端点检测与响应（EDR）系统监控到，部分员工笔记本设备上存在未授权软件的安装活动。此类行为违反了公司信息安全政策（ISP-2023-01），可能引发数据泄露、恶意软件感染及合规风险。\n\n为加强资产管控并确保合规性，我们要求所有员工在48小时内登录资产管理平台进行自查申报。请点击以下链接访问平台：https://assetmgmt.corp-itsec-login.com/self-audit。登录后，请核实软件清单，并提交任何未授权安装的申报表。\n\n逾期未完成申报者，将依据政策启动纪律审查流程。如有技术问题，请联系IT帮助台。感谢您的配合。\n\n此致，\n\n张明\n信息安全经理\n信息安全与合规部\n分机：4567\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and may be privileged. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "下午 14:30",
+    "clues": [
+      "可疑URL域名 'corp-itsec-login.com' 是伪造的，非公司官方域名",
+      "邮件要求紧急行动（48小时内），并威胁纪律审查，以制造压力诱导点击"
+    ],
+    "id": "email_1772250855490_14"
   }
 ]

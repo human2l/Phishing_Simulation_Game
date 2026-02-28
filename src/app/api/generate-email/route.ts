@@ -1,42 +1,64 @@
-import emailPoolEN from "@/data/email-pool-en.json";
-import emailPoolZH from "@/data/email-pool.json";
+import emailPoolZh from "@/data/email-pool.json";
+import fs from "fs";
 import { NextResponse } from "next/server";
+import path from "path";
 
 export const dynamic = "force-dynamic";
 
-// 已使用邮件的索引追踪（进程级内存，按语言区分）
-const usedIndices = {
-  zh: new Set<number>(),
-  en: new Set<number>(),
-};
+// 已使用邮件的索引追踪（进程级内存，dev server 重启后重置）
+const usedIndicesZh = new Set<number>();
+const usedIndicesEn = new Set<number>();
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const locale = searchParams.get("locale") === "en" ? "en" : "zh";
-    const rawPool = locale === "en" ? emailPoolEN : emailPoolZH;
-    const pool = rawPool as Array<Record<string, unknown>>;
+    const locale = searchParams.get("locale") || "zh";
 
-    if (pool.length === 0) {
-      throw new Error(`Email pool for ${locale} is empty`);
+    let pool: Array<Record<string, unknown>> = [];
+
+    if (locale === "en") {
+      const enPath = path.join(process.cwd(), "src/data/email-pool-en.json");
+      if (fs.existsSync(enPath)) {
+        pool = JSON.parse(fs.readFileSync(enPath, "utf-8"));
+      }
+    } else {
+      pool = emailPoolZh as Array<Record<string, unknown>>;
     }
 
-    const currentUsedIndices = usedIndices[locale];
+    if (!pool || pool.length === 0) {
+      if (locale === "en") {
+        return NextResponse.json(
+          {
+            sender: "System",
+            senderEmail: "noreply@company.com",
+            subject: "Loading Failed",
+            content: "Email pool for English is not generated yet.",
+            isPhishing: false,
+            time: "Just now",
+            clues: [],
+          },
+          { status: 200 }
+        );
+      }
+      throw new Error("Email pool is empty");
+    }
+
+    const usedIndices = locale === "en" ? usedIndicesEn : usedIndicesZh;
 
     // 如果所有邮件都已用过，重置池
-    if (currentUsedIndices.size >= pool.length) {
-      currentUsedIndices.clear();
+    if (usedIndices.size >= pool.length) {
+      usedIndices.clear();
     }
 
     // 从未使用过的邮件中随机抽取
     const availableIndices = pool
       .map((_, i) => i)
-      .filter((i) => !currentUsedIndices.has(i));
+      .filter((i) => !usedIndices.has(i));
 
     const randomIdx =
       availableIndices[Math.floor(Math.random() * availableIndices.length)];
 
-    currentUsedIndices.add(randomIdx);
+    usedIndices.add(randomIdx);
 
     const email = { ...pool[randomIdx] };
 
@@ -47,22 +69,11 @@ export async function GET(request: Request) {
       "13:42", "14:08", "14:33", "15:01", "15:28",
       "16:05", "16:42", "17:11",
     ];
+    const prefixes = locale === "en"
+      ? ["AM", "AM", "AM", "AM", "AM", "AM", "AM", "AM", "AM", "PM", "PM", "PM", "PM", "PM", "PM", "PM", "PM", "PM"]
+      : ["上午", "上午", "上午", "上午", "上午", "上午", "上午", "上午", "上午", "下午", "下午", "下午", "下午", "下午", "下午", "下午", "下午", "下午"];
     const timeIdx = Math.floor(Math.random() * hours.length);
-
-    if (locale === "en") {
-      const isAm = hours[timeIdx] < "12:00";
-      const timePrefix = isAm ? "AM" : "PM";
-      const hourSplit = hours[timeIdx].split(":");
-      let hourNum = parseInt(hourSplit[0], 10);
-      if (hourNum > 12) hourNum -= 12;
-      email.time = `${hourNum.toString().padStart(2, '0')}:${hourSplit[1]} ${timePrefix}`;
-    } else {
-      const prefixes = ["上午", "上午", "上午", "上午", "上午",
-                        "上午", "上午", "上午", "上午", "下午",
-                        "下午", "下午", "下午", "下午", "下午",
-                        "下午", "下午", "下午"];
-      email.time = `${prefixes[timeIdx]} ${hours[timeIdx]}`;
-    }
+    email.time = locale === "en" ? `${hours[timeIdx]} ${prefixes[timeIdx]}` : `${prefixes[timeIdx]} ${hours[timeIdx]}`;
 
     return NextResponse.json(email);
   } catch (error) {
@@ -72,10 +83,10 @@ export async function GET(request: Request) {
       {
         sender: "系统通知",
         senderEmail: "noreply@company.com",
-        subject: "加载失败，请稍候重试 (Load Failed)",
-        content: "邮件内容生成失败，请刷新后重试。Failed to load email, please try again.",
+        subject: "加载失败，请稍候重试",
+        content: "邮件内容生成失败，请刷新后重试。",
         isPhishing: false,
-        time: "刚刚 (Just now)",
+        time: "刚刚",
         clues: [],
       },
       { status: 200 }

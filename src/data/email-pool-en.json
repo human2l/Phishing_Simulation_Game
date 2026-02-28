@@ -1,185 +1,188 @@
 [
   {
-    "sender": "Australian Taxation Office",
-    "senderEmail": "verification@ato-gov-au.com",
-    "subject": "Urgent: Verification Required for Your 2024 Tax Return",
-    "content": "Dear Taxpayer,\n\nWe are contacting you regarding your recent 2024 tax return submission. Our system has flagged a discrepancy in the details provided, which requires immediate verification to avoid potential delays in processing your refund or assessment.\n\nTo resolve this issue promptly, please click the link below to access our secure verification portal. You will need to confirm your personal and financial information to ensure accuracy and compliance with Australian tax laws. Failure to complete this verification within 48 hours may result in a hold on your tax return and possible penalties.\n\nSecure Verification Link: https://ato-verification-portal.com/confirm-details\n\nThank you for your cooperation in this matter. If you have any questions, please do not reply to this email, as it is unmonitored. Instead, contact our support team via the official ATO website.\n\nKind regards,\n\nMichael Chen\nSenior Verification Officer\nAustralian Taxation Office\nDirect Line: (02) 6216 1111\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "sender": "ATO Compliance Team",
+    "senderEmail": "compliance@ato-gov.com.au",
+    "subject": "Urgent: Confirm Your 2024 Tax Return Details",
+    "content": "Dear Taxpayer,\n\nWe are contacting you from the Australian Taxation Office (ATO) regarding your 2024 tax return. Our records indicate that there are discrepancies in the information submitted, which require immediate verification to ensure compliance with Australian tax laws and avoid potential penalties or delays in processing your return.\n\nTo resolve this issue promptly, please click the link below to access our secure portal and review your details. This process should take no more than 5 minutes, and it is essential to complete it within the next 48 hours to prevent any adverse actions on your account. Failure to confirm may result in your return being flagged for further investigation, which could lead to audits or fines.\n\nSecure Verification Portal: https://ato-verify-tax-return.com.au/confirm\n\nIf you have any questions or need assistance, please do not hesitate to contact our support team at the number provided in our official communications. We appreciate your cooperation in maintaining the integrity of the tax system.\n\nBest regards,\n\nMichael Chen\nSenior Compliance Officer\nAustralian Taxation Office\nPhone: (02) 9999 8888\n\n---\nConfidentiality Notice: This email and any attachments are intended solely for the addressee and may contain confidential information. If you are not the intended recipient, please delete it and notify the sender immediately.",
     "isPhishing": true,
     "time": "11:34 AM",
     "clues": [
-      "Suspicious sender email domain 'ato-gov-au.com' (legitimate ATO uses 'ato.gov.au')",
-      "Urgent call-to-action with a suspicious link to 'ato-verification-portal.com' (not an official ATO domain)"
+      "The sender email domain is 'ato-gov.com.au', which is a spoofed version of the legitimate ATO domain 'ato.gov.au', using a hyphen to appear plausible.",
+      "The URL 'https://ato-verify-tax-return.com.au/confirm' is suspicious; legitimate ATO communications typically use 'ato.gov.au' domains and avoid such lengthy or unofficial-sounding URLs for verification purposes."
     ],
-    "id": "email_1772257099484_0"
+    "id": "email_1772257802549_0"
   },
   {
-    "sender": "Accounts Payable Team",
-    "senderEmail": "ap-team@woolworths-suppliers.au",
-    "subject": "Urgent: Invoice Discrepancy Notification - Action Required",
-    "content": "Dear Valued Supplier,\n\nWe hope this message finds you well. Our accounts payable department has identified a discrepancy in your recent invoice submission (Reference #INV-2024-7890) dated 15 October 2024. The issue relates to a mismatch in the billed amounts versus our purchase order records, which requires immediate attention to avoid any delays in payment processing.\n\nTo resolve this efficiently, please log in to the Woolworths Vendor Portal at your earliest convenience to review and update the invoice details. Timely resolution is critical to ensure your payment is processed without interruption. If you encounter any issues accessing the portal, our support team is available to assist.\n\nThank you for your prompt cooperation in this matter.\n\nKind regards,\n\nEvelyn Carter\nSenior Accounts Payable Officer\nWoolworths Group Limited\nDirect Line: (02) 8888 1234 ext. 567\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
-    "isPhishing": true,
-    "time": "11:34 AM",
-    "clues": [
-      "The domain 'woolworths-suppliers.au' is forged; legitimate Woolworths domains typically use 'woolworths.com.au' or similar.",
-      "The email pressures immediate login with a sense of urgency ('Urgent', 'Action Required', 'immediate attention'), common in phishing attempts to bypass scrutiny."
-    ],
-    "id": "email_1772257113975_1"
-  },
-  {
-    "sender": "ANZ Security Operations",
-    "senderEmail": "security@anz-secure.com",
-    "subject": "Urgent Security Alert: Unusual Activity Detected on Your Account",
-    "content": "Dear Valued Customer,\n\nOur security monitoring systems have flagged unusual activity on your ANZ account, which may indicate potential unauthorised access. We take the protection of your financial information very seriously and have initiated a preliminary review. To safeguard your funds and personal details, we recommend immediate action to secure your account.\n\nPlease click the link below to verify your identity and temporarily freeze your account to prevent any further suspicious transactions. This is a standard security protocol to ensure your assets remain protected while our team investigates the matter thoroughly.\n\n[Verify and Freeze Account Now](https://anz-account-secure.verify-login.com/action)\n\nIf you did not initiate this request or believe this is an error, please disregard this message. For any concerns, contact our official support line directly. Thank you for your prompt attention to this critical security matter.\n\nBest regards,\n\nMichael Chen\nSenior Security Analyst\nANZ Cyber Defence Unit\nDirect Line: +61 2 9876 5432\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
-    "isPhishing": true,
-    "time": "11:34 AM",
-    "clues": [
-      "Suspicious URL with a forged domain (anz-account-secure.verify-login.com) that mimics but differs from ANZ's official domain.",
-      "Urgent call-to-action to click a link for account freezing, which is atypical for legitimate banks that usually direct customers to contact support directly."
-    ],
-    "id": "email_1772257129588_2"
-  },
-  {
-    "sender": "Australia Post Customer Support",
-    "senderEmail": "support@auspost-delivery.net",
-    "subject": "Urgent: Failed Delivery Notification for Corporate Package #APD-2024-7891",
-    "content": "Dear Team,\n\nWe hope this message finds you well. This is an urgent notification from Australia Post regarding a corporate package addressed to your organisation. Our records indicate that a delivery attempt was made today at approximately 11:30 AM, but it was unsuccessful due to an incorrect address or recipient unavailability. The package, referenced under tracking number APD-2024-7891, contains important business documents that require prompt attention.\n\nTo avoid any delays in receiving this critical shipment, we kindly request that you reschedule the delivery at your earliest convenience. Please click on the link below to access our secure portal and select a new delivery time slot that suits your schedule. Failure to reschedule within 24 hours may result in the package being returned to the sender, which could impact your business operations.\n\nReschedule your delivery here: https://auspost-delivery-reschedule.com/secure-login\n\nThank you for your cooperation. If you have any questions, please do not hesitate to contact our support team.\n\nBest regards,\n\nMichael Chen\nCustomer Service Manager\nAustralia Post Corporate Division\nDirect Line: (02) 9876 5432\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
-    "isPhishing": true,
-    "time": "01:45 PM",
-    "clues": [
-      "The sender email domain 'auspost-delivery.net' is not the official Australia Post domain (which is auspost.com.au), indicating a potential forgery.",
-      "The URL 'https://auspost-delivery-reschedule.com/secure-login' uses a suspicious domain that mimics but does not match the legitimate Australia Post website, suggesting a phishing attempt to steal credentials."
-    ],
-    "id": "email_1772257146875_3"
-  },
-  {
-    "sender": "IT Support Desk",
-    "senderEmail": "itsupport@microsoft365-reset.au",
-    "subject": "URGENT: Microsoft 365 Password Expiry Notification - Immediate Action Required",
-    "content": "Dear Colleagues,\n\nThis is an urgent notification from the IT Helpdesk regarding your Microsoft 365 account. Our system has detected that your password is scheduled to expire within the next 24 hours. To ensure uninterrupted access to all corporate resources, including email, SharePoint, and Teams, you must reset your password immediately.\n\nFailure to comply may result in account lockout, which could disrupt your workflow and access to critical business applications. Please click on the link below to proceed with the password reset process. This is a mandatory security measure to protect our network from unauthorized access.\n\nReset your password here: https://microsoft365-password-reset.secure-login.au\n\nIf you encounter any issues or have questions, do not reply to this email. Instead, contact the IT Helpdesk directly via phone at extension 5432.\n\nThank you for your prompt attention to this matter.\n\nBest regards,\n\nAlexandra Chen\nIT Support Specialist\nInformation Technology Department\nDirect Line: (02) 9876 5432\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
-    "isPhishing": true,
-    "time": "10:45 AM",
-    "clues": [
-      "The sender email domain 'microsoft365-reset.au' is forged and not a legitimate corporate domain, which is suspicious for an internal IT notification.",
-      "The URL 'https://microsoft365-password-reset.secure-login.au' uses a non-standard domain that mimics but does not match official Microsoft or company URLs, indicating a potential phishing attempt."
-    ],
-    "id": "email_1772257162642_4"
-  },
-  {
-    "sender": "HR Operations",
-    "senderEmail": "hr.operations@auscorp-global.com.au",
-    "subject": "Urgent: Review Your Superannuation Fund Contribution Details",
-    "content": "Dear Colleagues,\n\nWe hope this message finds you well. As part of our ongoing efforts to ensure compliance with Australian Superannuation Guarantee (SG) regulations and maintain accurate employee records, our HR department has identified potential discrepancies in superannuation fund contributions for some staff members. This may affect your retirement savings and tax obligations, so prompt attention is required.\n\nTo review and update your details, please click on the following link: https://auscorp-hrportal-secure.com/update-super. You will be directed to a secure portal where you can verify your current super fund information, contribution rates, and personal details. We recommend completing this within the next 48 hours to avoid any processing delays or penalties.\n\nIf you have any questions or encounter issues, please contact our HR support team at extension 4567. Thank you for your cooperation in this important matter.\n\nBest regards,\n\nHR Operations\nHuman Resources Department\nAusCorp Global Pty Ltd\nDirect Line: (02) 9876 5432\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
-    "isPhishing": true,
-    "time": "10:45 AM",
-    "clues": [
-      "The domain 'auscorp-hrportal-secure.com' is forged and not the legitimate company domain, which should be 'auscorp-global.com.au'.",
-      "The email uses urgency ('Urgent', 'within 48 hours') to pressure recipients into clicking without verification, a common phishing tactic."
-    ],
-    "id": "email_1772257180436_5"
-  },
-  {
-    "sender": "Medicare Australia Corporate Services",
-    "senderEmail": "updates@medicare-australia.health.gov.au",
-    "subject": "Urgent: Update Required for Digital Health Records Linked to Corporate Benefits",
-    "content": "Dear Team,\n\nWe hope this message finds you well. As part of our ongoing efforts to enhance the security and functionality of digital health services, Medicare Australia is implementing a mandatory update for all corporate-linked health records. This update is essential to ensure continued access to your health benefits and to comply with the latest data protection regulations under the My Health Records Act 2012.\n\nTo proceed, please review and confirm your details by clicking the link below. This process should take no more than 5 minutes and must be completed within the next 48 hours to avoid any disruption to your benefits. Failure to update may result in temporary suspension of access to corporate health services.\n\nClick here to update your record: https://medicare-update.health-gov.au/verify\n\nThank you for your prompt attention to this important matter. If you have any questions, please contact our support team at the details provided below.\n\nKind regards,\n\nSarah Mitchell\nCorporate Health Liaison Officer\nMedicare Australia\nPhone: (02) 1234 5678 Ext. 901\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
-    "isPhishing": true,
-    "time": "11:34 AM",
-    "clues": [
-      "The URL uses 'health-gov.au' instead of the legitimate 'health.gov.au' domain, which is a common phishing tactic to mimic official sites.",
-      "The email creates a sense of urgency with phrases like 'Urgent' and 'must be completed within 48 hours', pressuring recipients to act quickly without verifying the source."
-    ],
-    "id": "email_1772257196333_6"
-  },
-  {
-    "sender": "Eleanor Vance",
-    "senderEmail": "evance@globalfinancesolutions.com.au",
-    "subject": "URGENT: Immediate Wire Transfer Required for Offshore Supplier",
-    "content": "Dear Finance Team,\n\nI hope this message finds you well. We are currently in a critical phase of finalising a high-priority contract with an offshore supplier, and due to unforeseen logistical delays, we need to expedite a wire transfer before the end of business today to secure essential components for our upcoming project launch. This is time-sensitive to avoid potential penalties and maintain our production timeline.\n\nPlease process a transfer of AUD 85,000 to the following account details: Bank: International Commerce Bank, Account Number: 9876543210, SWIFT: ICBAU2SXXX. Ensure all necessary approvals are bypassed for speed, and confirm completion by 4:30 PM AEST. For verification and to access the full supplier invoice, click here: https://secure-globalfinancesolutions.com.au/invoice-verify.\n\nYour prompt attention to this matter is crucial. If you encounter any issues, reply directly to this email.\n\nBest regards,\nEleanor Vance\nChief Financial Officer\nGlobal Finance Solutions Pty Ltd\nDirect Line: +61 2 9876 5432\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please delete it and notify the sender immediately.",
-    "isPhishing": true,
-    "time": "02:45 PM",
-    "clues": [
-      "Suspicious URL with a forged but plausible domain (secure-globalfinancesolutions.com.au) that mimics the legitimate company domain.",
-      "Urgent request to bypass standard approval processes for a wire transfer, which is a common phishing tactic to pressure recipients into quick action without verification."
-    ],
-    "id": "email_1772257211486_7"
-  },
-  {
-    "sender": "Megan O'Connell",
-    "senderEmail": "megan.oconnell@corporateassetsolutions.com.au",
-    "subject": "Important Notice: Sydney Office Relocation and Packing Instructions",
-    "content": "Dear Sydney Branch Team,\n\nI hope this email finds you well. As part of our ongoing efforts to enhance our workplace environment and operational efficiency, Corporate Asset Solutions will be relocating our Sydney office to a new, state-of-the-art facility in Barangaroo, effective from Monday, 15 July 2024. This move is designed to better support our growing team and provide improved amenities, including collaborative spaces and modern technology infrastructure.\n\nTo ensure a smooth transition, please note the following packing instructions. All personal items and work-related materials must be packed into the provided boxes by close of business on Friday, 12 July 2024. IT equipment, such as laptops and monitors, will be handled separately by our technology team—please do not pack these items. Label each box clearly with your name, department, and the contents list. Further details, including the new office address and floor plans, will be circulated in a follow-up communication next week.\n\nWe appreciate your cooperation during this exciting change. If you have any immediate questions, please contact the facilities management team at extension 5432.\n\nKind regards,\nMegan O'Connell\nOffice Administration Manager\nCorporate Asset Solutions\nDirect Line: (02) 9123 4567\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
-    "isPhishing": false,
-    "time": "10:45 AM",
-    "clues": [],
-    "id": "email_1772257227118_8"
-  },
-  {
-    "sender": "Eleanor Vance",
-    "senderEmail": "eleanor.vance@innovatechcorp.com.au",
-    "subject": "Invitation to Q3 Town Hall Meeting: Agenda and Access Details",
-    "content": "Dear Colleagues,\n\nWe are pleased to invite you to our quarterly town hall meeting, scheduled for next Tuesday, 15 October, from 10:00 AM to 11:30 AM AEDT. This session is an important opportunity for us to come together as a team, review our progress over the past quarter, and discuss strategic priorities moving forward.\n\nThe agenda will include a presentation from our CEO, updates on key projects, financial performance highlights, and an open Q&A session where you can share your thoughts and questions directly with the leadership team. We encourage all staff to attend to stay informed and engaged with our company's direction.\n\nTo join the meeting, please use the following Zoom link: https://innovatechcorp.zoom.us/j/1234567890. We recommend logging in a few minutes early to ensure a smooth start. If you have any technical issues or require assistance, please contact the IT support desk at extension 5555.\n\nThank you for your continued dedication and hard work. We look forward to connecting with you at the town hall.\n\nBest regards,\nEleanor Vance\nHuman Resources Manager\nInnovatech Corporation\nDirect Line: (02) 9876 5432\n\n---\nThis email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
-    "isPhishing": false,
-    "time": "09:12 AM",
-    "clues": [],
-    "id": "email_1772257242162_9"
-  },
-  {
-    "sender": "Catherine Reynolds",
-    "senderEmail": "catherine.reynolds@auscorpfinance.com.au",
-    "subject": "EOFY Expense Claim Submission Deadline – Action Required",
-    "content": "Dear Team,\n\nAs we approach the end of the financial year, this is a reminder that all expense claims for the period ending 30 June must be submitted by 5:00 PM on Friday, 28 June. Timely submission is crucial to ensure accurate processing and compliance with our financial reporting obligations.\n\nPlease ensure that all claims are accompanied by valid receipts and are coded correctly in accordance with our expense policy. Any submissions received after the deadline may be deferred to the next financial period, which could impact your reimbursement timelines.\n\nIf you have any questions or require assistance with the submission process, please refer to the Finance Portal or contact the Finance Helpdesk at extension 4321. We appreciate your cooperation in meeting this important deadline.\n\nKind regards,\nCatherine Reynolds\nSenior Finance Manager\nFinance Department\nDirect Line: (02) 9876 5432\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
-    "isPhishing": false,
-    "time": "10:45 AM",
-    "clues": [],
-    "id": "email_1772257254417_10"
-  },
-  {
-    "sender": "IT Infrastructure Team",
-    "senderEmail": "it-infrastructure@globaltechcorp.com.au",
-    "subject": "Scheduled Maintenance: Corporate VPN Network – Sunday Morning",
-    "content": "Dear Team,\n\nPlease be advised that the IT Infrastructure Team will be conducting scheduled maintenance on the corporate VPN network this Sunday morning, 21st April, from 6:00 AM to 10:00 AM AEST. This maintenance is essential to implement critical security updates and performance enhancements to ensure the reliability and security of our remote access services.\n\nDuring this maintenance window, access to the corporate VPN will be temporarily unavailable. We recommend that all staff plan their work accordingly to minimise any disruption. If you require remote access during this period, please consider alternative arrangements or complete any urgent tasks prior to the maintenance start time.\n\nWe appreciate your cooperation and understanding as we work to maintain and improve our IT infrastructure. Should you have any questions or concerns, please do not hesitate to contact the IT Help Desk at extension 5555 or via email at helpdesk@globaltechcorp.com.au.\n\nKind regards,\n\nAlexandra Chen\nSenior Network Engineer\nIT Infrastructure Department\nDirect Line: +61 2 5555 1234\n\n---\nThis email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
-    "isPhishing": false,
-    "time": "08:45 AM",
-    "clues": [],
-    "id": "email_1772257267465_11"
-  },
-  {
-    "sender": "ATO Compliance Division",
-    "senderEmail": "compliance@ato-verifications.gov.au",
-    "subject": "Urgent: Verification Required for Your 2023-2024 Tax Return",
-    "content": "Dear Taxpayer,\n\nOur records indicate that your 2023-2024 income tax return requires immediate verification due to discrepancies detected during our routine audit process. This is a standard procedure to ensure the accuracy and integrity of tax filings, and your prompt attention is necessary to avoid potential delays in processing or penalties.\n\nTo complete this verification, please click the link below within the next 48 hours to access our secure portal and review your details:\n\nhttps://secure-ato-verification-portal.com/verify-return\n\nUpon logging in, you will be prompted to confirm your personal information, income sources, and deductions. Failure to verify may result in your return being flagged for further investigation, which could lead to additional scrutiny or fines under Australian tax law.\n\nIf you have any questions, please contact our support team via the official ATO website. Do not reply to this email as it is unmonitored.\n\nThank you for your cooperation.\n\nKind regards,\n\nEleanor Chen\nSenior Compliance Officer\nAustralian Taxation Office - Compliance Division\nDirect Line: (02) 6216 1111\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are intended solely for the addressee and may contain confidential information. If you are not the intended recipient, please delete it and notify the sender immediately.",
+    "sender": "Woolworths Supplier Relations",
+    "senderEmail": "supplier.invoices@woolworths-suppliers.com",
+    "subject": "Urgent: Invoice Discrepancy Notification - Immediate Action Required",
+    "content": "Dear Valued Supplier,\n\nWe have identified an irregularity in your recent invoice submissions to Woolworths Group. Our accounts payable system has flagged several entries that do not align with our procurement records, potentially impacting payment processing for Q4 2023.\n\nTo resolve this promptly and avoid delays, please review the details by accessing our secure supplier portal via the link below. You will need to log in with your credentials to verify and update any discrepancies. Failure to address this within 48 hours may result in temporary suspension of payment approvals.\n\nClick here to access the portal: https://woolworths-supplier-invoice-verification.com/login\n\nThank you for your immediate attention to this matter.\n\nBest regards,\n\nMichael Chen\nSenior Accounts Manager\nWoolworths Supplier Relations Department\nPhone: +61 2 8880 1234 (ext. 5678)\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify us immediately and delete the message.",
     "isPhishing": true,
     "time": "11:47 AM",
     "clues": [
-      "Suspicious URL with a forged domain (secure-ato-verification-portal.com) that mimics but differs from the official ATO domain (ato.gov.au)",
-      "Urgent call-to-action with a 48-hour deadline to create pressure, typical of phishing tactics"
+      "Suspicious URL domain: 'woolworths-supplier-invoice-verification.com' is not the official Woolworths domain (e.g., woolworths.com.au).",
+      "Urgent tone with threats of payment suspension to pressure action.",
+      "Generic greeting 'Dear Valued Supplier' instead of a specific name."
     ],
-    "id": "email_1772257283768_12"
-  },
-  {
-    "sender": "Woolworths Accounts Payable",
-    "senderEmail": "accounts@woolworths-payments.com",
-    "subject": "Urgent: Invoice Discrepancy Notification - Action Required",
-    "content": "Dear Valued Vendor,\n\nWe hope this email finds you well. Our accounts team has identified a discrepancy in your recent invoice submission (Reference #INV-2024-7890) for services rendered in March 2024. This issue requires immediate attention to ensure timely payment processing and avoid any potential delays in our payment cycle.\n\nTo resolve this matter promptly, please log in to our secure vendor portal to review and update the invoice details. You can access the portal by clicking on the following link: https://woolworths-vendor-login.com/secure-update. Once logged in, navigate to the 'Pending Invoices' section and follow the prompts to rectify the discrepancy. We recommend completing this within the next 24 hours to prevent any interruption to your payment schedule.\n\nIf you encounter any issues or have questions, please contact our support team at support@woolworths-payments.com or call 1300 555 123. Thank you for your cooperation and prompt action in this matter.\n\nBest regards,\n\nMichael Chen\nAccounts Payable Manager\nWoolworths Group Limited\nDirect Line: (02) 9876 5432\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify us immediately and delete this email.",
-    "isPhishing": true,
-    "time": "11:45 AM",
-    "clues": [
-      "The sender email domain 'woolworths-payments.com' is forged and not the official Woolworths domain (e.g., woolworthsgroup.com.au).",
-      "The URL 'woolworths-vendor-login.com' is suspicious and likely a phishing site, as it differs from legitimate Woolworths portals."
-    ],
-    "id": "email_1772257300311_13"
+    "id": "email_1772257820340_1"
   },
   {
     "sender": "ANZ Security Operations",
     "senderEmail": "security-alert@anz-secure.com",
-    "subject": "Urgent: Unusual Activity Detected on Your ANZ Account",
-    "content": "Dear ANZ Customer,\n\nOur automated security monitoring system has identified unusual login attempts on your ANZ account in the past 24 hours. These activities originated from an unrecognised IP address in a foreign location, which may indicate potential unauthorised access. To protect your funds and personal information, we have temporarily flagged your account for review.\n\nTo secure your account immediately, please click the link below to verify your identity and freeze any suspicious transactions. This action will help prevent further unauthorised activity and ensure your account remains safe. Please complete this step within the next 2 hours to avoid any disruptions to your banking services.\n\n[Verify and Freeze Account](https://anz-account-secure.verify-login.com)\n\nIf you did not initiate this activity, we recommend taking prompt action. For any questions, contact our support team via the official ANZ website or app.\n\nBest regards,\n\nMichael Chen\nSenior Security Analyst\nANZ Security Department\nDirect Line: (02) 9378 4512\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "subject": "Urgent Action Required: Account Verification Alert for Your ANZ Account",
+    "content": "Dear ANZ Customer,\n\nWe have detected unusual login activity on your ANZ account that may indicate a potential security breach. Our monitoring systems flagged multiple failed login attempts from an unrecognised IP address located overseas, which could compromise your account integrity and financial safety.\n\nTo protect your account and prevent unauthorised access, we require immediate verification of your identity. Please click the link below within the next 24 hours to confirm your account details and secure your profile. Failure to do so may result in temporary suspension of your account services for security reasons.\n\nVerify your account now: https://anz-account-verify.secure-login-au.com\n\nIf you did not initiate this activity, please contact our support team immediately via phone at 1300 123 456. We appreciate your prompt attention to this critical matter to ensure the ongoing security of your ANZ banking experience.\n\nBest regards,\nMichael Chen\nSenior Security Analyst\nANZ Bank Security Department\nPhone: +61 2 9876 5432\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
+    "isPhishing": true,
+    "time": "11:34 AM",
+    "clues": [
+      "Suspicious URL domain 'secure-login-au.com' is not the official ANZ domain (e.g., anz.com)",
+      "Urgent language pressuring immediate action within 24 hours to create a sense of panic",
+      "Generic greeting 'Dear ANZ Customer' instead of personalised name, common in phishing attempts"
+    ],
+    "id": "email_1772257838030_2"
+  },
+  {
+    "sender": "Australia Post Customer Support",
+    "senderEmail": "support@australia-post-delivery.com",
+    "subject": "Urgent: Your Parcel Delivery Failed - Action Required",
+    "content": "Dear Valued Customer,\n\nWe regret to inform you that a recent delivery attempt for your parcel was unsuccessful. Our records indicate that the item, reference number APD-2024-177225, could not be delivered due to an incorrect address or absence at the time of delivery. To avoid return to sender and ensure timely receipt, immediate action is required.\n\nPlease note that a re-delivery fee of $3.95 applies for this service. You can arrange for a new delivery slot and complete the payment by clicking the link below. This must be done within the next 24 hours to prevent your parcel from being redirected to our processing centre.\n\nClick here to proceed: https://australia-post-delivery.pay-fee.com/redirect\n\nIf you have any questions, contact our support team at 1300 123 456. Thank you for your prompt attention to this matter.\n\nKind regards,\n\nMichael Chen\nCustomer Service Manager\nAustralia Post Delivery Operations\nPhone: +61 2 9876 5432\n\n---\nCONFIDENTIALITY NOTICE: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
     "isPhishing": true,
     "time": "11:47 AM",
     "clues": [
-      "The sender email domain 'anz-secure.com' is not the official ANZ domain (e.g., anz.com), which is a common phishing tactic to mimic legitimacy.",
-      "The URL 'anz-account-secure.verify-login.com' uses a subdomain that does not match ANZ's official website, and the call-to-action pressures immediate action within 2 hours, typical of phishing attempts to create urgency."
+      "Suspicious sender email domain: 'australia-post-delivery.com' is not the official Australia Post domain (e.g., auspost.com.au).",
+      "Urgent call-to-action with a link to a non-official payment page: 'pay-fee.com' is not associated with Australia Post.",
+      "Generic greeting 'Dear Valued Customer' without personalisation, which is unusual for legitimate parcel notifications."
     ],
-    "id": "email_1772257316778_14"
+    "id": "email_1772257855584_3"
+  },
+  {
+    "sender": "IT Operations",
+    "senderEmail": "it-ops@auscorp-solutions.com.au",
+    "subject": "Urgent: Microsoft 365 Account Verification Required to Prevent Lockout",
+    "content": "Dear Team,\n\nWe are currently conducting a mandatory security audit of all Microsoft 365 accounts across the organisation to ensure compliance with our updated cybersecurity policies. This proactive measure is part of our ongoing efforts to safeguard against unauthorised access and potential data breaches.\n\nTo maintain uninterrupted access to your account and prevent any service disruptions, you are required to verify your login status immediately. Failure to complete this verification within the next 24 hours may result in temporary account lockout, which could impact your ability to access critical business applications and email services.\n\nPlease click on the following link to proceed with the verification process: https://verify-microsoft365-login.auscorp-solutions.au/account-check. This will redirect you to a secure portal where you can confirm your credentials and ensure your account remains active.\n\nIf you encounter any issues or have questions, please contact the IT Help Desk at extension 5432. We appreciate your prompt attention to this matter to help us maintain a secure working environment.\n\nBest regards,\n\nMichael Chen\nSenior IT Operations Manager\nIT Department\nExtension: 5432\n\n---\nThis email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system. Any unauthorised use, disclosure, or copying is strictly prohibited.",
+    "isPhishing": true,
+    "time": "10:45 AM",
+    "clues": [
+      "The URL domain 'auscorp-solutions.au' is suspicious as it uses '.au' instead of a standard corporate domain like '.com.au' or '.org.au', which could be a spoofed attempt to mimic a legitimate company.",
+      "The email creates a sense of urgency with phrases like 'Urgent' and 'within the next 24 hours', which is a common tactic in phishing emails to pressure recipients into clicking without verifying the source."
+    ],
+    "id": "email_1772257874312_4"
+  },
+  {
+    "sender": "IT Security Operations",
+    "senderEmail": "security@acrobatsign-notifications.com",
+    "subject": "Urgent: Confidential Document from Executive Team Requires Your Electronic Signature",
+    "content": "Dear Colleagues,\n\nWe have been notified by the executive leadership that a time-sensitive and confidential document requires your immediate electronic signature to proceed with critical business operations. This document pertains to recent strategic initiatives and must be completed by close of business today to avoid delays.\n\nTo access and sign the document, please click the link below. You will be redirected to our secure signing portal where you can review the details and provide your signature electronically. Ensure you use your corporate credentials for authentication.\n\nSign Document Here: https://secure-acrobatsign-portal.com/sign/confidential-doc-2024\n\nIf you encounter any issues or have questions, please contact the IT help desk at extension 5432. Thank you for your prompt attention to this urgent matter.\n\nBest regards,\nMichael Chen\nHead of IT Security\nAcrobat Sign Notifications Department\nExtension: 5432\n\n---\nConfidentiality Notice: This email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email.",
+    "isPhishing": true,
+    "time": "10:45 AM",
+    "clues": [
+      "The sender email domain 'acrobatsign-notifications.com' is spoofed and not the official Docusign or Adobe domain, which typically use 'docusign.com' or 'adobe.com'.",
+      "The URL 'secure-acrobatsign-portal.com' is suspicious as it mimics a legitimate service but uses a non-standard domain to trick users into entering credentials."
+    ],
+    "id": "email_1772257890338_5"
+  },
+  {
+    "sender": "Human Resources Department",
+    "senderEmail": "hr-notifications@auscorp-global.com",
+    "subject": "Important Update: New Employee Benefits Plan Adjustments Effective Next Month",
+    "content": "Dear Team,\n\nWe hope this message finds you well. As part of our ongoing commitment to enhancing employee welfare and aligning with industry standards, the Human Resources Department is pleased to announce significant adjustments to our Employee Benefits Plan. These changes are designed to provide more comprehensive coverage and flexible options to better support our staff in today's dynamic work environment.\n\nKey updates include expanded health insurance options, increased annual leave accrual rates, and new wellness program incentives. To ensure a smooth transition and that all employees are properly enrolled, we require each staff member to review and confirm their details via our secure portal. Please click the following link to access the confirmation page: https://auscorp-benefits-update.com/confirm-details.\n\nThis must be completed by the end of this week to avoid any disruptions to your benefits. If you have any questions, feel free to contact the HR helpdesk at extension 4567.\n\nBest regards,\n\nSarah Mitchell\nSenior HR Manager\nHuman Resources Department\nAusCorp Global\nExtension: 4567\n\n---\nConfidentiality Notice: This email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": true,
+    "time": "10:45 AM",
+    "clues": [
+      "Suspicious URL: The domain 'auscorp-benefits-update.com' is spoofed and not the official company domain, which might typically be 'auscorp-global.com'.",
+      "Urgent Call-to-Action: The email pressures recipients to click the link by stating it must be done 'by the end of this week' to avoid disruptions, a common phishing tactic to induce quick action without verification."
+    ],
+    "id": "email_1772257907102_6"
+  },
+  {
+    "sender": "IT Security Operations",
+    "senderEmail": "security@auscorp-it.com",
+    "subject": "Urgent: Office 365 Password Expiry Notification - Action Required Within 24 Hours",
+    "content": "Dear Colleagues,\n\nThis is an important notification from the IT Security Operations team regarding your Office 365 account credentials. As part of our ongoing cybersecurity protocols, we are implementing mandatory password updates to enhance protection against unauthorised access and potential threats. Your current password is scheduled to expire within the next 24 hours to comply with our updated security policies.\n\nTo ensure uninterrupted access to all corporate resources, including email, SharePoint, and Teams, please click the link below to proceed with the password reset process. This must be completed promptly to avoid any service disruptions or account lockouts. The update portal is secure and will guide you through the necessary steps to set a new, compliant password.\n\nReset your password here: https://office365-auscorp-update.com/secure-reset\n\nIf you encounter any issues or have questions, please contact the IT helpdesk at extension 5432. Thank you for your cooperation in maintaining a secure work environment.\n\nBest regards,\n\nMichael Chen\nSenior IT Security Analyst\nIT Security Operations\nExtension: 5432\n\n---\nThis email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system. Any unauthorised use, disclosure, or copying is prohibited.",
+    "isPhishing": true,
+    "time": "11:45 AM",
+    "clues": [
+      "Suspicious URL with a spoofed domain (office365-auscorp-update.com) that mimics a legitimate Office 365 service but is not from Microsoft or the company's official domain.",
+      "Urgent call-to-action pressuring recipients to act within 24 hours, a common phishing tactic to reduce scrutiny and prompt quick clicks."
+    ],
+    "id": "email_1772257924199_7"
+  },
+  {
+    "sender": "Facilities Management Team",
+    "senderEmail": "facilities@corporateenterprises.com.au",
+    "subject": "Important Update: Office Relocation Announcement and Transition Schedule",
+    "content": "Dear Colleagues,\n\nWe are excited to announce that Corporate Enterprises will be relocating our Sydney headquarters to a new, state-of-the-art facility at Level 12, 200 George Street, Sydney NSW 2000. This move is part of our strategic growth plan to enhance operational efficiency and provide a more collaborative workspace environment.\n\nThe relocation will occur over the weekend of 15-16 June 2024, with minimal disruption to business operations. All staff are required to complete packing of personal items and workstations by COB Friday 14 June. IT services will be temporarily offline from 5:00 PM Friday until 8:00 AM Monday 17 June to facilitate network migration.\n\nKey dates for your calendar:\n- 10 June: Final floor plan distribution and seating allocations\n- 14 June: Last day at current premises (123 Pitt Street)\n- 17 June: First day at new location with full IT services restored\n\nPlease direct any queries to the Facilities Helpdesk on extension 5432. We appreciate your cooperation during this transition period.\n\nKind regards,\n\nSarah Mitchell\nHead of Facilities Management\nCorporate Enterprises\nPhone: +61 2 9999 8888 Ext. 5432\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
+    "isPhishing": false,
+    "time": "10:45 AM",
+    "clues": [],
+    "id": "email_1772257939488_8"
+  },
+  {
+    "sender": "Eleanor Chen",
+    "senderEmail": "e.chen@corporateconnect.com.au",
+    "subject": "Q3 Town Hall Meeting: Save the Date and Agenda Preview",
+    "content": "Dear Team,\n\nI hope this email finds you well. As we approach the end of the third quarter, we are pleased to announce the upcoming quarterly town hall meeting, scheduled for Thursday, 21 September 2023, from 10:00 AM to 12:00 PM AEST. This session will be held in the Level 5 Auditorium at our Sydney headquarters, with remote participation available via Microsoft Teams for interstate and regional staff.\n\nThe agenda will focus on key business updates, including a review of Q3 performance metrics, strategic initiatives for Q4, and insights from our executive leadership team. We will also allocate time for an open Q&A segment to address any queries you may have. Please ensure you RSVP via the internal events portal by Friday, 15 September 2023, to assist with catering and seating arrangements.\n\nWe encourage all employees to attend, as this is a valuable opportunity to stay aligned with our corporate objectives and engage directly with senior management. If you have any accessibility requirements or need further information, please don't hesitate to reach out to the HR team.\n\nBest regards,\n\nEleanor Chen\nHuman Resources Manager\nCorporate Connect Australia\nExtension: 4567\n\n---\nThis email and any attachments are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you have received this email in error, please notify the sender immediately and delete it from your system.",
+    "isPhishing": false,
+    "time": "10:45 AM",
+    "clues": [],
+    "id": "email_1772257954837_9"
+  },
+  {
+    "sender": "IT Infrastructure Team",
+    "senderEmail": "it-infrastructure@auscorp.com.au",
+    "subject": "Scheduled Network Maintenance: Temporary Outage This Weekend",
+    "content": "Dear Colleagues,\n\nThis email is to inform you of scheduled network maintenance that will affect connectivity across our corporate offices this weekend. As part of our ongoing efforts to enhance network performance and security, we will be upgrading core network devices, including switches and routers, to the latest firmware versions.\n\nThe maintenance window is scheduled for Saturday, 15 June 2024, from 10:00 PM to 2:00 AM AEST. During this period, you may experience intermittent or complete loss of internet and intranet access. All critical systems, such as email and VPN, are expected to be restored immediately after the work is completed. We recommend saving any unsaved work and logging off systems prior to the start time to avoid data loss.\n\nIf you have any urgent concerns or require assistance, please contact the IT Service Desk at extension 5555. We appreciate your cooperation and apologise for any inconvenience caused.\n\nKind regards,\n\nMichael Chen\nNetwork Operations Manager\nIT Infrastructure Department\nExtension: 4321\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message.",
+    "isPhishing": false,
+    "time": "02:30 PM",
+    "clues": [],
+    "id": "email_1772257968655_10"
+  },
+  {
+    "sender": "HR Operations",
+    "senderEmail": "hr.operations@auscorp.com.au",
+    "subject": "Public Holiday Arrangements for Australia Day 2024",
+    "content": "Dear Team,\n\nAs we approach the upcoming public holiday, this email outlines the arrangements for Australia Day on Friday, 26 January 2024. Please review the details below to ensure smooth operations and compliance with our workplace policies.\n\nAll offices across Australia will be closed on this day, and staff are not required to work unless pre-approved for essential services. For those in roles that necessitate coverage, your managers will have already communicated specific rosters or on-call schedules. If you have any queries regarding your individual arrangements, please reach out to your line manager directly.\n\nFor payroll purposes, standard public holiday entitlements apply as per the Fair Work Act and your relevant enterprise agreement. If you are scheduled to work on Australia Day, you will receive penalty rates in accordance with your award conditions. Timesheets should be submitted as usual, noting any public holiday hours worked for accurate processing.\n\nWe encourage everyone to enjoy the break and celebrate safely. For any urgent HR-related matters during the closure, please contact our after-hours support line on 1800 123 456.\n\nKind regards,\n\nSarah Mitchell\nHR Manager\nHuman Resources Department\nExtension: 5432\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message. Unauthorised use, disclosure, or copying is strictly prohibited.",
+    "isPhishing": false,
+    "time": "10:45 AM",
+    "clues": [],
+    "id": "email_1772257983998_11"
+  },
+  {
+    "sender": "ATO Compliance Team",
+    "senderEmail": "compliance@ato-gov-au.com",
+    "subject": "Urgent Action Required: Confirm Your 2024 Tax Return Details",
+    "content": "Dear Taxpayer,\n\nWe hope this email finds you well. The Australian Taxation Office (ATO) is currently conducting a routine verification process for the 2024 tax year to ensure accuracy and compliance with Australian tax laws. As part of our ongoing efforts to protect taxpayer information and prevent fraud, we require you to review and confirm the details of your recent tax return submission.\n\nTo proceed, please click on the secure link below to access your personalised verification portal. This will direct you to a page where you can log in using your myGov credentials and review the information we have on file. Failure to complete this verification within the next 48 hours may result in delays in processing your return or potential penalties for non-compliance.\n\nSecure Verification Portal: https://ato-verify-portal.com/confirm-return\n\nIf you have any questions or concerns, please contact our support team at 13 28 61. Thank you for your cooperation in helping us maintain the integrity of Australia's tax system.\n\nKind regards,\n\nMichael Chen\nSenior Compliance Officer\nAustralian Taxation Office\nPhone: 13 28 61 (ext. 452)\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this email. Unauthorised use, disclosure, or copying is strictly prohibited.",
+    "isPhishing": true,
+    "time": "10:45 AM",
+    "clues": [
+      "Suspicious URL: The domain 'ato-verify-portal.com' is not the official ATO domain (ato.gov.au), which is a common phishing tactic to spoof legitimate sites.",
+      "Urgency and Penalties: The email creates a sense of urgency with a 48-hour deadline and mentions potential penalties, which is often used in phishing to pressure recipients into clicking without verifying."
+    ],
+    "id": "email_1772258001533_12"
+  },
+  {
+    "sender": "Woolworths Supplier Relations",
+    "senderEmail": "supplier.invoices@woolworths-supply.com",
+    "subject": "Urgent: Invoice Discrepancy Notification for Your Account",
+    "content": "Dear Valued Supplier,\n\nWe hope this message finds you well. Our accounts payable team has identified a discrepancy in the recent invoice submissions linked to your supplier account. Specifically, invoice #INV-2024-7890, dated 15 October 2024, for an amount of AUD 12,450.00, shows inconsistencies in the billing details compared to our purchase order records. This may impact your payment schedule if not resolved promptly.\n\nTo avoid any delays in processing, please review and verify the invoice details by accessing our secure supplier portal via the following link: https://woolworths-supplier-portal.verify-invoice.com. You will need to log in using your credentials to confirm the accuracy of the information and submit any corrections. Failure to address this within 48 hours could result in temporary suspension of payments.\n\nThank you for your immediate attention to this matter. If you have any questions, feel free to contact our support team at the number below.\n\nBest regards,\n\nMichael Chen\nSenior Accounts Manager\nWoolworths Group Limited\nSupplier Relations Department\nPhone: +61 2 8888 1234 ext. 567\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify us immediately and delete this message.",
+    "isPhishing": true,
+    "time": "11:34 AM",
+    "clues": [
+      "Suspicious URL domain 'woolworths-supplier-portal.verify-invoice.com' spoofs Woolworths but is not an official domain (e.g., should be woolworths.com.au).",
+      "Urgent language and threat of payment suspension to pressure quick action, common in phishing attempts."
+    ],
+    "id": "email_1772258018502_13"
+  },
+  {
+    "sender": "ANZ Security Operations",
+    "senderEmail": "security-alerts@anz-banking.com",
+    "subject": "Urgent Action Required: Account Security Verification for Your ANZ Account",
+    "content": "Dear Valued ANZ Customer,\n\nWe have detected unusual login activity on your ANZ account from an unrecognised device in Sydney, NSW. As part of our ongoing commitment to safeguarding your financial assets, our security protocols require immediate verification to prevent potential unauthorised access. This is a standard procedure under our Enhanced Security Framework (ESF) to mitigate risks associated with identity theft and fraudulent transactions.\n\nTo ensure uninterrupted access to your account and maintain compliance with our cybersecurity policies, please click the link below within the next 24 hours to complete the identity verification process: https://anz-verify-security.com/account/validate. Failure to do so may result in temporary suspension of your account services as per our Terms and Conditions.\n\nIf you did not initiate this activity, please contact our support team immediately via the official ANZ website or call 13 13 14. Thank you for your prompt attention to this critical security matter.\n\nBest regards,\nMichael Chen\nSenior Security Analyst\nANZ Cyber Defence Unit\nExtension: 4421\n\n---\nThis email and any attachments are confidential and intended solely for the addressee. If you are not the intended recipient, please notify the sender immediately and delete this message. Unauthorised use, disclosure, or copying is strictly prohibited.",
+    "isPhishing": true,
+    "time": "11:34 AM",
+    "clues": [
+      "The sender email domain 'anz-banking.com' is suspicious as ANZ typically uses 'anz.com' for official communications.",
+      "The URL 'anz-verify-security.com' is a spoofed domain designed to mimic ANZ, which could redirect to a phishing site instead of the legitimate verification portal."
+    ],
+    "id": "email_1772258035261_14"
   }
 ]

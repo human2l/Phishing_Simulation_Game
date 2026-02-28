@@ -7,14 +7,16 @@
  * 用法：node scripts/generate-emails.js [数量，默认10]
  */
 
+const OpenAI = require("openai");
 const fs = require("fs");
 const path = require("path");
-// require("dotenv").config({ path: path.resolve(__dirname, "../.env.local") });
+require("dotenv").config({ path: path.resolve(__dirname, "../.env.local") });
 
-const TOTAL = parseInt(process.argv[2] || "10", 10);
-const LANG_INDEX = process.argv.indexOf("--lang");
-const LANG = LANG_INDEX > -1 && process.argv[LANG_INDEX + 1] ? process.argv[LANG_INDEX + 1].toLowerCase() : "zh";
-
+// 匹配不是路径、且不是 -- 打头的参数作为生成数量
+const numArg = process.argv.slice(2).find(arg => /^\d+$/.test(arg));
+const TOTAL = numArg ? parseInt(numArg, 10) : 10;
+const langIndex = process.argv.indexOf("--lang");
+const LANG = langIndex !== -1 ? process.argv[langIndex + 1] : "zh";
 const OUTPUT_PATH = path.resolve(__dirname, `../src/data/email-pool${LANG === "en" ? "-en" : ""}.json`);
 
 // ─── 场景微切入点列表（强制多样性） ──────────────────────────────────────────
@@ -38,18 +40,18 @@ const SCENARIO_SEEDS_ZH = [
 ];
 
 const SCENARIO_SEEDS_EN = [
-  { id: 1, type: "phishing", hint: "Impersonate ATO (Australian Taxation Office): Urgent verification of tax return details via a suspicious link." },
-  { id: 2, type: "phishing", hint: "Fake Woolworths/Coles vendor portal: Notification of an invoice discrepancy requiring immediate login to resolve." },
-  { id: 3, type: "phishing", hint: "Impersonate ANZ/Commonwealth Bank: Security alert regarding abnormal account activity, asking the user to freeze their account via a link." },
-  { id: 4, type: "phishing", hint: "Fake Australia Post: Failed parcel delivery notification for a corporate package, click to reschedule." },
-  { id: 5, type: "phishing", hint: "Impersonate IT Helpdesk: Urgent Microsoft 365 password expiry notification requiring immediate reset." },
-  { id: 6, type: "phishing", hint: "Fake HR Department: Discrepancy in superannuation (Super) fund contributions, click to review and update details." },
-  { id: 7, type: "phishing", hint: "Impersonate Medicare Australia: Update required for digital health records linked to corporate benefits." },
-  { id: 8, type: "phishing", hint: "Fake CEO/CFO urgent request: Requesting an expedited wire transfer to an offshore supplier before end of business day." },
-  { id: 9, type: "normal", hint: "Normal Office Admin: Notice about upcoming office relocation and packing instructions for the Sydney branch." },
-  { id: 10, type: "normal", hint: "Normal HR: Invitation to the quarterly town hall meeting, including agenda and Zoom link." },
-  { id: 11, type: "normal", hint: "Normal Finance: End of financial year (EOFY) expense claim submission deadline." },
-  { id: 12, type: "normal", hint: "Normal IT: Scheduled maintenance for the corporate VPN network this Sunday morning." }
+  { id: 1, type: "phishing", hint: "冒充 ATO (Australian Taxation Office) 要求确认 tax return 信息" },
+  { id: 2, type: "phishing", hint: "伪造 Woolworths/Coles 供应商发票异常通知" },
+  { id: 3, type: "phishing", hint: "假冒 ANZ/Commonwealth Bank 账户安全告警，要求点击链接验证身份" },
+  { id: 4, type: "phishing", hint: "伪造 Australia Post 包裹投递失败通知，要求点击链接支付重新投递费用" },
+  { id: 5, type: "phishing", hint: "冒充 IT 运维，要求通过链接验证 Microsoft 365 登录态以防账户锁定" },
+  { id: 6, type: "phishing", hint: "伪造 Docusign/Acrobat Sign，提示有一份来自高管的紧急机密文件需要电子签名" },
+  { id: 7, type: "phishing", hint: "伪造 HR，通知关于公司新的 Employee Benefits Plan 调整，要求点击链接确认" },
+  { id: 8, type: "phishing", hint: "骗取 Office 365 凭证：声称密码即将过期，要求在 24 小时内更新密码" },
+  { id: 9, type: "normal", hint: "正常公司内部通知：Office relocation announcement，新办公室的地址和搬迁日程安排" },
+  { id: 10, type: "normal", hint: "正常 HR 通知：Upcoming quarterly town hall meeting 的时间、地点和议程" },
+  { id: 11, type: "normal", hint: "正常 IT 通知：关于周末网络设备升级导致的短暂断网提前通知" },
+  { id: 12, type: "normal", hint: "正常行政通知：Public holiday (例如 Australia Day 或 Easter) 的放假安排" },
 ];
 
 const SCENARIO_SEEDS = LANG === "en" ? SCENARIO_SEEDS_EN : SCENARIO_SEEDS_ZH;
@@ -82,28 +84,28 @@ const SYSTEM_PROMPT_ZH = `你是一个高度专业且富有创意的企业级网
 }`;
 
 const SYSTEM_PROMPT_EN = `You are a highly professional and creative enterprise-level cybersecurity attack and defense training engine.
-Your task is to generate an extremely realistic workplace email based on the specific scenario provided.
+Your task is to generate an extremely realistic workplace email based on the specific scenario I provide.
 
-【Generation Specifications】
-1. The email body must be between 150 and 300 words.
-2. Language style: Standard Australian business English (Australian English spelling and tone), industry jargon, highly professional and incredibly realistic.
-3. Key Elements:
-   - Professional salutation ("Dear Team", "Hi everyone", "To all staff", etc., varied each time)
-   - Detailed and plausible background context with multi-paragraph discourse
-   - If it is a phishing email, it MUST embed a suspicious URL with a Call-To-Action (domain must be forged but plausible)
-   - Professional email signature (realistic name, job title, department, direct line/extension)
-   - Corporate Confidentiality Footer
-4. The sender's name, email domain, subject line wording, sign-off name, and job title MUST be completely different for every email.
+[Generation Guidelines]
+1. The email body must be between 150 - 300 words.
+2. Language style: Use pure Australian business English, industry jargon, and an extremely professional and realistic tone.
+3. Key elements:
+   - Professional greeting (e.g., "Dear Team", "Hi everyone", "To all staff", vary it each time).
+   - Detailed and plausible background explanation with multi-paragraph discussion.
+   - If it's a phishing email, it MUST embed a suspicious URL with a Call-To-Action (domain must be spoofed but look plausible).
+   - Professional email signature (realistic name, title, department, extension number).
+   - English corporate compliance disclaimer (Confidentiality Footer).
+4. For each email, the sender name, email domain, subject phrasing, sign-off name, and title must be completely different.
 
-【JSON Schema】Strictly output the following JSON object, and absolutely nothing else:
+[JSON Schema] Strictly output the following JSON object, without any other text. Return ONLY valid JSON:
 {
   "sender": "Display Name",
   "senderEmail": "Email Address",
   "subject": "Email Subject",
-  "content": "Email body (including \\n for line breaks)",
+  "content": "Email Body (with \\n for line breaks)",
   "isPhishing": true/false,
   "time": "e.g. 09:12 AM",
-  "clues": ["Clue 1", "Clue 2"] // Return an empty array if isPhishing is false
+  "clues": ["clue 1", "clue 2"] // return empty array if isPhishing=false
 }`;
 
 const SYSTEM_PROMPT = LANG === "en" ? SYSTEM_PROMPT_EN : SYSTEM_PROMPT_ZH;
@@ -117,7 +119,10 @@ async function main() {
     process.exit(1);
   }
 
-  // Removed open ai instance
+  const openai = new OpenAI({
+    baseURL: "https://api.deepseek.com",
+    apiKey,
+  });
 
   // 从场景池中选取，循环使用确保覆盖
   const selectedScenarios = [];
@@ -134,34 +139,26 @@ async function main() {
     console.log(`\n[${i + 1}/${TOTAL}] ${label} | 场景: ${scenario.hint.substring(0, 40)}...`);
 
     try {
-      const response = await fetch("https://api.deepseek.com/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
-        },
-        body: JSON.stringify({
-          model: "deepseek-chat",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            {
-              role: "user",
-              content: LANG === "en" ? `Please generate an email based on the following scenario, strictly outputting in JSON format.
+      const response = await openai.chat.completions.create({
+        model: "deepseek-chat",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          {
+            role: "user",
+            content: LANG === "en" ? `Please generate an email based on the following scenario, strictly output as JSON formats.
 Scenario: ${scenario.hint}
-Email Type: ${scenario.type === "phishing" ? "Phishing Email (isPhishing=true)" : "Normal Email (isPhishing=false)"}
+Email Type: ${scenario.type === "phishing" ? "Phishing (isPhishing=true)" : "Normal (isPhishing=false)"}
 Random Seed: ${Date.now()}_${Math.random()}` : `请基于以下场景生成一封邮件，严格按 JSON 格式输出。
 场景：${scenario.hint}
 邮件类型：${scenario.type === "phishing" ? "钓鱼邮件 (isPhishing=true)" : "正常邮件 (isPhishing=false)"}
 随机种子：${Date.now()}_${Math.random()}`
-            }
-          ],
-          temperature: 1.0,
-          response_format: { type: "json_object" }
-        })
+          },
+        ],
+        temperature: 1.0,
+        response_format: { type: "json_object" },
       });
 
-      const responseData = await response.json();
-      const rawText = responseData.choices[0]?.message?.content?.trim() || "{}";
+      const rawText = response.choices[0]?.message?.content?.trim() || "{}";
       const parsed = JSON.parse(rawText);
 
       // Schema validation

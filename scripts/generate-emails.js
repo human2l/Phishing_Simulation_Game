@@ -139,11 +139,27 @@ async function main() {
     }
   }
 
-  // 写入 JSON
+  // 读取已有题库并合并（追加模式，不覆盖）
   fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(results, null, 2), "utf-8");
+  let existing = [];
+  if (fs.existsSync(OUTPUT_PATH)) {
+    try {
+      existing = JSON.parse(fs.readFileSync(OUTPUT_PATH, "utf-8"));
+      if (!Array.isArray(existing)) existing = [];
+    } catch {
+      existing = [];
+    }
+  }
+
+  // 按 id 去重后合并
+  const existingIds = new Set(existing.map((e) => e.id));
+  const newEmails = results.filter((r) => !existingIds.has(r.id));
+  const merged = [...existing, ...newEmails];
+
+  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(merged, null, 2), "utf-8");
   console.log(`\n========================================`);
-  console.log(`🎯 题库生成完毕！成功 ${successCount}/${TOTAL} 封`);
+  console.log(`🎯 题库生成完毕！本次新增 ${newEmails.length} 封（成功生成 ${successCount}/${TOTAL}）`);
+  console.log(`📦 题库总量：${merged.length} 封`);
   console.log(`📦 输出文件: ${OUTPUT_PATH}`);
   console.log(`========================================\n`);
 }

@@ -60,6 +60,9 @@ export function OnboardingJoyride() {
     <Joyride
       callback={handleJoyrideCallback}
       continuous
+      disableOverlayClose
+      disableCloseOnEsc
+      spotlightClicks={false}
       hideCloseButton
       run={run}
       scrollToFirstStep

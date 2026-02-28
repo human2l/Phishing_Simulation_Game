@@ -1,12 +1,13 @@
 'use client';
 
 import { EmailContent } from '@/components/EmailContent';
+import { getHighlightsFromClues, HighlightedText } from '@/components/HighlightText';
 import ResultModal from '@/components/ResultModal';
 import { GeneratedEmail } from '@/lib/ai';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AlertOctagon, ArrowRight, CheckCircle2, CornerUpLeft, FileText, Inbox, Loader2, Mail, MoreHorizontal, Send, ShieldCheck, Siren, Trash2 } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export interface CardData extends GeneratedEmail {
   id: string;
@@ -141,6 +142,13 @@ export default function MailClient() {
   );
 
   const selectedMail = cards.find((c) => c.id === selectedId);
+
+  const showClues = !!selectedMail?.evaluated && selectedMail?.isPhishing;
+  const combinedText = selectedMail ? `${selectedMail.subject} ${selectedMail.senderEmail} ${selectedMail.sender} ${selectedMail.content}` : '';
+  const highlightTerms = useMemo(() => {
+    if (!showClues || !selectedMail?.clues) return [];
+    return getHighlightsFromClues(combinedText, selectedMail.clues);
+  }, [showClues, combinedText, selectedMail?.clues]);
 
   return (
     <div className="flex h-screen w-full bg-[#F3F4F6] text-[#1F2937] font-sans overflow-hidden">
@@ -320,7 +328,9 @@ export default function MailClient() {
 
             {/* Email Header */}
             <div className="px-10 py-8 border-b border-[#F3F4F6] flex-shrink-0">
-               <h2 className="text-2xl font-bold text-[#111827] mb-6 tracking-tight leading-tight">{selectedMail.subject}</h2>
+               <h2 className="text-2xl font-bold text-[#111827] mb-6 tracking-tight leading-tight">
+                 <HighlightedText text={selectedMail.subject} terms={highlightTerms} />
+               </h2>
                <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                      <div className="w-12 h-12 bg-[#E0E7FF] text-[#4F46E5] rounded-full flex items-center justify-center text-xl font-bold border border-[#C7D2FE]">
@@ -328,8 +338,8 @@ export default function MailClient() {
                      </div>
                      <div>
                        <div className="font-bold text-[#111827] text-[15px] flex items-center gap-2">
-                         {selectedMail.sender}
-                         <span className="text-[#6B7280] font-normal text-sm">&lt;{selectedMail.senderEmail}&gt;</span>
+                         <HighlightedText text={selectedMail.sender} terms={highlightTerms} />
+                         <span className="text-[#6B7280] font-normal text-sm">&lt;<HighlightedText text={selectedMail.senderEmail} terms={highlightTerms} />&gt;</span>
                        </div>
                        <div className="text-sm text-[#6B7280] mt-0.5 font-medium">
                          To: employee@company.com
@@ -346,7 +356,8 @@ export default function MailClient() {
                  <EmailContent
                    content={selectedMail.content}
                    clues={selectedMail.clues || []}
-                   showClues={!!selectedMail.evaluated && selectedMail.isPhishing}
+                   showClues={showClues}
+                   highlightTerms={highlightTerms}
                  />
                </div>
             </div>

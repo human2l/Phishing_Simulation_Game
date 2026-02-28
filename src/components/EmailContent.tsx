@@ -1,62 +1,57 @@
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Search } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { AlertTriangle } from 'lucide-react';
+import { HighlightedText } from './HighlightText';
 
 interface EmailContentProps {
   content: string;
   clues: string[];
   showClues: boolean;
+  highlightTerms: string[];
 }
 
-export function EmailContent({ content, clues, showClues }: EmailContentProps) {
-  // If we don't need to show clues, just render the content normally
-  if (!showClues || clues.length === 0) {
-    return (
-      <div className="text-[15px] leading-relaxed text-[#374151] whitespace-pre-wrap font-medium">
-        {content}
-      </div>
-    );
-  }
-
+export function EmailContent({ content, clues, showClues, highlightTerms }: EmailContentProps) {
   return (
-    <div className="relative">
-      <div className={cn(
-        "text-[15px] leading-relaxed text-[#374151] whitespace-pre-wrap font-medium transition-all duration-500",
-        showClues ? "opacity-40" : "opacity-100"
-      )}>
-        {content}
+    <div className="flex flex-col gap-10 pb-8">
+      {/* Original Content with Highlights */}
+      <div className="text-[15px] leading-relaxed text-[#374151] whitespace-pre-wrap font-medium">
+        {showClues ? (
+          <HighlightedText text={content} terms={highlightTerms} />
+        ) : (
+          content
+        )}
       </div>
 
+      {/* Clues Section Appended Below (Does not block original content) */}
       <AnimatePresence>
-        {showClues && (
+        {showClues && clues.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25, staggerChildren: 0.1 }}
-            className="absolute top-0 left-0 w-full h-full flex flex-col gap-3 pointer-events-none"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="border-t-2 border-dashed border-red-200 pt-6 mt-2"
           >
-            {clues.map((clue, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.15 + 0.2 }}
-                className="bg-white/95 backdrop-blur-sm border-2 border-red-500/30 shadow-xl rounded-xl p-4 flex gap-3 pointer-events-auto transform transition-transform hover:-translate-y-1 hover:shadow-2xl hover:border-red-500/50"
-              >
-                  <div className="mt-0.5 bg-red-100/50 p-1.5 rounded-lg h-fit">
-                     <Search className="w-4 h-4 text-red-600" />
+            <div className="flex items-center gap-2 text-red-700 font-bold text-[17px] mb-5">
+              <AlertTriangle size={20} />
+              <h2>Phishing Clues Analysis</h2>
+            </div>
+            <div className="space-y-3">
+              {clues.map((clue, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-red-50/80 border border-red-100 rounded-lg p-4 flex gap-3 text-[14px] text-red-900 shadow-sm"
+                >
+                  <div className="bg-red-100/80 border border-red-200 text-red-600 rounded-full w-[22px] h-[22px] flex items-center justify-center flex-shrink-0 font-bold text-xs mt-[2px]">
+                    {index + 1}
                   </div>
-                  <div>
-                    <div className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                       <span>Clue #{index + 1}</span>
-                    </div>
-                    <div className="text-sm font-semibold text-gray-800 leading-snug">
-                       {clue}
-                    </div>
+                  <div className="leading-relaxed font-medium">
+                    <HighlightedText text={clue} terms={highlightTerms} />
                   </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

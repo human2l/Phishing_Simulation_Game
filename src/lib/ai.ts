@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import OpenAI from "openai";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -53,52 +53,41 @@ JSON schema 如下：
   "time": "string - 例如 '刚刚' / '上午 10:32' / '昨天 17:05'",
   "clues": "string[] - 当 isPhishing=true 时，列出 2-4 条具体破绽（域名异常/制造紧迫感/诱导点击等）；isPhishing=false 时返回空数组 []"
 }
-
-重要：只输出 JSON，不要有任何其他内容。`;
+`;
 
 // ─── Main generator ───────────────────────────────────────────────────────────
 
-// 按优先级尝试的模型列表，以规避单个模型的 Free Tier Rate Limit
-const FALLBACK_MODELS = [
-  "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
-  "gemini-1.5-flash",
-  "gemini-1.5-flash-8b"
-];
-
-// Helper: 简单的休眠函数
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 export async function generatePhishingEmail(): Promise<GeneratedEmail> {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.DEEPSEEK_API_KEY;
 
   if (!apiKey) {
-    console.error("[ai.ts] GEMINI_API_KEY is not set. Returning fallback.");
+    console.error("[ai.ts] DEEPSEEK_API_KEY is not set. Returning fallback.");
     return FALLBACK_EMAIL;
   }
 
-  const genAI = new GoogleGenerativeAI(apiKey);
+  const openai = new OpenAI({
+    baseURL: 'https://api.deepseek.com',
+    apiKey: apiKey
+  });
 
-  // 外层：遍历模型列表进行尝试
-  for (const modelName of FALLBACK_MODELS) {
-    try {
-      console.log(`[ai.ts] Trying model: ${modelName} ...`);
-      const model = genAI.getGenerativeModel({ model: modelName });
+  try {
+    console.log("[ai.ts] Generating email using DeepSeek API (deepseek-chat)...");
+    
+    const response = await openai.chat.completions.create({
+      model: "deepseek-chat",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: "请随机生成一封符合要求的邮件，并严格按照指定JSON格式输出。" }
+      ],
+      response_format: { type: 'json_object' }
+    });
 
-      // 尝试调用 API
-      const result = await model.generateContent(SYSTEM_PROMPT);
-      const rawText = result.response.text().trim();
+    const rawText = response.choices[0]?.message?.content?.trim() || "{}";
 
-      // Strip possible markdown code fences if LLM wraps in ```json ... ```
-      const jsonText = rawText
-        .replace(/^```(?:json)?\s*/i, "")
-        .replace(/\s*```$/, "")
-        .trim();
+    const parsed = JSON.parse(rawText) as GeneratedEmail;
 
-      const parsed = JSON.parse(jsonText) as GeneratedEmail;
-
-      // Basic schema validation
-      if (
+    // Basic schema validation
+    if (
         typeof parsed.sender !== "string" ||
         typeof parsed.senderEmail !== "string" ||
         typeof parsed.subject !== "string" ||
@@ -106,27 +95,15 @@ export async function generatePhishingEmail(): Promise<GeneratedEmail> {
         typeof parsed.isPhishing !== "boolean" ||
         typeof parsed.time !== "string" ||
         !Array.isArray(parsed.clues)
-      ) {
-        throw new Error("LLM response failed schema validation");
-      }
-
-      console.log(`[ai.ts] Successfully generated email using ${modelName}`);
-      return parsed;
-
-    } catch (err: any) {
-      console.warn(`[ai.ts] Failed with model ${modelName}:`, err?.message || err);
-      
-      // 如果是 429 报错，我们尝试短暂等待后换下一个模型
-      // Gemini的429可能是单个模型/项目的配额限制，尝试其他模型可能会成功
-      if (err?.message?.includes("429") || err?.status === 429) {
-        console.log(`[ai.ts] Rate limit hit for ${modelName}, waiting before trying next model...`);
-        await sleep(1000); // 避免并发请求过于猛烈
-      }
-      // 继续循环尝试下一个模型
+    ) {
+      throw new Error("LLM response failed schema validation");
     }
-  }
 
-  // 如果所有模型都失败了，抛出终极异常或返回 Fallback
-  console.error("[ai.ts] All Gemini models exhausted or failed. Using hardcoded fallback.");
-  return FALLBACK_EMAIL;
+    console.log("[ai.ts] Successfully generated email using deepseek-chat");
+    return parsed;
+
+  } catch (err: any) {
+    console.error("[ai.ts] Failed to generate email with DeepSeek:", err?.message || err);
+    return FALLBACK_EMAIL;
+  }
 }

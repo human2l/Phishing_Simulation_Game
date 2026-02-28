@@ -338,14 +338,14 @@ export default function MailClient() {
             {/* Toolbar */}
             <div className="h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB] bg-transparent flex-shrink-0">
               <div className="flex gap-2">
-                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-pointer" title="Reply">
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-default" title="Reply (Disabled)">
                     <CornerUpLeft size={18} />
                  </button>
-                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-pointer" title="Delete">
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-default" title="Delete (Disabled)">
                     <Trash2 size={18} />
                  </button>
                  <div className="w-px h-6 bg-[#E5E7EB] my-auto mx-1"></div>
-                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-pointer" title="More actions">
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-default" title="More actions (Disabled)">
                     <MoreHorizontal size={18} />
                  </button>
               </div>

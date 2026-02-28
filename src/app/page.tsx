@@ -66,15 +66,7 @@ export default function MailClient() {
     }
   }, [cards, selectedId]);
 
-  const addCard = useCallback(() => {
-    setCards((prev) => {
-      if (prev.length >= MAX_PRELOAD || emailQueue.current.length === 0) return prev;
-      
-      const nextEmail = emailQueue.current.shift()!;
-      totalFetched.current += 1;
-      return [...prev, { ...nextEmail, id: `mail-${++cardCounter.current}` }];
-    });
-  }, []);
+
 
   useEffect(() => {
     if (hasBooted.current) return;
@@ -152,18 +144,32 @@ export default function MailClient() {
 
   const handleNext = useCallback(
     (cardId: string) => {
+      // 1. Pop from queue safely OUTSIDE of the React state updater (fixes StrictMode double-shift bug)
+      let newCard: CardData | null = null;
+      if (emailQueue.current.length > 0) {
+        const nextEmail = emailQueue.current.shift()!;
+        totalFetched.current += 1;
+        newCard = { ...nextEmail, id: `mail-${++cardCounter.current}` };
+      }
+
+      // 2. Update state purely
       setCards((prev) => {
         const newCards = prev.filter(c => c.id !== cardId);
-        // If no more cards are left and we've fetched the max amount, End Game!
+        
+        if (newCard) {
+          newCards.push(newCard);
+        }
+        
+        // If no more cards are left and queue is empty, End Game!
         if (newCards.length === 0 && emailQueue.current.length === 0) {
            setIsGameOver(true);
         }
         return newCards;
       });
-      addCard();
+
       closeModal();
     },
-    [addCard, closeModal]
+    [closeModal]
   );
   
   const handleRestart = () => {

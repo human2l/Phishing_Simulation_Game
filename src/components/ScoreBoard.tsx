@@ -42,9 +42,9 @@ export function ScoreBoard({ score, totalAnswered, maxQuestions }: ScoreBoardPro
               <span className="text-sm font-bold text-[#6B7280]">/ {maxQuestions * 10}</span>
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-right flex-shrink-0">
              <div className="text-[10px] uppercase font-bold text-[#6B7280] mb-1">Progress</div>
-             <div className="bg-[#374151] text-white text-xs font-bold px-2.5 py-1 rounded-md">
+             <div className="bg-[#374151] text-white text-xs font-bold px-2.5 py-1 rounded-md whitespace-nowrap inline-block">
                {totalAnswered} / {maxQuestions}
              </div>
           </div>

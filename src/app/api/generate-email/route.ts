@@ -3,16 +3,13 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-// Track used email indices (process-level memory, resets on dev server restart)
-const usedIndices = new Set<number>();
-
 export async function GET() {
   try {
     const pool = emailPool as Array<Record<string, unknown>>;
 
     if (!pool || pool.length === 0) {
       return NextResponse.json(
-        {
+        [{
           sender: "System",
           senderEmail: "noreply@company.com",
           subject: "Loading Failed",
@@ -20,27 +17,20 @@ export async function GET() {
           isPhishing: false,
           time: "Just now",
           clues: [],
-        },
+        }],
         { status: 200 }
       );
     }
 
-    // If all emails have been used, reset the pool
-    if (usedIndices.size >= pool.length) {
-      usedIndices.clear();
+    // Fisher-Yates Shuffle
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    // Pick a random email from the unused pool
-    const availableIndices = pool
-      .map((_, i) => i)
-      .filter((i) => !usedIndices.has(i));
-
-    const randomIdx =
-      availableIndices[Math.floor(Math.random() * availableIndices.length)];
-
-    usedIndices.add(randomIdx);
-
-    const email = { ...pool[randomIdx] };
+    // Extract exactly 10 unique emails (or fewer if pool is smaller)
+    const selected = shuffled.slice(0, 10);
 
     // Generate dynamic timestamps so each email appears "just arrived"
     const hours = [
@@ -55,15 +45,21 @@ export async function GET() {
       "PM", "PM", "PM", "PM", "PM",
       "PM", "PM", "PM",
     ];
-    const timeIdx = Math.floor(Math.random() * hours.length);
-    email.time = `${hours[timeIdx]} ${prefixes[timeIdx]}`;
 
-    return NextResponse.json(email);
+    const result = selected.map(email => {
+      const timeIdx = Math.floor(Math.random() * hours.length);
+      return {
+        ...email,
+        time: `${hours[timeIdx]} ${prefixes[timeIdx]}`
+      };
+    });
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error("[/api/generate-email] Error:", error);
 
     return NextResponse.json(
-      {
+      [{
         sender: "System Notification",
         senderEmail: "noreply@company.com",
         subject: "Loading failed — please try again",
@@ -71,7 +67,7 @@ export async function GET() {
         isPhishing: false,
         time: "Just now",
         clues: [],
-      },
+      }],
       { status: 200 }
     );
   }

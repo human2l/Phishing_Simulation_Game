@@ -27,7 +27,7 @@ interface ModalState {
   clues: string[];
 }
 
-async function fetchEmail(): Promise<GeneratedEmail> {
+async function fetchEmailPool(): Promise<GeneratedEmail[]> {
   const res = await fetch('/api/generate-email');
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
@@ -52,6 +52,7 @@ export default function MailClient() {
   const autoCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const totalFetched = useRef(0);
   const cardCounter = useRef(0);
+  const emailQueue = useRef<GeneratedEmail[]>([]);
 
   const totalScore = (score.tp + score.tn) * POINTS_PER_QUESTION;
 
@@ -64,40 +65,32 @@ export default function MailClient() {
     }
   }, [cards, selectedId]);
 
-  const addCard = useCallback(async () => {
-    if (totalFetched.current >= MAX_QUESTIONS) return;
-    
-    setIsFetching(true);
-    try {
-      const email = await fetchEmail();
-      const id = `mail-${++cardCounter.current}`;
+  const addCard = useCallback(() => {
+    setCards((prev) => {
+      if (prev.length >= MAX_PRELOAD || emailQueue.current.length === 0) return prev;
+      
+      const nextEmail = emailQueue.current.shift()!;
       totalFetched.current += 1;
-      setCards((prev) => {
-        if (prev.length >= MAX_PRELOAD) return prev;
-        return [...prev, { ...email, id }];
-      });
-    } catch (err) {
-      console.error('[page.tsx] Failed to fetch email:', err);
-    } finally {
-      setIsFetching(false);
-    }
+      return [...prev, { ...nextEmail, id: `mail-${++cardCounter.current}` }];
+    });
   }, []);
 
   useEffect(() => {
     const boot = async () => {
       setIsLoading(true);
       try {
-        const results = await Promise.allSettled([
-          fetchEmail(), fetchEmail(), fetchEmail(), fetchEmail()
-        ]);
+        const emails = await fetchEmailPool();
+        emailQueue.current = [...emails];
         const initial: CardData[] = [];
-        results.forEach((r) => {
-          if (r.status === 'fulfilled' && totalFetched.current < MAX_QUESTIONS) {
-            initial.push({ ...r.value, id: `mail-${++cardCounter.current}` });
-            totalFetched.current += 1;
-          }
-        });
+        
+        for (let i = 0; i < MAX_PRELOAD && emailQueue.current.length > 0; i++) {
+          const e = emailQueue.current.shift()!;
+          initial.push({ ...e, id: `mail-${++cardCounter.current}` });
+          totalFetched.current += 1;
+        }
         setCards(initial);
+      } catch (err) {
+        console.error('[page.tsx] Failed to boot emails:', err);
       } finally {
         setIsLoading(false);
       }
@@ -153,7 +146,7 @@ export default function MailClient() {
       setCards((prev) => {
         const newCards = prev.filter(c => c.id !== cardId);
         // If no more cards are left and we've fetched the max amount, End Game!
-        if (newCards.length === 0 && totalFetched.current >= MAX_QUESTIONS) {
+        if (newCards.length === 0 && emailQueue.current.length === 0) {
            setIsGameOver(true);
         }
         return newCards;
@@ -171,17 +164,18 @@ export default function MailClient() {
     setSelectedId(null);
     cardCounter.current = 0;
     totalFetched.current = 0;
+    emailQueue.current = [];
     
     // Boot up again
     setIsLoading(true);
-    Promise.allSettled([fetchEmail(), fetchEmail(), fetchEmail(), fetchEmail()]).then(results => {
+    fetchEmailPool().then(emails => {
+      emailQueue.current = [...emails];
       const initial: CardData[] = [];
-      results.forEach((r) => {
-        if (r.status === 'fulfilled' && totalFetched.current < MAX_QUESTIONS) {
-          initial.push({ ...r.value, id: `mail-${++cardCounter.current}` });
-          totalFetched.current += 1;
-        }
-      });
+      for (let i = 0; i < MAX_PRELOAD && emailQueue.current.length > 0; i++) {
+        const e = emailQueue.current.shift()!;
+        initial.push({ ...e, id: `mail-${++cardCounter.current}` });
+        totalFetched.current += 1;
+      }
       setCards(initial);
       setIsLoading(false);
     });
@@ -190,7 +184,7 @@ export default function MailClient() {
   const selectedMail = cards.find((c) => c.id === selectedId);
 
   const showClues = !!selectedMail?.evaluated && selectedMail?.isPhishing;
-  const combinedText = selectedMail ? `${selectedMail.subject} ${selectedMail.senderEmail} ${selectedMail.sender} ${selectedMail.content}` : '';
+  const combinedText = selectedMail ? `${selectedMail.subject || ''} ${selectedMail.senderEmail || ''} ${selectedMail.sender || ''} ${selectedMail.content || ''}` : '';
   const highlightTerms = useMemo(() => {
     if (!showClues || !selectedMail?.clues) return [];
     return getHighlightsFromClues(combinedText, selectedMail.clues);
@@ -238,12 +232,33 @@ export default function MailClient() {
         {/* Scoring / Lab Branding at bottom */}
         <div className="p-4 border-t border-[#374151]">
           <div className="bg-[#1F2937] p-4 rounded-xl">
-            <div className="mt-4 pt-4 border-t border-[#374151]">
+            <div className="mb-4">
               <ScoreBoard 
                 score={totalScore} 
                 totalAnswered={score.total} 
                 maxQuestions={MAX_QUESTIONS} 
               />
+            </div>
+            
+            {/* Restored legacy 4-box scorecard stats */}
+            <div className="text-xs font-bold text-[#9CA3AF] uppercase mb-3">Detailed Stats</div>
+            <div className="grid grid-cols-2 gap-2 text-xs text-center font-bold">
+              <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">Intercepted (TP)</span> 
+                <span className="text-base">{score.tp}</span>
+              </div>
+              <div className="bg-[#064E3B]/40 border border-[#064E3B] text-[#34D399] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">Cleared (TN)</span> 
+                <span className="text-base">{score.tn}</span>
+              </div>
+              <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">False Alert (FP)</span> 
+                <span className="text-base">{score.fp}</span>
+              </div>
+              <div className="bg-[#7F1D1D]/40 border border-[#7F1D1D] text-[#FCA5A5] py-1.5 rounded-md flex flex-col items-center">
+                <span className="opacity-70 text-[10px] mb-0.5">Missed (FN)</span> 
+                <span className="text-base">{score.fn}</span>
+              </div>
             </div>
           </div>
           <div className="mt-4 flex flex-col items-center justify-center gap-1 opacity-40">
@@ -291,11 +306,11 @@ export default function MailClient() {
                     )}
                   >
                     <div className="flex justify-between items-baseline mb-1 w-full overflow-hidden">
-                      <span className={cn("font-bold text-sm truncate pr-2 max-w-[70%]", selectedId === card.id ? "text-[#1E40AF]" : "text-[#1F2937]")}>{card.sender}</span>
+                      <span className={cn("font-bold text-sm truncate pr-2 max-w-[70%]", selectedId === card.id ? "text-[#1E40AF]" : "text-[#1F2937]")}>{card.sender || 'Unknown Sender'}</span>
                       <span className="text-xs text-[#6B7280] flex-shrink-0">{card.time}</span>
                     </div>
-                    <div className="font-semibold text-[13px] text-[#374151] mb-1 truncate w-full">{card.subject}</div>
-                    <div className="text-xs text-[#6B7280] line-clamp-2 leading-relaxed w-full">{card.content}</div>
+                    <div className="font-semibold text-[13px] text-[#374151] mb-1 truncate w-full">{card.subject || 'No Subject'}</div>
+                    <div className="text-xs text-[#6B7280] line-clamp-2 leading-relaxed w-full">{card.content || ''}</div>
                   </motion.button>
                 ))}
               </AnimatePresence>
@@ -364,17 +379,17 @@ export default function MailClient() {
             {/* Email Header */}
             <div className="px-10 py-8 border-b border-[#F3F4F6] flex-shrink-0">
                <h2 className="text-2xl font-bold text-[#111827] mb-6 tracking-tight leading-tight">
-                 <HighlightedText text={selectedMail.subject} terms={highlightTerms} />
+                 <HighlightedText text={selectedMail.subject || 'No Subject'} terms={highlightTerms} />
                </h2>
                <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                      <div className="w-12 h-12 bg-[#E0E7FF] text-[#4F46E5] rounded-full flex items-center justify-center text-xl font-bold border border-[#C7D2FE]">
-                       {selectedMail.sender.charAt(0).toUpperCase()}
+                       {(selectedMail.sender || 'U').charAt(0).toUpperCase()}
                      </div>
                      <div>
                        <div className="font-bold text-[#111827] text-[15px] flex items-center gap-2">
-                         <HighlightedText text={selectedMail.sender} terms={highlightTerms} />
-                         <span className="text-[#6B7280] font-normal text-sm">&lt;<HighlightedText text={selectedMail.senderEmail} terms={highlightTerms} />&gt;</span>
+                         <HighlightedText text={selectedMail.sender || 'Unknown Sender'} terms={highlightTerms} />
+                         <span className="text-[#6B7280] font-normal text-sm">&lt;<HighlightedText text={selectedMail.senderEmail || 'unknown@example.com'} terms={highlightTerms} />&gt;</span>
                        </div>
                        <div className="text-sm text-[#6B7280] mt-0.5 font-medium">
                          To: employee@company.com
@@ -389,7 +404,7 @@ export default function MailClient() {
             <div className="p-10 flex-1 overflow-y-auto bg-white">
                <div className="max-w-3xl prose prose-slate">
                  <EmailContent
-                   content={selectedMail.content}
+                   content={selectedMail.content || ''}
                    clues={selectedMail.clues || []}
                    showClues={showClues}
                    highlightTerms={highlightTerms}

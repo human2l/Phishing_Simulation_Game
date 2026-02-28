@@ -93,12 +93,16 @@ export default function MailClient() {
 
   useEffect(() => {
     if (modal.isVisible) {
-      autoCloseTimer.current = setTimeout(closeModal, 3000);
+      if (modal.isCorrect) {
+        // 答对时自动关闭
+        autoCloseTimer.current = setTimeout(closeModal, 2500);
+      }
+      // 中招时不再自动关闭，强制用户手动点击关闭按钮以消化破绽
     }
     return () => {
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
     };
-  }, [modal.isVisible, closeModal]);
+  }, [modal.isVisible, modal.isCorrect, closeModal]);
 
   const handleAction = useCallback(
     (action: 'safe' | 'phish', cardId: string) => {

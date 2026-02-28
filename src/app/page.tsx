@@ -306,7 +306,7 @@ export default function MailClient() {
                     exit={{ opacity: 0, x: -80, transition: { duration: 0.2 } }}
                     className={cn(
                       "text-left p-4 border-b border-[#F3F4F6] transition-colors relative w-full overflow-hidden cursor-default",
-                      selectedId === card.id ? "bg-[#EFF6FF] border-l-4 border-l-[#3B82F6]" : "bg-white border-l-4 border-l-transparent",
+                      selectedId === card.id ? "bg-[#EFF6FF] border-l-4 border-l-[#3B82F6]" : "bg-transparent border-l-4 border-l-transparent",
                       card.evaluated && "opacity-60"
                     )}
                   >

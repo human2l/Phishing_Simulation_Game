@@ -3,7 +3,7 @@
 import { EmailContent } from '@/components/EmailContent';
 import { FinalScoreScreen } from '@/components/FinalScoreScreen';
 import { getHighlightsFromClues, HighlightedText } from '@/components/HighlightText';
-import ResultModal from '@/components/ResultModal';
+
 import { ScoreBoard } from '@/components/ScoreBoard';
 import { GeneratedEmail } from '@/lib/ai';
 import { cn } from '@/lib/utils';
@@ -20,13 +20,6 @@ export interface CardData extends GeneratedEmail {
   evaluated?: boolean;
 }
 
-interface ModalState {
-  isVisible: boolean;
-  isCorrect: boolean;
-  isPhishing: boolean;
-  clues: string[];
-}
-
 async function fetchEmailPool(): Promise<GeneratedEmail[]> {
   const res = await fetch('/api/generate-email');
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -41,12 +34,7 @@ export default function MailClient() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [score, setScore] = useState({ tp: 0, tn: 0, fp: 0, fn: 0, total: 0 });
-  const [modal, setModal] = useState<ModalState>({
-    isVisible: false,
-    isCorrect: false,
-    isPhishing: false,
-    clues: [],
-  });
+  const [feedbackState, setFeedbackState] = useState<'none' | 'success' | 'error'>('none');
   const [isGameOver, setIsGameOver] = useState(false);
 
   const autoCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -99,20 +87,17 @@ export default function MailClient() {
     };
   }, []);
 
-  const closeModal = useCallback(() => {
-    setModal((prev) => ({ ...prev, isVisible: false }));
-    if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
-  }, []);
-
+  // Manage auto-resetting the background flash after it plays
   useEffect(() => {
-    if (modal.isVisible) {
-      // Auto-close modal for both correct/incorrect as it's just a toast now
-      autoCloseTimer.current = setTimeout(closeModal, 3000);
+    if (feedbackState !== 'none') {
+      autoCloseTimer.current = setTimeout(() => {
+        setFeedbackState('none');
+      }, 1000);
     }
     return () => {
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
     };
-  }, [modal.isVisible, closeModal]);
+  }, [feedbackState]);
 
   const handleAction = useCallback(
     (action: 'safe' | 'phish', cardId: string) => {
@@ -133,8 +118,9 @@ export default function MailClient() {
         return { tp, tn, fp, fn, total: s.total + 1 };
       });
 
-      // Show Result Toast
-      setModal({ isVisible: true, isCorrect, isPhishing, clues });
+      // Background flash instead of modal
+      if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
+      setFeedbackState(isCorrect ? 'success' : 'error');
 
       // Mark as evaluated so UI updates to show clues/next button
       setCards((prev) => prev.map(c => c.id === cardId ? { ...c, evaluated: true } : c));
@@ -167,9 +153,10 @@ export default function MailClient() {
         return newCards;
       });
 
-      closeModal();
+      if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
+      setFeedbackState('none');
     },
-    [closeModal]
+    []
   );
   
   const handleRestart = () => {
@@ -204,6 +191,12 @@ export default function MailClient() {
     if (!showClues || !selectedMail?.clues) return [];
     return getHighlightsFromClues(combinedText, selectedMail.clues);
   }, [showClues, combinedText, selectedMail?.clues]);
+
+  const feedbackBgClass = feedbackState === 'success' ? 'bg-[#F0FDF4]' : feedbackState === 'error' ? 'bg-[#FEF2F2]' : 'bg-white';
+  const rightColBgClass = cn("flex-1 flex flex-col overflow-hidden relative min-w-[500px] transition-colors duration-700", feedbackBgClass);
+  const midColBgClass = cn("w-80 border-r border-[#E5E7EB] flex flex-col flex-shrink-0 z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-colors duration-700", feedbackBgClass);
+  const toolbarBgClass = cn("h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB] flex-shrink-0 transition-colors duration-700", feedbackBgClass);
+  const bodyBgClass = cn("p-10 flex-1 overflow-y-auto transition-colors duration-700", feedbackBgClass);
 
   return (
     <div className="flex h-screen w-full bg-[#F3F4F6] text-[#1F2937] font-sans overflow-hidden">
@@ -284,8 +277,8 @@ export default function MailClient() {
       </aside>
 
       {/* ─── MIDDLE COLUMN (Mail List) ─── */}
-      <div className="w-80 bg-white border-r border-[#E5E7EB] flex flex-col flex-shrink-0 z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
-        <div className="h-16 flex items-center justify-between px-4 border-b border-[#E5E7EB] bg-[#F9FAFB]">
+      <div className={midColBgClass}>
+        <div className="h-16 flex items-center justify-between px-4 border-b border-[#E5E7EB] bg-[#F9FAFB]/50">
           <h2 className="font-bold text-lg text-[#111827]">Inbox</h2>
           {isFetching && <Loader2 size={16} className="text-[#6B7280] animate-spin" />}
         </div>
@@ -341,11 +334,11 @@ export default function MailClient() {
       </div>
 
       {/* ─── RIGHT COLUMN (Mail Detail) ─── */}
-      <div className="flex-1 flex flex-col bg-white overflow-hidden relative min-w-[500px]">
+      <div className={rightColBgClass}>
         {selectedMail ? (
           <>
             {/* Toolbar */}
-            <div className="h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB] bg-white flex-shrink-0">
+            <div className={toolbarBgClass}>
               <div className="flex gap-2">
                  <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="Reply">
                     <CornerUpLeft size={18} />
@@ -416,7 +409,7 @@ export default function MailClient() {
             </div>
 
             {/* Email Body */}
-            <div className="p-10 flex-1 overflow-y-auto bg-white">
+            <div className={bodyBgClass}>
                <div className="max-w-3xl prose prose-slate">
                  <EmailContent
                    content={selectedMail.content || ''}
@@ -437,15 +430,6 @@ export default function MailClient() {
           </div>
         )}
       </div>
-
-      {/* ── Result Modal ── */}
-      <ResultModal
-        isVisible={modal.isVisible}
-        isCorrect={modal.isCorrect}
-        isPhishing={modal.isPhishing}
-        clues={modal.clues}
-        onClose={closeModal}
-      />
 
       {/* ── Final Score Screen ── */}
       {isGameOver && (

@@ -338,14 +338,14 @@ export default function MailClient() {
             {/* Toolbar */}
             <div className="h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB] bg-transparent flex-shrink-0">
               <div className="flex gap-2">
-                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="Reply">
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-pointer" title="Reply">
                     <CornerUpLeft size={18} />
                  </button>
-                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="Delete">
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-pointer" title="Delete">
                     <Trash2 size={18} />
                  </button>
                  <div className="w-px h-6 bg-[#E5E7EB] my-auto mx-1"></div>
-                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="More actions">
+                 <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition cursor-pointer" title="More actions">
                     <MoreHorizontal size={18} />
                  </button>
               </div>
@@ -355,7 +355,7 @@ export default function MailClient() {
                 {selectedMail.evaluated ? (
                   <button
                     onClick={() => handleNext(selectedMail.id)}
-                    className="flex items-center gap-2 px-6 py-2 bg-[#3B82F6] hover:bg-[#2563EB] text-white text-sm font-bold rounded-lg transition-colors shadow-sm focus:ring-2 focus:ring-[#93C5FD] focus:outline-none focus:ring-offset-1"
+                    className="flex items-center gap-2 px-6 py-2 bg-[#3B82F6] hover:bg-[#2563EB] text-white text-sm font-bold rounded-lg transition-colors shadow-sm focus:ring-2 focus:ring-[#93C5FD] focus:outline-none focus:ring-offset-1 cursor-pointer"
                   >
                     Next Email
                     <ArrowRight size={16} />
@@ -364,7 +364,7 @@ export default function MailClient() {
                   <>
                     <button
                       onClick={() => handleAction('safe', selectedMail.id)}
-                      className="flex items-center gap-2 px-4 py-2 bg-[#F0FDF4] hover:bg-[#DCFCE7] text-[#166534] text-sm font-semibold rounded-lg border border-[#BBF7D0] transition-colors shadow-sm focus:ring-2 focus:ring-[#86EFAC] focus:outline-none focus:ring-offset-1"
+                      className="flex items-center gap-2 px-4 py-2 bg-[#F0FDF4] hover:bg-[#DCFCE7] text-[#166534] text-sm font-semibold rounded-lg border border-[#BBF7D0] transition-colors shadow-sm focus:ring-2 focus:ring-[#86EFAC] focus:outline-none focus:ring-offset-1 cursor-pointer"
                     >
                       <CheckCircle2 size={16} />
                       Mark as Safe
@@ -372,7 +372,7 @@ export default function MailClient() {
                     <div className="w-px h-6 bg-[#E5E7EB]"></div>
                     <button
                       onClick={() => handleAction('phish', selectedMail.id)}
-                      className="flex items-center gap-2 px-4 py-2 bg-[#FEF2F2] hover:bg-[#FEE2E2] text-[#991B1B] text-sm font-semibold rounded-lg border border-[#FECACA] transition-colors shadow-sm focus:ring-2 focus:ring-[#FCA5A5] focus:outline-none focus:ring-offset-1"
+                      className="flex items-center gap-2 px-4 py-2 bg-[#FEF2F2] hover:bg-[#FEE2E2] text-[#991B1B] text-sm font-semibold rounded-lg border border-[#FECACA] transition-colors shadow-sm focus:ring-2 focus:ring-[#FCA5A5] focus:outline-none focus:ring-offset-1 cursor-pointer"
                     >
                       <Siren size={16} />
                       Report Phishing

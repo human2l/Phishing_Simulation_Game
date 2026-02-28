@@ -5,8 +5,10 @@ import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 
 export function OnboardingJoyride() {
   const [run, setRun] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     // Check localStorage to see if user has already completed onboarding
     const hasOnboarded = localStorage.getItem('securmail-onboarding-complete');
     if (!hasOnboarded) {
@@ -17,6 +19,8 @@ export function OnboardingJoyride() {
       return () => clearTimeout(timer);
     }
   }, []);
+
+  if (!isMounted) return null;
 
   const steps: Step[] = [
     {

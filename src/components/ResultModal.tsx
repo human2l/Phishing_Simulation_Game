@@ -21,6 +21,28 @@ const ResultModal: React.FC<ResultModalProps> = ({
   // --- Derived display logic ---
   const showClues = !isCorrect && isPhishing && clues.length > 0;
 
+  // Let's determine the true scenario (TP/TN/FP/FN) to pick the correct character image
+  let imageSrc = '';
+  let imageAlt = '';
+
+  if (isCorrect && isPhishing) {
+    // True Positive
+    imageSrc = '/images/bubu-happy.png';
+    imageAlt = 'Bubu 点赞';
+  } else if (isCorrect && !isPhishing) {
+    // True Negative
+    imageSrc = '/images/bubu-steady.png';
+    imageAlt = 'Bubu 稳健工作';
+  } else if (!isCorrect && isPhishing) {
+    // False Negative
+    imageSrc = '/images/dudu-crying.png';
+    imageAlt = 'Dudu 大哭不妙';
+  } else {
+    // False Positive
+    imageSrc = '/images/dudu-confused.png';
+    imageAlt = 'Dudu 挠头困惑';
+  }
+
   const config = isCorrect
     ? {
         bg: 'bg-[#EDFAF4]',
@@ -54,77 +76,112 @@ const ResultModal: React.FC<ResultModalProps> = ({
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px]"
+            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
 
-          {/* Modal */}
+          {/* Modal Container */}
           <motion.div
             className={`fixed z-50 bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md
-              rounded-3xl border-2 shadow-[0_16px_40px_rgba(0,0,0,0.12)] p-6
+              rounded-3xl border-4 shadow-[0_24px_50px_rgba(0,0,0,0.15)] overflow-hidden
               ${config.bg} ${config.border}`}
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.8, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.85, y: 16 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+            exit={{ opacity: 0, scale: 0.85, y: 20 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-[#B3A69A] hover:text-[#4A3D34] transition-colors"
+              className="absolute top-4 right-4 text-[#B3A69A] hover:text-[#4A3D34] transition-colors z-10"
               aria-label="关闭"
             >
-              <XCircle size={22} strokeWidth={2} />
+              <XCircle size={26} strokeWidth={2.5} className="drop-shadow-sm" />
             </button>
 
-            {/* Header */}
-            <div className="flex items-center gap-4 mb-4">
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 ${config.iconBg}`}>
-                {config.icon}
+            {/* Top area: Character Image & Title */}
+            <div className="relative pt-6 px-6 pb-2 text-center pointer-events-none">
+              
+              {/* Character specific illustration */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, type: 'spring', stiffness: 300, damping: 20 }}
+                className="mx-auto mt-2 mb-4 w-32 h-32 rounded-2xl bg-[#EAE2D6]/40 flex items-center justify-center border-2 border-dashed border-[#CFBCA0] overflow-hidden"
+              >
+                {/* 
+                  Fallback text in case image is missing.
+                  The user/artist will drop real files into /public/images/
+                */}
+                <img
+                  src={imageSrc}
+                  alt={imageAlt}
+                  className="object-contain w-full h-full drop-shadow-md"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    const parent = (e.target as HTMLImageElement).parentElement;
+                    if (parent) {
+                      const fallback = document.createElement('span');
+                      fallback.className = 'text-[#A6937C] text-sm font-bold opacity-60';
+                      fallback.innerText = `[${imageAlt}]`;
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+              </motion.div>
+
+              <div className="flex flex-col items-center gap-2">
+                <h2 className={`text-2xl font-black tracking-wide ${config.titleColor}`}>
+                  {config.title}
+                </h2>
               </div>
-              <h2 className={`text-2xl font-bold leading-tight ${config.titleColor}`}>
-                {config.title}
-              </h2>
             </div>
 
-            {/* Message / Bubu dialogue */}
-            <p className={`text-sm font-semibold mb-4 leading-relaxed ${config.messageColor}`}>
-              {config.message}
-            </p>
-
-            {/* Clues list — only shown when player was wrong about a phishing email */}
-            {showClues && (
-              <motion.ul
-                className="space-y-2"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: {},
-                  visible: { transition: { staggerChildren: 0.1 } },
-                }}
+            {/* Bottom area: Dialogue and Clues */}
+            <div className={`p-6 bg-white/50 border-t-2 ${config.border}`}>
+              <motion.p
+                 initial={{ opacity: 0, x: -10 }}
+                 animate={{ opacity: 1, x: 0 }}
+                 transition={{ delay: 0.2 }}
+                 className={`text-base font-bold mb-4 leading-relaxed ${config.messageColor} text-center`}
               >
-                {clues.map((clue, i) => (
-                  <motion.li
-                    key={i}
-                    className="flex items-start gap-2 bg-white/60 border border-[#F5C4A8] rounded-xl px-3 py-2"
-                    variants={{
-                      hidden: { opacity: 0, x: -12 },
-                      visible: { opacity: 1, x: 0 },
-                    }}
-                  >
-                    <CheckCircle2
-                      size={16}
-                      className="text-[#D97757] flex-shrink-0 mt-0.5"
-                      strokeWidth={2.5}
-                    />
-                    <span className="text-[#7A4A30] text-sm font-medium">{clue}</span>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            )}
+                {config.message}
+              </motion.p>
+
+              {/* Clues list — only shown when player was wrong about a phishing email */}
+              {showClues && (
+                <motion.ul
+                  className="space-y-2 mt-4"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
+                  }}
+                >
+                  {clues.map((clue, i) => (
+                    <motion.li
+                      key={i}
+                      className="flex items-start gap-2.5 bg-white border-2 border-[#F5C4A8] rounded-xl px-4 py-3 shadow-sm"
+                      variants={{
+                        hidden: { opacity: 0, x: -12 },
+                        visible: { opacity: 1, x: 0 },
+                      }}
+                    >
+                      <CheckCircle2
+                        size={18}
+                        className="text-[#D97757] flex-shrink-0 mt-0.5 drop-shadow-sm"
+                        strokeWidth={3}
+                      />
+                      <span className="text-[#8A5233] text-sm font-semibold leading-snug">{clue}</span>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              )}
+            </div>
           </motion.div>
         </>
       )}

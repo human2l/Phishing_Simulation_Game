@@ -1,14 +1,16 @@
 'use client';
 
+import { EmailContent } from '@/components/EmailContent';
 import ResultModal from '@/components/ResultModal';
 import { GeneratedEmail } from '@/lib/ai';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { AlertOctagon, CheckCircle2, CornerUpLeft, FileText, Inbox, Loader2, Mail, MoreHorizontal, Send, ShieldCheck, Siren, Trash2 } from 'lucide-react';
+import { AlertOctagon, ArrowRight, CheckCircle2, CornerUpLeft, FileText, Inbox, Loader2, Mail, MoreHorizontal, Send, ShieldCheck, Siren, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface CardData extends GeneratedEmail {
   id: string;
+  evaluated?: boolean;
 }
 
 interface ModalState {
@@ -93,16 +95,13 @@ export default function MailClient() {
 
   useEffect(() => {
     if (modal.isVisible) {
-      if (modal.isCorrect) {
-        // Auto-close on correct answer
-        autoCloseTimer.current = setTimeout(closeModal, 2500);
-      }
-      // On incorrect answer, do not auto-close — force user to manually close and review clues
+      // Auto-close modal for both correct/incorrect as it's just a toast now
+      autoCloseTimer.current = setTimeout(closeModal, 3000);
     }
     return () => {
       if (autoCloseTimer.current) clearTimeout(autoCloseTimer.current);
     };
-  }, [modal.isVisible, modal.isCorrect, closeModal]);
+  }, [modal.isVisible, closeModal]);
 
   const handleAction = useCallback(
     (action: 'safe' | 'phish', cardId: string) => {
@@ -123,16 +122,22 @@ export default function MailClient() {
         return { tp, tn, fp, fn, total: s.total + 1 };
       });
 
-      // Show Result Modal
+      // Show Result Toast
       setModal({ isVisible: true, isCorrect, isPhishing, clues });
 
-      // Remove current email
-      setCards((prev) => prev.filter(c => c.id !== cardId));
-
-      // Replenish
-      addCard();
+      // Mark as evaluated so UI updates to show clues/next button
+      setCards((prev) => prev.map(c => c.id === cardId ? { ...c, evaluated: true } : c));
     },
-    [cards, addCard]
+    [cards]
+  );
+
+  const handleNext = useCallback(
+    (cardId: string) => {
+      setCards((prev) => prev.filter(c => c.id !== cardId));
+      addCard();
+      closeModal();
+    },
+    [addCard, closeModal]
   );
 
   const selectedMail = cards.find((c) => c.id === selectedId);
@@ -238,7 +243,8 @@ export default function MailClient() {
                     onClick={() => setSelectedId(card.id)}
                     className={cn(
                       "text-left p-4 border-b border-[#F3F4F6] transition-colors focus:outline-none relative w-full overflow-hidden",
-                      selectedId === card.id ? "bg-[#EFF6FF] border-l-4 border-l-[#3B82F6]" : "hover:bg-[#F9FAFB] border-l-4 border-l-transparent"
+                      selectedId === card.id ? "bg-[#EFF6FF] border-l-4 border-l-[#3B82F6]" : "hover:bg-[#F9FAFB] border-l-4 border-l-transparent",
+                      card.evaluated && "opacity-60"
                     )}
                   >
                     <div className="flex justify-between items-baseline mb-1 w-full overflow-hidden">
@@ -282,21 +288,33 @@ export default function MailClient() {
 
               {/* ⭐ Action Buttons - Core Interactivity ⭐ */}
               <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleAction('safe', selectedMail.id)}
-                  className="flex items-center gap-2 px-4 py-2 bg-[#F0FDF4] hover:bg-[#DCFCE7] text-[#166534] text-sm font-semibold rounded-lg border border-[#BBF7D0] transition-colors shadow-sm focus:ring-2 focus:ring-[#86EFAC] focus:outline-none focus:ring-offset-1"
-                >
-                  <CheckCircle2 size={16} />
-                  Mark as Safe
-                </button>
-                <div className="w-px h-6 bg-[#E5E7EB]"></div>
-                <button
-                  onClick={() => handleAction('phish', selectedMail.id)}
-                  className="flex items-center gap-2 px-4 py-2 bg-[#FEF2F2] hover:bg-[#FEE2E2] text-[#991B1B] text-sm font-semibold rounded-lg border border-[#FECACA] transition-colors shadow-sm focus:ring-2 focus:ring-[#FCA5A5] focus:outline-none focus:ring-offset-1"
-                >
-                  <Siren size={16} />
-                  Report Phishing
-                </button>
+                {selectedMail.evaluated ? (
+                  <button
+                    onClick={() => handleNext(selectedMail.id)}
+                    className="flex items-center gap-2 px-6 py-2 bg-[#3B82F6] hover:bg-[#2563EB] text-white text-sm font-bold rounded-lg transition-colors shadow-sm focus:ring-2 focus:ring-[#93C5FD] focus:outline-none focus:ring-offset-1"
+                  >
+                    Next Email
+                    <ArrowRight size={16} />
+                  </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleAction('safe', selectedMail.id)}
+                      className="flex items-center gap-2 px-4 py-2 bg-[#F0FDF4] hover:bg-[#DCFCE7] text-[#166534] text-sm font-semibold rounded-lg border border-[#BBF7D0] transition-colors shadow-sm focus:ring-2 focus:ring-[#86EFAC] focus:outline-none focus:ring-offset-1"
+                    >
+                      <CheckCircle2 size={16} />
+                      Mark as Safe
+                    </button>
+                    <div className="w-px h-6 bg-[#E5E7EB]"></div>
+                    <button
+                      onClick={() => handleAction('phish', selectedMail.id)}
+                      className="flex items-center gap-2 px-4 py-2 bg-[#FEF2F2] hover:bg-[#FEE2E2] text-[#991B1B] text-sm font-semibold rounded-lg border border-[#FECACA] transition-colors shadow-sm focus:ring-2 focus:ring-[#FCA5A5] focus:outline-none focus:ring-offset-1"
+                    >
+                      <Siren size={16} />
+                      Report Phishing
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -325,9 +343,11 @@ export default function MailClient() {
             {/* Email Body */}
             <div className="p-10 flex-1 overflow-y-auto bg-white">
                <div className="max-w-3xl prose prose-slate">
-                 <div className="text-[15px] leading-relaxed text-[#374151] whitespace-pre-wrap font-medium">
-                   {selectedMail.content}
-                 </div>
+                 <EmailContent
+                   content={selectedMail.content}
+                   clues={selectedMail.clues || []}
+                   showClues={!!selectedMail.evaluated && selectedMail.isPhishing}
+                 />
                </div>
             </div>
           </>

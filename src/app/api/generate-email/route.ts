@@ -1,7 +1,6 @@
+import emailPoolEn from "@/data/email-pool-en.json";
 import emailPoolZh from "@/data/email-pool.json";
-import fs from "fs";
 import { NextResponse } from "next/server";
-import path from "path";
 
 export const dynamic = "force-dynamic";
 
@@ -17,10 +16,7 @@ export async function GET(request: Request) {
     let pool: Array<Record<string, unknown>> = [];
 
     if (locale === "en") {
-      const enPath = path.join(process.cwd(), "src/data/email-pool-en.json");
-      if (fs.existsSync(enPath)) {
-        pool = JSON.parse(fs.readFileSync(enPath, "utf-8"));
-      }
+      pool = emailPoolEn as Array<Record<string, unknown>>;
     } else {
       pool = emailPoolZh as Array<Record<string, unknown>>;
     }

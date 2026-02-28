@@ -193,10 +193,8 @@ export default function MailClient() {
   }, [showClues, combinedText, selectedMail?.clues]);
 
   const feedbackBgClass = feedbackState === 'success' ? 'bg-[#F0FDF4]' : feedbackState === 'error' ? 'bg-[#FEF2F2]' : 'bg-white';
-  const rightColBgClass = cn("flex-1 flex flex-col overflow-hidden relative min-w-[500px] transition-colors duration-700", feedbackBgClass);
-  const midColBgClass = cn("w-80 border-r border-[#E5E7EB] flex flex-col flex-shrink-0 z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-colors duration-700", feedbackBgClass);
-  const toolbarBgClass = cn("h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB] flex-shrink-0 transition-colors duration-700", feedbackBgClass);
-  const bodyBgClass = cn("p-10 flex-1 overflow-y-auto transition-colors duration-700", feedbackBgClass);
+  const rightColBgClass = cn("flex-1 flex flex-col overflow-hidden relative min-w-[500px] transition-colors duration-1000 ease-out", feedbackBgClass);
+  const midColBgClass = cn("w-80 border-r border-[#E5E7EB] flex flex-col flex-shrink-0 z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-colors duration-1000 ease-out", feedbackBgClass);
 
   return (
     <div className="flex h-screen w-full bg-[#F3F4F6] text-[#1F2937] font-sans overflow-hidden">
@@ -278,7 +276,7 @@ export default function MailClient() {
 
       {/* ─── MIDDLE COLUMN (Mail List) ─── */}
       <div className={midColBgClass}>
-        <div className="h-16 flex items-center justify-between px-4 border-b border-[#E5E7EB] bg-[#F9FAFB]/50">
+        <div className="h-16 flex items-center justify-between px-4 border-b border-[#E5E7EB] bg-transparent">
           <h2 className="font-bold text-lg text-[#111827]">Inbox</h2>
           {isFetching && <Loader2 size={16} className="text-[#6B7280] animate-spin" />}
         </div>
@@ -338,7 +336,7 @@ export default function MailClient() {
         {selectedMail ? (
           <>
             {/* Toolbar */}
-            <div className={toolbarBgClass}>
+            <div className="h-16 flex items-center justify-between px-6 border-b border-[#E5E7EB] bg-transparent flex-shrink-0">
               <div className="flex gap-2">
                  <button className="p-2 text-[#6B7280] hover:bg-[#F3F4F6] rounded-md transition" title="Reply">
                     <CornerUpLeft size={18} />
@@ -385,7 +383,7 @@ export default function MailClient() {
             </div>
 
             {/* Email Header */}
-            <div className="px-10 py-8 border-b border-[#F3F4F6] flex-shrink-0">
+            <div className="px-10 py-8 border-b border-[#F3F4F6] bg-transparent flex-shrink-0">
                <h2 className="text-2xl font-bold text-[#111827] mb-6 tracking-tight leading-tight">
                  <HighlightedText text={selectedMail.subject || 'No Subject'} terms={highlightTerms} />
                </h2>
@@ -409,7 +407,7 @@ export default function MailClient() {
             </div>
 
             {/* Email Body */}
-            <div className={bodyBgClass}>
+            <div className="p-10 flex-1 overflow-y-auto bg-transparent">
                <div className="max-w-3xl prose prose-slate">
                  <EmailContent
                    content={selectedMail.content || ''}

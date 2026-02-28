@@ -58,6 +58,17 @@ JSON schema 如下：
 
 // ─── Main generator ───────────────────────────────────────────────────────────
 
+// 按优先级尝试的模型列表，以规避单个模型的 Free Tier Rate Limit
+const FALLBACK_MODELS = [
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-lite",
+  "gemini-1.5-flash",
+  "gemini-1.5-flash-8b"
+];
+
+// Helper: 简单的休眠函数
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export async function generatePhishingEmail(): Promise<GeneratedEmail> {
   const apiKey = process.env.GEMINI_API_KEY;
 
@@ -66,37 +77,56 @@ export async function generatePhishingEmail(): Promise<GeneratedEmail> {
     return FALLBACK_EMAIL;
   }
 
-  try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const genAI = new GoogleGenerativeAI(apiKey);
 
-    const result = await model.generateContent(SYSTEM_PROMPT);
-    const rawText = result.response.text().trim();
+  // 外层：遍历模型列表进行尝试
+  for (const modelName of FALLBACK_MODELS) {
+    try {
+      console.log(`[ai.ts] Trying model: ${modelName} ...`);
+      const model = genAI.getGenerativeModel({ model: modelName });
 
-    // Strip possible markdown code fences if LLM wraps in ```json ... ```
-    const jsonText = rawText
-      .replace(/^```(?:json)?\s*/i, "")
-      .replace(/\s*```$/, "")
-      .trim();
+      // 尝试调用 API
+      const result = await model.generateContent(SYSTEM_PROMPT);
+      const rawText = result.response.text().trim();
 
-    const parsed = JSON.parse(jsonText) as GeneratedEmail;
+      // Strip possible markdown code fences if LLM wraps in ```json ... ```
+      const jsonText = rawText
+        .replace(/^```(?:json)?\s*/i, "")
+        .replace(/\s*```$/, "")
+        .trim();
 
-    // Basic schema validation
-    if (
-      typeof parsed.sender !== "string" ||
-      typeof parsed.senderEmail !== "string" ||
-      typeof parsed.subject !== "string" ||
-      typeof parsed.content !== "string" ||
-      typeof parsed.isPhishing !== "boolean" ||
-      typeof parsed.time !== "string" ||
-      !Array.isArray(parsed.clues)
-    ) {
-      throw new Error("LLM response failed schema validation");
+      const parsed = JSON.parse(jsonText) as GeneratedEmail;
+
+      // Basic schema validation
+      if (
+        typeof parsed.sender !== "string" ||
+        typeof parsed.senderEmail !== "string" ||
+        typeof parsed.subject !== "string" ||
+        typeof parsed.content !== "string" ||
+        typeof parsed.isPhishing !== "boolean" ||
+        typeof parsed.time !== "string" ||
+        !Array.isArray(parsed.clues)
+      ) {
+        throw new Error("LLM response failed schema validation");
+      }
+
+      console.log(`[ai.ts] Successfully generated email using ${modelName}`);
+      return parsed;
+
+    } catch (err: any) {
+      console.warn(`[ai.ts] Failed with model ${modelName}:`, err?.message || err);
+      
+      // 如果是 429 报错，我们尝试短暂等待后换下一个模型
+      // Gemini的429可能是单个模型/项目的配额限制，尝试其他模型可能会成功
+      if (err?.message?.includes("429") || err?.status === 429) {
+        console.log(`[ai.ts] Rate limit hit for ${modelName}, waiting before trying next model...`);
+        await sleep(1000); // 避免并发请求过于猛烈
+      }
+      // 继续循环尝试下一个模型
     }
-
-    return parsed;
-  } catch (err) {
-    console.error("[ai.ts] Failed to generate email, using fallback.", err);
-    return FALLBACK_EMAIL;
   }
+
+  // 如果所有模型都失败了，抛出终极异常或返回 Fallback
+  console.error("[ai.ts] All Gemini models exhausted or failed. Using hardcoded fallback.");
+  return FALLBACK_EMAIL;
 }

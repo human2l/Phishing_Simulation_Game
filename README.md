@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SecurMail Pro (Phishing Simulation Game)
+
+SecurMail Pro is an enterprise-level phishing security awareness training SaaS platform, specifically tailored for Australian businesses. It features a highly realistic, full-screen three-column enterprise UI that immerses employees in a simulated inbox environment to train and test their ability to identify phishing attempts.
+
+## Core Features
+- **Realistic Enterprise UI:** A fully immersive layout mimicking a modern professional email client.
+- **AI-Powered Dataset:** Utilizing the Deepseek API to generate highly nuanced, context-aware phishing and authentic commercial emails.
+- **10-Question Gamified Quiz:** Every session serves exactly 10 intelligently randomized scenarios.
+- **Advanced Scoring Board:** Real-time 100-point scale evaluating True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives (FN).
+- **Inline Clue Highlighting:** Phishing clues are emphasized directly within the email body after evaluation, offering immediate contextual feedback without disruptive popups.
+- **Interactive Onboarding:** Built-in guided tutorial (`react-joyride`) for initial visits.
+- **Australian Corporate Context:** Localized pure Australian English (`en-AU`).
+
+## Tech Stack
+- **Frontend:** Next.js (App Router), React 19, Tailwind CSS v4, Framer Motion
+- **Backend:** Next.js API Routes (Serverless-ready)
+- **AI Core:** Deepseek API (`deepseek-chat`) offline generation
+- **Language:** TypeScript
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js (v20+)
+- npm / yarn / pnpm
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Installation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Clone the repository and navigate to the root directory:
+   ```bash
+   cd Phishing_Simulation_Game
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Setup Environment Variables:
+   Create a `.env.local` file to store your Deepseek key (needed only for regenerating the dataset):
+   ```env
+   DEEPSEEK_API_KEY=your_deepseek_api_key_here
+   ```
 
-## Learn More
+4. Run the Dev Server:
+   ```bash
+   npm run dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## Project Architecture (Agent Workflow)
+Development is steered by an AI-agent Agile framework:
+- **Agent A (Architect):** Project management, scoping, and state tracking (`status.json`, `plan.md`).
+- **Agent B (Frontend):** UI implementation, animations, and React components.
+- **Agent C (Backend):** APIs, data generation scripts, and AI integrations.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+Proprietary and Confidential.
